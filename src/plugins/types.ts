@@ -41,14 +41,14 @@ export type ASTTransform = (astResults: Array<ASTResult<ts.Node>>, options: Vc2c
 
 export interface ASTConvertPlugins {
   [ts.SyntaxKind.Decorator]: {
-    [ts.SyntaxKind.PropertyAssignment]: Array<ASTConverter<ts.PropertyAssignment>>;
-    [ts.SyntaxKind.MethodDeclaration]: Array<ASTConverter<ts.MethodDeclaration>>;
-  };
-  [ts.SyntaxKind.Identifier]: Array<ASTConverter<ts.Identifier>>;
-  [ts.SyntaxKind.HeritageClause]: Array<ASTConverter<ts.HeritageClause>>;
-  [ts.SyntaxKind.PropertyDeclaration]: Array<ASTConverter<ts.PropertyDeclaration>>;
-  [ts.SyntaxKind.GetAccessor]: Array<ASTConverter<ts.GetAccessorDeclaration>>;
-  [ts.SyntaxKind.SetAccessor]: Array<ASTConverter<ts.SetAccessorDeclaration>>;
-  [ts.SyntaxKind.MethodDeclaration]: Array<ASTConverter<ts.MethodDeclaration>>;
-  after: Array<ASTTransform>;
+    [ts.SyntaxKind.PropertyAssignment]: Array<ASTConverter<ts.PropertyAssignment>>
+    [ts.SyntaxKind.MethodDeclaration]: Array<ASTConverter<ts.MethodDeclaration>>
+  }
+  [ts.SyntaxKind.Identifier]: Array<ASTConverter<ts.Identifier>>
+  [ts.SyntaxKind.HeritageClause]: Array<ASTConverter<ts.HeritageClause>>
+  [ts.SyntaxKind.PropertyDeclaration]: Array<ASTConverter<ts.PropertyDeclaration>>
+  [ts.SyntaxKind.GetAccessor]: Array<ASTConverter<ts.GetAccessorDeclaration>>
+  [ts.SyntaxKind.SetAccessor]: Array<ASTConverter<ts.SetAccessorDeclaration>>
+  [ts.SyntaxKind.MethodDeclaration]: Array<ASTConverter<ts.MethodDeclaration>>
+  after: Array<ASTTransform>
 }
