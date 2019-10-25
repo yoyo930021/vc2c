@@ -87,3 +87,11 @@ export function copySyntheticComments<T extends ts.Node> (tsModule: typeof ts, n
 
   return node
 }
+
+export function addTodoComment<T extends ts.Node> (tsModule: typeof ts, node: T, text: string, multiline: boolean) {
+  return tsModule.addSyntheticLeadingComment(
+    node,
+    (multiline) ? ts.SyntaxKind.MultiLineCommentTrivia : ts.SyntaxKind.SingleLineCommentTrivia,
+    ` TODO: ${text}`
+  )
+}

@@ -1,7 +1,7 @@
 import * as ts from 'typescript'
 import { Vc2cOptions } from '../options'
 import { ASTConvertPlugins, ASTResult, ASTConverter, ASTResultKind } from './types'
-import { copySyntheticComments } from '../utils'
+import { copySyntheticComments, addTodoComment } from '../utils'
 import { log } from '../debug'
 import { convertObjName } from './vue-class-component/object/ComponentName'
 import { convertObjProps } from './vue-class-component/object/Prop'
@@ -123,25 +123,30 @@ export function convertASTResultToSetupFn (astResults: ASTResult<ts.Node>[], opt
   const tsModule = options.typesciprt
   const propASTResult = astResults.find((el) => el.tag === 'Prop')
 
-  const returnStatement = tsModule.createReturn(
-    tsModule.createObjectLiteral([
-      ...astResults
-        .filter((el) => el.kind === ASTResultKind.COMPOSITION)
-        .reduce((array, el) => array.concat(el.attrutibes), [] as string[])
-        .map((el) => tsModule.createShorthandPropertyAssignment(
-          tsModule.createIdentifier(el),
-          undefined
-        )),
-      ...(propASTResult)
-        ? propASTResult.attrutibes.map((el) => tsModule.createPropertyAssignment(
-          tsModule.createIdentifier(el),
-          tsModule.createPropertyAccess(
-            tsModule.createIdentifier(options.setupPropsKey),
-            tsModule.createIdentifier(el)
-          )
-        ))
-        : []
-    ])
+  const returnStatement = addTodoComment(
+    tsModule,
+    tsModule.createReturn(
+      tsModule.createObjectLiteral([
+        ...astResults
+          .filter((el) => el.kind === ASTResultKind.COMPOSITION)
+          .reduce((array, el) => array.concat(el.attrutibes), [] as string[])
+          .map((el) => tsModule.createShorthandPropertyAssignment(
+            tsModule.createIdentifier(el),
+            undefined
+          )),
+        ...(propASTResult)
+          ? propASTResult.attrutibes.map((el) => tsModule.createPropertyAssignment(
+            tsModule.createIdentifier(el),
+            tsModule.createPropertyAccess(
+              tsModule.createIdentifier(options.setupPropsKey),
+              tsModule.createIdentifier(el)
+            )
+          ))
+          : []
+      ])
+    ),
+    'Please remove unused return variable',
+    false
   )
 
   return tsModule.createMethod(
