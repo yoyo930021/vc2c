@@ -1,0 +1,194 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`testTSFile compatible 1`] = `
+"import {
+  computed,
+  reactive,
+  toRefs,
+  ref,
+  watch,
+  createComponent
+} from '@vue/composition-api'
+
+/**
+ * My basic tag
+ */
+export default createComponent({
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: {
+    bar: String,
+    checked: { type: Boolean },
+    /**
+     * My foo
+     */
+    foo: { type: Number, default: false }
+  },
+  name: 'oao',
+  setup(props, context) {
+    /**
+     * My count
+     */
+    const count = computed(() => {
+      return context.$store.state.count
+    })
+
+    const { a } = (() => {
+      const a = 'pa'
+
+      return toRefs(
+        reactive({
+          a: a
+        })
+      )
+    })()
+
+    const anotherComponent = ref<HTMLElement>(null)
+
+    /**
+     * My msg
+     */
+    const msg = ref('Vetur means \\"Winter\\" in icelandic.') // foo
+    watch(
+      checked,
+      (val: boolean, newVal: boolean) => {
+        console.log(val, newVal)
+      },
+      { deep: true, lazy: false }
+    )
+    const onMsgChanged = (val: string, newVal: string) => {
+      console.log(val, newVal)
+    }
+
+    const click = (c: string) => {
+      context.$emit('click', c)
+    }
+
+    const removeItem = () => {
+      if (props.foo > 10) {
+        context.$emit('remove-item', 10)
+      } else {
+        context.$emit('remove-item', props.foo)
+      }
+    }
+
+    /**
+     * My greeting
+     */
+    const hello = () => {
+      console.log(msg.value)
+    }
+
+    return {
+      count,
+      a,
+      anotherComponent,
+      msg,
+      checked,
+      onMsgChanged,
+      click,
+      remove,
+      hello,
+      bar: props.bar,
+      checked: props.checked,
+      foo: props.foo
+    }
+  }
+})
+"
+`;
+
+exports[`testTSFile no compatible 1`] = `
+"import { computed, reactive, toRefs, ref, watch } from 'vue'
+
+/**
+ * My basic tag
+ */
+export default {
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: {
+    bar: String,
+    checked: { type: Boolean },
+    /**
+     * My foo
+     */
+    foo: { type: Number, default: false }
+  },
+  name: 'oao',
+  setup(props, context) {
+    /**
+     * My count
+     */
+    const count = computed(() => {
+      return context.$store.state.count
+    })
+
+    const { a } = (() => {
+      const a = 'pa'
+
+      return toRefs(
+        reactive({
+          a: a
+        })
+      )
+    })()
+
+    const anotherComponent = ref<HTMLElement>(null)
+
+    /**
+     * My msg
+     */
+    const msg = ref('Vetur means \\"Winter\\" in icelandic.') // foo
+    watch(
+      checked,
+      (val: boolean, newVal: boolean) => {
+        console.log(val, newVal)
+      },
+      { deep: true, lazy: false }
+    )
+    const onMsgChanged = (val: string, newVal: string) => {
+      console.log(val, newVal)
+    }
+
+    const click = (c: string) => {
+      context.emit('click', c)
+    }
+
+    const removeItem = () => {
+      if (props.foo > 10) {
+        context.emit('remove-item', 10)
+      } else {
+        context.emit('remove-item', props.foo)
+      }
+    }
+
+    /**
+     * My greeting
+     */
+    const hello = () => {
+      console.log(msg.value)
+    }
+
+    return {
+      count,
+      a,
+      anotherComponent,
+      msg,
+      checked,
+      onMsgChanged,
+      click,
+      remove,
+      hello,
+      bar: props.bar,
+      checked: props.checked,
+      foo: props.foo
+    }
+  }
+}
+"
+`;

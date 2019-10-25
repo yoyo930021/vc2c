@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`testVueFile compatible 1`] = `
+"import {
+  computed,
+  reactive,
+  toRefs,
+  ref,
+  createComponent
+} from '@vue/composition-api'
+
+/**
+ * My basic tag
+ */
+export default createComponent({
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: {
+    bar: null,
+    qaq: null,
+    cac: null,
+    checked: { type: Boolean },
+    /**
+     * My foo
+     */
+    foo: { type: Boolean, default: false }
+  },
+  name: 'oao',
+  setup(props, context) {
+    /**
+     * My count
+     */
+    const count = computed(() => {
+      return context.$store.state.count
+    })
+
+    const { a } = (() => {
+      const a = 'pa'
+
+      return toRefs(
+        reactive({
+          a: a
+        })
+      )
+    })()
+
+    const anotherComponent = ref<HTMLElement>(null)
+
+    /**
+     * My msg
+     */
+    const msg = ref('Vetur means \\"Winter\\" in icelandic.') //foo
+
+    /**
+     * My greeting
+     */
+    const hello = () => {
+      console.log(msg.value)
+    }
+
+    return {
+      count,
+      a,
+      anotherComponent,
+      msg,
+      hello,
+      bar: props.bar,
+      qaq: props.qaq,
+      cac: props.cac,
+      checked: props.checked,
+      foo: props.foo
+    }
+  }
+})
+"
+`;
+
+exports[`testVueFile no compatible 1`] = `
+"import { computed, reactive, toRefs, ref } from 'vue'
+
+/**
+ * My basic tag
+ */
+export default {
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: {
+    bar: null,
+    qaq: null,
+    cac: null,
+    checked: { type: Boolean },
+    /**
+     * My foo
+     */
+    foo: { type: Boolean, default: false }
+  },
+  name: 'oao',
+  setup(props, context) {
+    /**
+     * My count
+     */
+    const count = computed(() => {
+      return context.$store.state.count
+    })
+
+    const { a } = (() => {
+      const a = 'pa'
+
+      return toRefs(
+        reactive({
+          a: a
+        })
+      )
+    })()
+
+    const anotherComponent = ref<HTMLElement>(null)
+
+    /**
+     * My msg
+     */
+    const msg = ref('Vetur means \\"Winter\\" in icelandic.') //foo
+
+    /**
+     * My greeting
+     */
+    const hello = () => {
+      console.log(msg.value)
+    }
+
+    return {
+      count,
+      a,
+      anotherComponent,
+      msg,
+      hello,
+      bar: props.bar,
+      qaq: props.qaq,
+      cac: props.cac,
+      checked: props.checked,
+      foo: props.foo
+    }
+  }
+}
+"
+`;
