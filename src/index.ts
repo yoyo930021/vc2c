@@ -42,3 +42,4 @@ export function convertFile (filePath: string, root: any, config: any) {
 
 export * from './plugins/types'
 export { BuiltInPlugins }
+export * from './utils'
