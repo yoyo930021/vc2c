@@ -1,20 +1,19 @@
 # vc2c
-The vc2c project can convert vue class api to vue composition api in Vue.js components on Typescript.
+The vc2c project can convert vue class APIs to vue composition APIs in Vue.js components written in Typescript.  
 
 ## Introduction
 ![](https://github.com/yoyo930021/vc2c/blob/master/doc/flow.png)
 
-ASTConvertPlugins is the most important part.   
-It can convert ast to composition api, and it's customize.   
-You can support custom decorator in ASTConvertPlugins, like `@Subscription`.
+ASTConvertPlugins is the most important part of this project, it can convert AST to composition APIs.  
+Custom decorator in ASTConvertPlugins are supported, such as `@Subscription`.  
+See [Writing a custom ASTConvert](#plugins) for more details.  
 
-PS. [Write a custom ASTConvert and use it](#plugins)
+## Supports
+The files to be converted must meet the criterias below:  
+- Scripts must be written in Typescript. (JavaScript may be supported in the future.)  
+- All syntax must be valid.  
 
-## Support
-The file need the following points.
-- Typescript in script (maybe support javascript in the future)
-- No Invaid syntax
-### support feature
+### supported feature
 - vue-class-component
   - Object
     - [x] `name`
@@ -43,12 +42,12 @@ The file need the following points.
   - [ ] `@ProvideReactive / @InjectReactive`
   - [x] `@Emit`
   - [x] `@Ref`
-- [x] replace this to `props` or `variable` or `context`.
-- [x] sort by dependence
+- [x] replace `this` to `props`, `variable`, or `context`.
+- [x] sort by dependency.
 
 
 ## Usage
-The vc2c project have CLI or API interface.
+The vc2c project has both CLI and API interface.
 
 ### CLI
 ```bash
@@ -64,13 +63,13 @@ sudo volta install vc2c
 vc2c single [cliOptions] <VueOrTSfilePath>
 ```
 
-#### cliOptions
+#### Options
 ```
--v, --view             output file content on stdout, and no write file.
--o, --output           output result file path
--r, --root <root>      set root path for calc file absolute path default:`process.cwd()`
--c, --config <config>  set vc2c config file path, default: `'.vc2c.js'`
--h, --help             output usage information
+-v, --view             Output file content on stdout, and no write file.
+-o, --output           Output result file path.
+-r, --root <root>      Set root path for calc file absolute path. Default:`process.cwd()`.
+-c, --config <config>  Set vc2c config file path. Default: `'.vc2c.js'`.
+-h, --help             Output usage information.
 ```
 
 ### API
@@ -91,7 +90,7 @@ const { file, result } = convertFile(
 )
 ```
 
-### Vc2cConfig
+### Vc2c Config
 ```typescript
 {
   // root path for calc file absolute path, if in CLI, --root value will replace. default:`process.cwd()`
@@ -138,36 +137,37 @@ export interface ASTConvertPlugins {
 }
 ```
 ### ASTConvertPlugins process
-- Vue Class `@Component` decorator Object
-  - The vc2c will parse `@Component` decorator argument object propertys, and run `ASTConvert` functions in `plugins[ts.SyntaxKind.Decorator][property.kind as ts.SyntaxKind]` array.
-  - When `ASTConvert` function return `ASTResult`, The vc2c record `ASTResult` and next object property.
-  - if `ASTConvert` function return `false`, The vc2c run next `ASTConvert` function in array.
+- Vue Class `@Component` decorator Object:
+  - Vc2c will parse object properties of `@Component` argument by running `ASTConvert` functions in `plugins[ts.SyntaxKind.Decorator][property.kind as ts.SyntaxKind]` array.
+  - When `ASTConvert` returns a `ASTResult`, vc2c will record the `ASTResult` and proceed to the next object property.
+  - If `ASTConvert` returns `false`, vc2c will run the next `ASTConvert` function in the array.
 
-- Vue Class
-  - The vc2c will parse `Class` AST childs, and run `ASTConvert` functions in `plugins[AST.kind as ts.SyntaxKind]` array.
-  - When `ASTConvert` function return `ASTResult`, The vc2c record `ASTResult` and next object property.
-  - if `ASTConvert` function return `false`, The vc2c run next `ASTConvert` function in array.
-- Transform
-  - The vc2c will run all `ASTTransform` in `plugins.after` array.
-  - You can use it to merge AST or sort. ex: `computed`,`removeThis`
+- Vue Class:
+  - Vc2c will parse `Class` AST childs by running `ASTConvert` functions in `plugins[AST.kind as ts.SyntaxKind]` array.
+  - When `ASTConvert` returns a `ASTResult`, vc2c will record the `ASTResult` and proceed to the next object property.
+  - If `ASTConvert` returns `false`, vc2c will run the next `ASTConvert` function in the array.
+  
+- Transform:
+  - Vc2c will run all `ASTTransform` functions in `plugins.after` array after finishing the two steps above.
+  - You can use it to merge or sort AST. ex: `computed`, `removeThis`.
 
 ### Tips
 - You can use https://ts-ast-viewer.com/ to get Typescript ast.
-- You can use built-in `ASTConvert` or `ASTTransform` in `ASTConvertPlugins`
+- You can use built-in `ASTConvert` or `ASTTransform` in `ASTConvertPlugins`.
   ```typescript
   import { BuiltInPlugins } from 'vc2c'
   const astConvert: ASTConvert = BuiltInPlugins.convertProp
   ```
-- You cas use built-in typescript ast utils.
+- You cas use built-in typescript AST utils.
   ```typescript
   import { getDecoratorNames, isInternalHook } from 'vc2c'
   ```
-- You must put `ASTConvert` more special more top in `ASTConvertPlugins`
+- `ASTConvert` functions must be placed in order by it's strictness in `ASTConvertPlugins`. Stricter function should be placed up front.
 
 ### ASTConvert Exmaple
 - [`built-ins`](https://github.com/yoyo930021/vc2c/blob/master/src/plugins)
 
 ## Roadmap
-- add more TODO: comments on needed
-- Support more features
-- convert project
+- Add more TODO: comments on needed.
+- Support more features.
+- Convert project.
