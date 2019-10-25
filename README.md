@@ -168,6 +168,6 @@ export interface ASTConvertPlugins {
 - [`built-ins`](https://github.com/yoyo930021/vc2c/blob/master/src/plugins)
 
 ## Roadmap
-- add TODO: comments for user prompt action
+- add more TODO: comments on needed
 - Support more features
 - convert project
