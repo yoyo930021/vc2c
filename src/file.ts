@@ -26,7 +26,7 @@ export function readVueSFCOrTsFile (filePath: string, options: Vc2cOptions): Fil
   const fileFsPath = (path.isAbsolute(filePath)) ? filePath : path.resolve(options.root, filePath)
   const fileContent = fs.readFileSync(fileFsPath, { encoding: 'utf8' })
   if (isVueFile(fileFsPath)) {
-    const scriptContent = parseVueFile(options.vueTemplateParser, fileContent).script
+    const scriptContent = parseVueFile(options.vueTemplateCompiler, fileContent).script
     if (scriptContent) {
       log(`Readed Vue file: ${fileFsPath}`)
       return {
