@@ -7,7 +7,7 @@ describe('testVueFile', () => {
 
   it('compatible', () => {
     const { file, result } = convertFile(filePath, __dirname, 'config/.compatible.vc2c.js')
-    expect(file.fsPath.includes(filePath)).toBeTruthy()
+    expect(file.fsPath.includes(path.basename(filePath))).toBeTruthy()
     expect(path.isAbsolute(file.fsPath)).toBeTruthy()
     expect(file.kind).toBe(FileKind.VUE)
     expect(file).toHaveProperty('start')
@@ -18,7 +18,7 @@ describe('testVueFile', () => {
 
   it('no compatible', () => {
     const { file, result } = convertFile(filePath, __dirname, 'config/.nocompatible.vc2c.js')
-    expect(file.fsPath.includes(filePath)).toBeTruthy()
+    expect(file.fsPath.includes(path.basename(filePath))).toBeTruthy()
     expect(path.isAbsolute(file.fsPath)).toBeTruthy()
     expect(file.kind).toBe(FileKind.VUE)
     expect(file).toHaveProperty('start')
