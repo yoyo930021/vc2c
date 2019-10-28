@@ -107,10 +107,7 @@ export default createComponent({
       checked,
       onMounted,
       removeItem,
-      hello,
-      bar: props.bar,
-      checked: props.checked,
-      foo: props.foo
+      hello
     }
   }
 })
@@ -216,10 +213,7 @@ export default {
       checked,
       onMounted,
       removeItem,
-      hello,
-      bar: props.bar,
-      checked: props.checked,
-      foo: props.foo
+      hello
     }
   }
 }

@@ -61,18 +61,7 @@ export default createComponent({
     }
 
     // TODO: Please remove unused return variable
-    return {
-      count,
-      a,
-      anotherComponent,
-      msg,
-      hello,
-      bar: props.bar,
-      qaq: props.qaq,
-      cac: props.cac,
-      checked: props.checked,
-      foo: props.foo
-    }
+    return { count, a, anotherComponent, msg, hello }
   }
 })
 "
@@ -133,18 +122,7 @@ export default {
     }
 
     // TODO: Please remove unused return variable
-    return {
-      count,
-      a,
-      anotherComponent,
-      msg,
-      hello,
-      bar: props.bar,
-      qaq: props.qaq,
-      cac: props.cac,
-      checked: props.checked,
-      foo: props.foo
-    }
+    return { count, a, anotherComponent, msg, hello }
   }
 }
 "

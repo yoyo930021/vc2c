@@ -129,7 +129,6 @@ export function getASTResults (
 
 export function convertASTResultToSetupFn (astResults: ASTResult<ts.Node>[], options: Vc2cOptions) {
   const tsModule = options.typesciprt
-  const propASTResult = astResults.find((el) => el.tag === 'Prop')
 
   const returnStatement = addTodoComment(
     tsModule,
@@ -141,16 +140,7 @@ export function convertASTResultToSetupFn (astResults: ASTResult<ts.Node>[], opt
           .map((el) => tsModule.createShorthandPropertyAssignment(
             tsModule.createIdentifier(el),
             undefined
-          )),
-        ...(propASTResult)
-          ? propASTResult.attrutibes.map((el) => tsModule.createPropertyAssignment(
-            tsModule.createIdentifier(el),
-            tsModule.createPropertyAccess(
-              tsModule.createIdentifier(options.setupPropsKey),
-              tsModule.createIdentifier(el)
-            )
           ))
-          : []
       ])
     ),
     'Please remove unused return variable',
