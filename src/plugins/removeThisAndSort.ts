@@ -1,17 +1,17 @@
-import { ASTTransform, ASTResult } from './types'
+import { ASTTransform, ASTResult, ReferenceKind } from './types'
 import * as ts from 'typescript'
 
 export const removeThisAndSort: ASTTransform = (astResults, options) => {
   const tsModule = options.typesciprt
-  const getVariables = (tags: string[]) => astResults
-    .filter((el) => tags.includes(el.tag))
+  const getReferences = (reference: ReferenceKind) => astResults
+    .filter((el) => el.reference === reference)
     .map((el) => el.attrutibes)
     .reduce((array, el) => array.concat(el), [])
 
-  const refVariables = getVariables(['Data-ref', 'Computed'])
-  const domeRefVariables = getVariables(['DomRef'])
-  const propVariables = getVariables(['Prop'])
-  const variables = getVariables(['Method', 'Emit', 'Data-reactive'])
+  const refVariables = getReferences(ReferenceKind.VARIABLE_VALUE)
+  const domeRefVariables = getReferences(ReferenceKind.VARIABLE_NON_NULL_VALUE)
+  const propVariables = getReferences(ReferenceKind.PROPS)
+  const variables = getReferences(ReferenceKind.VARIABLE)
 
   let dependents: string[] = []
 

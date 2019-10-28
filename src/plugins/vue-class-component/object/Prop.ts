@@ -1,4 +1,4 @@
-import { ASTConverter, ASTResultKind } from '../../types'
+import { ASTConverter, ASTResultKind, ReferenceKind } from '../../types'
 import * as ts from 'typescript'
 
 export const convertObjProps: ASTConverter<ts.PropertyAssignment> = (node, options) => {
@@ -21,6 +21,7 @@ export const convertObjProps: ASTConverter<ts.PropertyAssignment> = (node, optio
     return {
       tag: 'Prop',
       kind: ASTResultKind.OBJECT,
+      reference: ReferenceKind.PROPS,
       imports: [],
       attrutibes,
       nodes

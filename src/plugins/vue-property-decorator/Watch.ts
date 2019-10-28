@@ -1,4 +1,4 @@
-import { ASTConverter, ASTResultKind } from '../types'
+import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
 import * as ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
@@ -62,6 +62,7 @@ export const convertWatch: ASTConverter<ts.MethodDeclaration> = (node, options) 
           named: ['watch'],
           external: (options.compatible) ? '@vue/composition-api' : 'vue'
         }],
+        reference: ReferenceKind.VARIABLE,
         attrutibes: [keyName],
         nodes: [
           tsModule.createExpressionStatement(

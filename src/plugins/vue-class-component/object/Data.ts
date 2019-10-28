@@ -1,4 +1,4 @@
-import { ASTConverter, ASTResultKind } from '../../types'
+import { ASTConverter, ASTResultKind, ReferenceKind } from '../../types'
 import * as ts from 'typescript'
 
 export const convertObjData: ASTConverter<ts.MethodDeclaration> = (node, options) => {
@@ -40,6 +40,7 @@ export const convertObjData: ASTConverter<ts.MethodDeclaration> = (node, options
         named: ['reactive', 'toRefs'],
         external: (options.compatible) ? '@vue/composition-api' : 'vue'
       }],
+      reference: ReferenceKind.VARIABLE_VALUE,
       attrutibes,
       nodes: [
         tsModule.createVariableStatement(

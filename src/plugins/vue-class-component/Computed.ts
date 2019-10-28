@@ -1,4 +1,4 @@
-import { ASTConverter, ASTResultKind, ASTTransform, ASTResult } from '../types'
+import { ASTConverter, ASTResultKind, ASTTransform, ASTResult, ReferenceKind } from '../types'
 import * as ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
@@ -13,6 +13,7 @@ export const convertGetter: ASTConverter<ts.GetAccessorDeclaration> = (node, opt
       named: ['computed'],
       external: (options.compatible) ? '@vue/composition-api' : 'vue'
     }],
+    reference: ReferenceKind.VARIABLE,
     attrutibes: [computedName],
     nodes: [
       copySyntheticComments(
@@ -42,6 +43,7 @@ export const convertSetter: ASTConverter<ts.SetAccessorDeclaration> = (node, opt
       named: ['computed'],
       external: (options.compatible) ? '@vue/composition-api' : 'vue'
     }],
+    reference: ReferenceKind.VARIABLE,
     attrutibes: [computedName],
     nodes: [
       copySyntheticComments(
@@ -112,6 +114,7 @@ export const mergeComputed: ASTTransform = (astResults, options) => {
         named: ['computed'],
         external: (options.compatible) ? '@vue/composition-api' : 'vue'
       }],
+      reference: ReferenceKind.VARIABLE_VALUE,
       attrutibes: [getterName],
       nodes: [
         (setter) ? resultNode : tsModule.setSyntheticTrailingComments(tsModule.setSyntheticLeadingComments(resultNode, leadingComments), trailingComments)

@@ -1,4 +1,4 @@
-import { ASTConverter, ASTResultKind } from '../types'
+import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
 import * as ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
@@ -78,6 +78,7 @@ export const convertEmitMethod: ASTConverter<ts.MethodDeclaration> = (node, opti
       tag: 'Emit',
       kind: ASTResultKind.COMPOSITION,
       imports: [],
+      reference: ReferenceKind.VARIABLE,
       attrutibes: [eventName || hyphenate(methodName)],
       nodes: [
         copySyntheticComments(

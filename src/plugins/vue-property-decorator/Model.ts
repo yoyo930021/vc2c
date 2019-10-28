@@ -1,4 +1,4 @@
-import { ASTConverter, ASTResultKind } from '../types'
+import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
 import * as ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
@@ -20,6 +20,7 @@ export const convertModel: ASTConverter<ts.PropertyDeclaration> = (node, options
         tag: 'Model',
         kind: ASTResultKind.OBJECT,
         imports: [],
+        reference: ReferenceKind.NONE,
         attrutibes: [node.name.getText()],
         nodes: [
           copySyntheticComments(

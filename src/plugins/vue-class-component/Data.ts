@@ -1,4 +1,4 @@
-import { ASTConverter, ASTResultKind } from '../types'
+import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
 import * as ts from 'typescript'
 import { isPrimitiveType, copySyntheticComments } from '../../utils'
 
@@ -33,6 +33,7 @@ export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options,
       named,
       external: (options.compatible) ? '@vue/composition-api' : 'vue'
     }],
+    reference: (isRef) ? ReferenceKind.VARIABLE_VALUE : ReferenceKind.VARIABLE,
     attrutibes: [dataName],
     nodes: [
       copySyntheticComments(

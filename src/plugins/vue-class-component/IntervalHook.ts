@@ -1,4 +1,4 @@
-import { ASTConverter, ASTResultKind } from '../types'
+import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
 import * as ts from 'typescript'
 import { isInternalHook, copySyntheticComments } from '../../utils'
 
@@ -35,6 +35,7 @@ export const convertIntervalHook: ASTConverter<ts.MethodDeclaration> = (node, op
         named: needNamedImports,
         external: (options.compatible) ? '@vue/composition-api' : 'vue'
       }],
+      reference: ReferenceKind.NONE,
       nodes: [
         copySyntheticComments(tsModule, outputNode, node)
       ] as ts.Statement[]

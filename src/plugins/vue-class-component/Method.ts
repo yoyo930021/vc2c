@@ -1,4 +1,4 @@
-import { ASTConverter, ASTResultKind } from '../types'
+import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
 import * as ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
@@ -19,6 +19,7 @@ export const convertMethod: ASTConverter<ts.MethodDeclaration> = (node, options)
     tag: 'Method',
     kind: ASTResultKind.COMPOSITION,
     imports: [],
+    reference: ReferenceKind.VARIABLE,
     attrutibes: [methodName],
     nodes: [
       copySyntheticComments(

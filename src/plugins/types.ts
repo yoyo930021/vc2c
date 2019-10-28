@@ -6,21 +6,31 @@ export enum ASTResultKind {
   COMPOSITION
 }
 
+export enum ReferenceKind {
+  PROPS,
+  VARIABLE_VALUE,
+  VARIABLE_NON_NULL_VALUE,
+  VARIABLE,
+  CONTEXT,
+  NONE,
+}
+
 export type ImportModule = {
-  default?: string;
-  named?: string[];
-  path: string;
+  default?: string
+  named?: string[]
+  path: string
 } | {
-  default?: string;
-  named?: string[];
-  external: string;
+  default?: string
+  named?: string[]
+  external: string
 }
 
 export interface ASTResultBase {
-  imports: ImportModule[];
-  kind: ASTResultKind;
-  attrutibes: string[];
-  tag: string;
+  imports: ImportModule[]
+  kind: ASTResultKind
+  reference: ReferenceKind
+  attrutibes: string[]
+  tag: string
 }
 
 export interface ASTResultToObject<N = ts.PropertyAssignment> extends ASTResultBase {

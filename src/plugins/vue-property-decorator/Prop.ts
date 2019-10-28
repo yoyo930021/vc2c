@@ -1,4 +1,4 @@
-import { ASTConverter, ASTResultKind, ASTTransform, ASTResultToObject } from '../types'
+import { ASTConverter, ASTResultKind, ASTTransform, ASTResultToObject, ReferenceKind } from '../types'
 import * as ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
@@ -20,6 +20,7 @@ export const convertProp: ASTConverter<ts.PropertyDeclaration> = (node, options)
         tag: 'Prop',
         kind: ASTResultKind.OBJECT,
         imports: [],
+        reference: ReferenceKind.PROPS,
         attrutibes: [propName],
         nodes: [
           copySyntheticComments(
@@ -49,6 +50,7 @@ export const mergeProps: ASTTransform = (astResults, options) => {
     tag: 'Prop',
     kind: ASTResultKind.OBJECT,
     imports: [],
+    reference: ReferenceKind.PROPS,
     attrutibes: propASTResults.map((el) => el.attrutibes).reduce((array, el) => array.concat(el), []),
     nodes: [
       tsModule.createPropertyAssignment(

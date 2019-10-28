@@ -1,4 +1,4 @@
-import { ASTConverter, ASTResultKind, ASTTransform } from '../types'
+import { ASTConverter, ASTResultKind, ASTTransform, ReferenceKind } from '../types'
 import * as ts from 'typescript'
 
 export const convertName: ASTConverter<ts.Identifier> = (node, options) => {
@@ -7,6 +7,7 @@ export const convertName: ASTConverter<ts.Identifier> = (node, options) => {
     tag: 'Class-Name',
     kind: ASTResultKind.OBJECT,
     imports: [],
+    reference: ReferenceKind.NONE,
     attrutibes: [],
     nodes: [
       tsModule.createPropertyAssignment(
@@ -28,6 +29,7 @@ export const mergeName: ASTTransform = (astResults) => {
       tag: 'Name',
       kind: ASTResultKind.OBJECT,
       imports: [],
+      reference: ReferenceKind.NONE,
       attrutibes: [],
       nodes: nameASTResults[0].nodes as ts.PropertyAssignment[]
     }
@@ -35,6 +37,7 @@ export const mergeName: ASTTransform = (astResults) => {
       tag: 'Name',
       kind: ASTResultKind.OBJECT,
       imports: [],
+      reference: ReferenceKind.NONE,
       attrutibes: [],
       nodes: nameASTResults.find((el) => el.tag === 'Obj-Name')!.nodes as ts.PropertyAssignment[]
     }
