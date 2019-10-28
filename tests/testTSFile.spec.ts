@@ -24,4 +24,14 @@ describe('testTSFile', () => {
     expect(file).not.toHaveProperty('end')
     expect(result).toMatchSnapshot()
   })
+
+  it('compatible and ts config file', () => {
+    const { file, result } = convertFile(filePath, __dirname, 'config/.compatible.vc2c.ts')
+    expect(file.fsPath.includes(path.basename(filePath))).toBeTruthy()
+    expect(path.isAbsolute(file.fsPath)).toBeTruthy()
+    expect(file.kind).toBe(FileKind.TS)
+    expect(file).not.toHaveProperty('start')
+    expect(file).not.toHaveProperty('end')
+    expect(result).toMatchSnapshot()
+  })
 })

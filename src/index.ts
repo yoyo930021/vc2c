@@ -16,13 +16,16 @@ export function convert (content: string, inputOptions: InputVc2cOptions): strin
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function convertFile (filePath: string, root: any, config: any) {
+export function convertFile (filePath: string, root: string, config: string) {
   root = (typeof root === 'string')
     ? (
       path.isAbsolute(root) ? root : path.resolve(process.cwd(), root)
     )
     : process.cwd()
   config = (typeof config === 'string') ? config : '.vc2c.js'
+  if (config.endsWith('.ts')) {
+    require('ts-node/register')
+  }
   const inputOptions: InputVc2cOptions = fs.existsSync(path.resolve(root, config))
     ? require(path.resolve(root, config))
     : {}
@@ -43,4 +46,4 @@ export function convertFile (filePath: string, root: any, config: any) {
 export * from './plugins/types'
 export { BuiltInPlugins }
 export * from './utils'
-export { getDefaultVc2cOptions } from './options'
+export { getDefaultVc2cOptions, Vc2cOptions } from './options'

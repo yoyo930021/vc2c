@@ -37,10 +37,11 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "build": "tsc -p tsconfig.compile.json",
-    "test": "jest --coverage --config jest.config.js"
+    "test": "jest --config jest.config.js"
   },
   "dependencies": {
     "commander": "^3.0.2",
-    "inquirer": "^7.0.0"
+    "inquirer": "^7.0.0",
+    "ts-node": "^8.4.1"
   }
 }

@@ -117,6 +117,123 @@ export default createComponent({
 "
 `;
 
+exports[`testTSFile compatible and ts config file 1`] = `
+"import {
+  computed,
+  reactive,
+  toRefs,
+  ref,
+  watch,
+  onMounted,
+  createComponent
+} from '@vue/composition-api'
+
+/**
+ * My basic tag
+ */
+export default createComponent({
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: {
+    bar: String,
+    checked: { type: Boolean },
+    /**
+     * My foo
+     */
+    foo: { type: Number, default: false }
+  },
+  name: 'oao',
+  setup(props, ctx) {
+    /**
+     * My count
+     */
+    const count = computed(() => {
+      return ctx.$store.state.count
+    })
+
+    const { a } = (() => {
+      const a = 'pa'
+
+      return toRefs(
+        reactive({
+          a: a
+        })
+      )
+    })()
+
+    const anotherComponent = ref<HTMLElement>(null)
+
+    /**
+     * My msg
+     */
+    const msg = ref('Vetur means \\"Winter\\" in icelandic.') // foo
+
+    const onMsgChanged = (val: string, newVal: string) => {
+      console.log(val, newVal)
+    }
+
+    const click = (c: string) => {
+      context.emit('click', c)
+    }
+
+    const value = computed({
+      get: () => {
+        return props.checked
+      },
+      set: (value: boolean) => {
+        ctx.emit('change', value)
+      }
+    })
+
+    watch(
+      props.checked,
+      (val: boolean, newVal: boolean) => {
+        console.log(val, newVal)
+        console.log(anotherComponent.value!)
+      },
+      { deep: true, lazy: false }
+    )
+    onMounted(() => {
+      click('oao')
+    })
+
+    const removeItem = () => {
+      if (props.foo > 10) {
+        context.emit('remove-item', 10)
+      } else {
+        context.emit('remove-item', props.foo)
+      }
+    }
+
+    /**
+     * My greeting
+     */
+    const hello = () => {
+      console.log(msg.value)
+    }
+
+    removeItem()
+    // TODO: Please remove unused return variable
+    return {
+      count,
+      a,
+      anotherComponent,
+      msg,
+      onMsgChanged,
+      click,
+      value,
+      checked,
+      onMounted,
+      removeItem,
+      hello
+    }
+  }
+})
+"
+`;
+
 exports[`testTSFile no compatible 1`] = `
 "import { computed, reactive, toRefs, ref, watch, onMounted } from 'vue'
 

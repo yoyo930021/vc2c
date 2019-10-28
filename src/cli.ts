@@ -28,7 +28,7 @@ program
       }
     }
 
-    const { file, result } = convertFile(filePath, cmdOptions.root, cmdOptions.config)
+    const { file, result } = convertFile(filePath, cmdOptions.root as string, cmdOptions.config as string)
     if (cmdOptions.view) {
       // eslint-disable-next-line no-console
       console.log(result)
