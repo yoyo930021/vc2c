@@ -8,7 +8,7 @@ import { readVueSFCOrTsFile } from './file'
 import { setDebugMode } from './debug'
 import * as BuiltInPlugins from './plugins/builtIn'
 
-export function convert (content: string, inputOptions: InputVc2cOptions) {
+export function convert (content: string, inputOptions: InputVc2cOptions): string {
   const options = mergeVc2cOptions(getDefaultVc2cOptions(inputOptions.typesciprt), inputOptions)
   const { ast, program } = getSingleFileProgram(content, options)
 

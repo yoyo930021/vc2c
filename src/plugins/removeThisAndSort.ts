@@ -1,4 +1,4 @@
-import { ASTTransform, ASTResult, ReferenceKind } from './types'
+import { ASTTransform, ASTResult, ReferenceKind, ASTResultKind } from './types'
 import * as ts from 'typescript'
 
 export const removeThisAndSort: ASTTransform = (astResults, options) => {
@@ -61,6 +61,12 @@ export const removeThisAndSort: ASTTransform = (astResults, options) => {
   }
 
   const transformResults = astResults.map((astResult) => {
+    if (astResult.kind === ASTResultKind.OBJECT) {
+      return {
+        ...astResult,
+        nodeDependents: []
+      }
+    }
     dependents = []
     const nodes = tsModule.transform(
       astResult.nodes,

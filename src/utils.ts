@@ -1,5 +1,6 @@
 import * as vueTemplateParser from 'vue-template-compiler'
 import * as ts from 'typescript'
+import { ASTResult, ASTResultKind, ReferenceKind } from './plugins/types'
 export function isVueFile (path: string) {
   return path.endsWith('.vue')
 }
@@ -30,7 +31,11 @@ export function getDefaultExportNode (tsModule: typeof ts, sourceFile: ts.Source
 export function getDecoratorNames (node: ts.Node) {
   if (node.decorators) {
     return node.decorators.map((el) => {
-      return (el.expression as ts.CallExpression).expression.getText()
+      if (ts.isCallExpression(el.expression)) {
+        return el.expression.expression.getText()
+      } else {
+        return el.expression.getText()
+      }
     })
   }
 
@@ -94,4 +99,17 @@ export function addTodoComment<T extends ts.Node> (tsModule: typeof ts, node: T,
     (multiline) ? ts.SyntaxKind.MultiLineCommentTrivia : ts.SyntaxKind.SingleLineCommentTrivia,
     ` TODO: ${text}`
   )
+}
+
+export function convertNodeToASTResult<T extends ts.Node> (tsModule: typeof ts, node: T): ASTResult<T> {
+  return {
+    imports: [],
+    kind: ASTResultKind.OBJECT,
+    reference: ReferenceKind.NONE,
+    attrutibes: [],
+    tag: 'IheritObjProperty',
+    nodes: [
+      addTodoComment(tsModule, node, 'Can\'t convert this object property.', false)
+    ]
+  }
 }
