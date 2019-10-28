@@ -26,7 +26,7 @@ The files to be converted must meet the criterias below:
     - [ ] `computed`
     - [ ] `methods`
     - [ ] `watch`
-    - [ ] intervalHook (ex: `mounted`)
+    - [x] intervalHook (ex: `mounted`)
     - [ ] `provide / inject`
     - [ ] `mixins`
     - [ ] `extends`

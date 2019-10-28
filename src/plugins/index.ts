@@ -17,7 +17,6 @@ import { convertWatch } from './vue-property-decorator/Watch'
 import { convertEmitMethod } from './vue-property-decorator/Emit'
 import { convertMethod } from './vue-class-component/Method'
 import { removeThisAndSort } from './removeThisAndSort'
-import { convertObjRender } from './vue-class-component/object/Render'
 import { convertRender } from './vue-class-component/Render'
 
 export function getDefaultPlugins (tsModule: typeof ts): ASTConvertPlugins {
@@ -29,7 +28,7 @@ export function getDefaultPlugins (tsModule: typeof ts): ASTConvertPlugins {
       ],
       [tsModule.SyntaxKind.MethodDeclaration]: [
         convertObjData,
-        convertObjRender
+        convertIntervalHook
       ]
     },
     [tsModule.SyntaxKind.Identifier]: [
