@@ -22,7 +22,7 @@ export default class BasicPropertyClass extends Vue {
   /**
    * My foo
    */
-  @Prop({ type: Number, default: false }) foo: number
+  @Prop({ type: Number, default: false }) foo!: number
 
   /**
    * My msg
@@ -39,11 +39,20 @@ export default class BasicPropertyClass extends Vue {
   @Watch('checked', { deep: true, immediate: true })
   onCheckedChanged (val: boolean, newVal: boolean) {
     console.log(val, newVal)
+    console.log(this.anotherComponent)
   }
 
   @Watch('msg')
   onMsgChanged (val: string, newVal: string) {
     console.log(val, newVal)
+  }
+
+  mounted () {
+    this.click('oao')
+  }
+
+  created () {
+    this.removeItem()
   }
 
   @Emit()

@@ -7,6 +7,7 @@ exports[`testTSFile compatible 1`] = `
   toRefs,
   ref,
   watch,
+  onMounted,
   createComponent
 } from '@vue/composition-api'
 
@@ -51,26 +52,30 @@ export default createComponent({
      * My msg
      */
     const msg = ref('Vetur means \\"Winter\\" in icelandic.') // foo
-    watch(
-      checked,
-      (val: boolean, newVal: boolean) => {
-        console.log(val, newVal)
-      },
-      { deep: true, lazy: false }
-    )
+
     const onMsgChanged = (val: string, newVal: string) => {
       console.log(val, newVal)
     }
 
     const click = (c: string) => {
-      context.$emit('click', c)
+      context.emit('click', c)
     }
-
+    watch(
+      props.checked,
+      (val: boolean, newVal: boolean) => {
+        console.log(val, newVal)
+        console.log(anotherComponent.value!)
+      },
+      { deep: true, lazy: false }
+    )
+    onMounted(() => {
+      click('oao')
+    })
     const removeItem = () => {
       if (props.foo > 10) {
-        context.$emit('remove-item', 10)
+        context.emit('remove-item', 10)
       } else {
-        context.$emit('remove-item', props.foo)
+        context.emit('remove-item', props.foo)
       }
     }
 
@@ -80,17 +85,18 @@ export default createComponent({
     const hello = () => {
       console.log(msg.value)
     }
-
+    removeItem()
     // TODO: Please remove unused return variable
     return {
       count,
       a,
       anotherComponent,
       msg,
-      checked,
       onMsgChanged,
       click,
-      remove,
+      checked,
+      onMounted,
+      removeItem,
       hello,
       bar: props.bar,
       checked: props.checked,
@@ -102,7 +108,7 @@ export default createComponent({
 `;
 
 exports[`testTSFile no compatible 1`] = `
-"import { computed, reactive, toRefs, ref, watch } from 'vue'
+"import { computed, reactive, toRefs, ref, watch, onMounted } from 'vue'
 
 /**
  * My basic tag
@@ -145,13 +151,7 @@ export default {
      * My msg
      */
     const msg = ref('Vetur means \\"Winter\\" in icelandic.') // foo
-    watch(
-      checked,
-      (val: boolean, newVal: boolean) => {
-        console.log(val, newVal)
-      },
-      { deep: true, lazy: false }
-    )
+
     const onMsgChanged = (val: string, newVal: string) => {
       console.log(val, newVal)
     }
@@ -159,7 +159,17 @@ export default {
     const click = (c: string) => {
       context.emit('click', c)
     }
-
+    watch(
+      props.checked,
+      (val: boolean, newVal: boolean) => {
+        console.log(val, newVal)
+        console.log(anotherComponent.value!)
+      },
+      { deep: true, lazy: false }
+    )
+    onMounted(() => {
+      click('oao')
+    })
     const removeItem = () => {
       if (props.foo > 10) {
         context.emit('remove-item', 10)
@@ -174,17 +184,18 @@ export default {
     const hello = () => {
       console.log(msg.value)
     }
-
+    removeItem()
     // TODO: Please remove unused return variable
     return {
       count,
       a,
       anotherComponent,
       msg,
-      checked,
       onMsgChanged,
       click,
-      remove,
+      checked,
+      onMounted,
+      removeItem,
       hello,
       bar: props.bar,
       checked: props.checked,

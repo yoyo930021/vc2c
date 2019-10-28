@@ -23,7 +23,7 @@ export const convertEmitMethod: ASTConverter<ts.MethodDeclaration> = (node, opti
     const createEmit = (event: string, expressions: ts.Expression[]) => tsModule.createExpressionStatement(tsModule.createCall(
       tsModule.createPropertyAccess(
         tsModule.createIdentifier('context'),
-        tsModule.createIdentifier((options.compatible) ? '$emit' : 'emit'),
+        tsModule.createIdentifier('emit'),
       ),
       undefined,
       [
@@ -79,7 +79,7 @@ export const convertEmitMethod: ASTConverter<ts.MethodDeclaration> = (node, opti
       kind: ASTResultKind.COMPOSITION,
       imports: [],
       reference: ReferenceKind.VARIABLE,
-      attrutibes: [eventName || hyphenate(methodName)],
+      attrutibes: [methodName],
       nodes: [
         copySyntheticComments(
           tsModule,

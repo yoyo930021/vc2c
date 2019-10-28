@@ -1,6 +1,6 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
 import * as ts from 'typescript'
-import { copySyntheticComments } from '../../utils'
+import { copySyntheticComments, createIdentifier } from '../../utils'
 
 const watchDecoratorName = 'Watch'
 
@@ -72,7 +72,10 @@ export const convertWatch: ASTConverter<ts.MethodDeclaration> = (node, options) 
                 tsModule.createIdentifier('watch'),
                 undefined,
                 [
-                  tsModule.createIdentifier(keyName),
+                  tsModule.createPropertyAccess(
+                    tsModule.createThis(),
+                    createIdentifier(tsModule, keyName)
+                  ),
                   method,
                   tsModule.createObjectLiteral(watchOptions)
                 ]

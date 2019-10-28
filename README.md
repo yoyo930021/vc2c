@@ -169,6 +169,7 @@ export interface ASTConvertPlugins {
   import { getDecoratorNames, isInternalHook } from 'vc2c'
   ```
 - `ASTConvert` functions must be placed in order by it's strictness in `ASTConvertPlugins`. Stricter function should be placed up front.
+- If you want to use Vue any property, you can see [link](https://github.com/yoyo930021/vc2c/blob/master/src/plugins/vue-property-decorator/Watch.ts#L75).
 
 ### ASTConvert Exmaple
 - [`built-ins`](https://github.com/yoyo930021/vc2c/blob/master/src/plugins)

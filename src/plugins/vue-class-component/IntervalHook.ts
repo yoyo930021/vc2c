@@ -25,20 +25,27 @@ export const convertIntervalHook: ASTConverter<ts.MethodDeclaration> = (node, op
           tsModule.createToken(tsModule.SyntaxKind.EqualsGreaterThanToken),
           node.body!
         )]
-      )) : node.body!
+      )) : node.body!.statements
+
+    const nodes: ts.Statement[] = (needNamedImports.length > 0)
+      ? [copySyntheticComments(tsModule, outputNode as ts.Statement, node)]
+      : (outputNode as ts.NodeArray<ts.Statement>).map((el, index) => {
+        if (index === 0) {
+          return copySyntheticComments(tsModule, el, node)
+        }
+        return el
+      })
 
     return {
       tag: 'IntervalHook',
       kind: ASTResultKind.COMPOSITION,
-      attrutibes: [needNamedImports[0]],
+      attrutibes: (needNamedImports.length > 0) ? needNamedImports : [],
       imports: [{
         named: needNamedImports,
         external: (options.compatible) ? '@vue/composition-api' : 'vue'
       }],
       reference: ReferenceKind.NONE,
-      nodes: [
-        copySyntheticComments(tsModule, outputNode, node)
-      ] as ts.Statement[]
+      nodes
     }
   }
 
