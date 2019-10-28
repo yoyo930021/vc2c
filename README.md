@@ -12,6 +12,7 @@ See [Writing a custom ASTConvert](#plugins) for more details.
 The files to be converted must meet the criterias below:  
 - Scripts must be written in Typescript. (JavaScript may be supported in the future.)  
 - All syntax must be valid.  
+- Node.js >= 8.x
 
 ### supported feature
 - vue-class-component

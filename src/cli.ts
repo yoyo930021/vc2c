@@ -10,10 +10,10 @@ program
 program
   .command('single <filePath>')
   .description('convert vue component file from class to composition api')
-  .option('-v, --view', 'output file content on stdout, and no write file.')
-  .option('-o, --output', 'output result file path')
-  .option('-r, --root <root>', 'set root path for calc file absolute path, default: `process.cwd()`')
-  .option('-c, --config <config>', 'set vc2c config file path, default: `\'.vc2c.js\'`')
+  .option('-v, --view', 'Output file content on stdout, and no write file.')
+  .option('-o, --output', 'Output result file path.')
+  .option('-r, --root <root>', 'Set root path for calc file absolute path. Default:`process.cwd()`')
+  .option('-c, --config <config>', 'Set vc2c config file path. Default: `\'.vc2c.js\'`')
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   .action(async (filePath: string, cmd) => {
     const cmdOptions = getCmdOptions(cmd)
