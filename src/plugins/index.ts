@@ -18,6 +18,8 @@ import { convertEmitMethod } from './vue-property-decorator/Emit'
 import { convertMethod } from './vue-class-component/Method'
 import { removeThisAndSort } from './removeThisAndSort'
 import { convertRender } from './vue-class-component/Render'
+import { convertInject } from './vue-property-decorator/Inject'
+import { convertProvide } from './vue-property-decorator/Provide'
 
 export function getDefaultPlugins (tsModule: typeof ts): ASTConvertPlugins {
   return {
@@ -41,6 +43,8 @@ export function getDefaultPlugins (tsModule: typeof ts): ASTConvertPlugins {
       convertModel,
       convertProp,
       convertDomRef,
+      convertProvide,
+      convertInject,
       convertData
     ],
     [tsModule.SyntaxKind.GetAccessor]: [

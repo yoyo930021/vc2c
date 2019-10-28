@@ -33,8 +33,8 @@ export function format (content: string, options: Vc2cOptions) {
           'padding-line-between-statements': [
             'error',
             { blankLine: 'always', prev: '*', next: 'export' },
-            { blankLine: 'always', prev: 'const', next: 'const' },
-            { blankLine: 'always', prev: 'const', next: 'return' }
+            { blankLine: 'always', prev: 'const', next: '*' },
+            { blankLine: 'always', prev: '*', next: 'const' }
           ]
         }
       },

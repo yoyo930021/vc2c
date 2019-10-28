@@ -43,3 +43,4 @@ export function convertFile (filePath: string, root: any, config: any) {
 export * from './plugins/types'
 export { BuiltInPlugins }
 export * from './utils'
+export { getDefaultVc2cOptions } from './options'

@@ -6,7 +6,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Prop, Component, Ref, Model } from 'vue-property-decorator'
+import { Prop, Component, Ref, Model, Provide, Inject } from 'vue-property-decorator'
+
+const symbol = Symbol('baz')
 
 /**
  * My basic tag
@@ -28,6 +30,14 @@ export default class BasicPropertyClass extends Vue {
    * My foo
    */
   @Prop({ type: Boolean, default: false }) foo: any
+
+  @Provide() foa = 'foo'
+  @Provide('bar') baz = 'bar'
+
+  @Inject() readonly foai!: string
+  @Inject('bar') readonly bari!: string
+  @Inject({ from: 'optional', default: 'default' }) readonly optional!: string
+  @Inject(symbol) readonly bazi!: string
 
   /**
    * My msg

@@ -6,8 +6,12 @@ exports[`testVueFile compatible 1`] = `
   reactive,
   toRefs,
   ref,
+  provide,
+  inject,
   createComponent
 } from '@vue/composition-api'
+
+const symbol = Symbol('baz')
 
 /**
  * My basic tag
@@ -48,6 +52,17 @@ export default createComponent({
 
     const anotherComponent = ref<HTMLElement>(null)
 
+    provide('foa', 'foo')
+    provide('bar', 'bar')
+
+    const foai = inject<string>('foai')
+
+    const bari = inject<string>('bari')
+
+    const optional = inject<string>('optional', 'default')
+
+    const bazi = inject<string>('bazi')
+
     /**
      * My msg
      */
@@ -61,14 +76,26 @@ export default createComponent({
     }
 
     // TODO: Please remove unused return variable
-    return { count, a, anotherComponent, msg, hello }
+    return {
+      count,
+      a,
+      anotherComponent,
+      foai,
+      bari,
+      optional,
+      bazi,
+      msg,
+      hello
+    }
   }
 })
 "
 `;
 
 exports[`testVueFile no compatible 1`] = `
-"import { computed, reactive, toRefs, ref } from 'vue'
+"import { computed, reactive, toRefs, ref, provide, inject } from 'vue'
+
+const symbol = Symbol('baz')
 
 /**
  * My basic tag
@@ -109,6 +136,17 @@ export default {
 
     const anotherComponent = ref<HTMLElement>(null)
 
+    provide('foa', 'foo')
+    provide('bar', 'bar')
+
+    const foai = inject<string>('foai')
+
+    const bari = inject<string>('bari')
+
+    const optional = inject<string>('optional', 'default')
+
+    const bazi = inject<string>('bazi')
+
     /**
      * My msg
      */
@@ -122,7 +160,17 @@ export default {
     }
 
     // TODO: Please remove unused return variable
-    return { count, a, anotherComponent, msg, hello }
+    return {
+      count,
+      a,
+      anotherComponent,
+      foai,
+      bari,
+      optional,
+      bazi,
+      msg,
+      hello
+    }
   }
 }
 "

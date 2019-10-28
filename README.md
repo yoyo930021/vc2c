@@ -44,7 +44,7 @@ The files to be converted must meet the criterias below:
   - [ ] `@PropSync`
   - [x] `@Model`
   - [x] `@Watch`
-  - [ ] `@Provide / @Inject`
+  - [x] `@Provide / @Inject`
   - [ ] `@ProvideReactive / @InjectReactive`
   - [x] `@Emit`
   - [x] `@Ref`
