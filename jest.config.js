@@ -6,7 +6,7 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest'
   },
   testRegex: '(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$',
-  collectCoverage: false,
+  collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   coverageReporters: ['text-summary', 'lcov'],
