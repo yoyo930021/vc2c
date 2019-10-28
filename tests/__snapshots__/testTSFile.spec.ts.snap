@@ -117,7 +117,9 @@ export default createComponent({
 "
 `;
 
-exports[`testTSFile compatible and ts config file 1`] = `
+exports[`testTSFile compatible and ts config file: stderr 1`] = `""`;
+
+exports[`testTSFile compatible and ts config file: stdout 1`] = `
 "import {
   computed,
   reactive,
@@ -231,6 +233,7 @@ export default createComponent({
     }
   }
 })
+
 "
 `;
 
