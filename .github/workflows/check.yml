@@ -22,6 +22,7 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn test
+          yarn codecov --token="${{ secrets.CODECOV_TOKEN }}"
         env:
           CI: true
 
