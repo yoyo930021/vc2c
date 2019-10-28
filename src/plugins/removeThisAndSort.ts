@@ -13,6 +13,19 @@ export const removeThisAndSort: ASTTransform = (astResults, options) => {
   const propVariables = getReferences(ReferenceKind.PROPS)
   const variables = getReferences(ReferenceKind.VARIABLE)
 
+  const convertContextKey = (key: string) => {
+    const contextKey = new Map([
+      ['$attrs', 'attrs'],
+      ['$slots', 'slots'],
+      ['$parent', 'parent'],
+      ['$root', 'root'],
+      ['$listeners', 'listeners'],
+      ['$emit', 'emit']
+    ])
+
+    return contextKey.has(key) ? contextKey.get(key)! : key
+  }
+
   let dependents: string[] = []
 
   const transformer: () => ts.TransformerFactory<ts.Node> = () => {
@@ -47,7 +60,7 @@ export const removeThisAndSort: ASTTransform = (astResults, options) => {
             } else {
               return tsModule.createPropertyAccess(
                 tsModule.createIdentifier(options.setupContextKey),
-                tsModule.createIdentifier(propertyName)
+                tsModule.createIdentifier(convertContextKey(propertyName))
               )
             }
           }

@@ -60,6 +60,15 @@ export default createComponent({
     const click = (c: string) => {
       context.emit('click', c)
     }
+
+    const value = computed({
+      get: () => {
+        return props.checked
+      },
+      set: (value: boolean) => {
+        context.emit('change', value)
+      }
+    })
     watch(
       props.checked,
       (val: boolean, newVal: boolean) => {
@@ -94,6 +103,7 @@ export default createComponent({
       msg,
       onMsgChanged,
       click,
+      value,
       checked,
       onMounted,
       removeItem,
@@ -159,6 +169,15 @@ export default {
     const click = (c: string) => {
       context.emit('click', c)
     }
+
+    const value = computed({
+      get: () => {
+        return props.checked
+      },
+      set: (value: boolean) => {
+        context.emit('change', value)
+      }
+    })
     watch(
       props.checked,
       (val: boolean, newVal: boolean) => {
@@ -193,6 +212,7 @@ export default {
       msg,
       onMsgChanged,
       click,
+      value,
       checked,
       onMounted,
       removeItem,

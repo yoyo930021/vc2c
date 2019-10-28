@@ -36,6 +36,14 @@ export default class BasicPropertyClass extends Vue {
     return this.$store.state.count
   }
 
+  get value () {
+    return this.checked
+  }
+
+  set value (value: boolean) {
+    this.$emit('change', value)
+  }
+
   @Watch('checked', { deep: true, immediate: true })
   onCheckedChanged (val: boolean, newVal: boolean) {
     console.log(val, newVal)
