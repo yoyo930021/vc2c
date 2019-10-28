@@ -22,9 +22,12 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn test
-          yarn codecov --token="${{ secrets.CODECOV_TOKEN }}"
         env:
           CI: true
+      - name: codecov
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '10.x'
+        run: |
+          yarn codecov --token="${{ secrets.CODECOV_TOKEN }}"
 
   lint:
     runs-on: ubuntu-latest
