@@ -1,5 +1,5 @@
 # vc2c
-[![GitHub Actions status | yoyo930021/vc2c](https://github.com/yoyo930021/vc2c/workflows/Node%20CI/badge.svg)](https://github.com/yoyo930021/vc2c/actions)
+[![GitHub Actions status | yoyo930021/vc2c](https://github.com/yoyo930021/vc2c/workflows/Test%20Code/badge.svg)](https://github.com/yoyo930021/vc2c/actions)
 [![codecov](https://codecov.io/gh/yoyo930021/vc2c/branch/master/graph/badge.svg)](https://codecov.io/gh/yoyo930021/vc2c)
    
 The vc2c project can convert vue class APIs to vue composition APIs in Vue.js components written in Typescript.  

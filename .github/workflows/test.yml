@@ -1,4 +1,4 @@
-name: Node CI
+name: Test Code
 
 on: [push, pull_request]
 
@@ -28,16 +28,3 @@ jobs:
         if: matrix.os == 'ubuntu-latest' && matrix.node-version == '10.x'
         run: |
           yarn codecov --token="${{ secrets.CODECOV_TOKEN }}"
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js 10.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 10.x
-      - name: Run lint
-        run: |
-          yarn install --frozen-lockfile
-          yarn lint
