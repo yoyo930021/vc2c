@@ -27,11 +27,13 @@ The files to be converted must meet the criterias below:
     - [ ] `provide / inject`
     - [ ] `mixins`
     - [ ] `extends`
+    - [x] `render`
   - Class
     - [x] `className`
     - [x] `computed`
     - [x] `data`
     - [x] intervalHook (ex: `mounted`)
+    - [x] `render`
     - [x] `methods`
     - [ ] `Mixins`
 - vue-property-decorator
@@ -147,7 +149,7 @@ export interface ASTConvertPlugins {
   - Vc2c will parse `Class` AST childs by running `ASTConvert` functions in `plugins[AST.kind as ts.SyntaxKind]` array.
   - When `ASTConvert` returns a `ASTResult`, vc2c will record the `ASTResult` and proceed to the next object property.
   - If `ASTConvert` returns `false`, vc2c will run the next `ASTConvert` function in the array.
-  
+
 - Transform:
   - Vc2c will run all `ASTTransform` functions in `plugins.after` array after finishing the two steps above.
   - You can use it to merge or sort AST. ex: `computed`, `removeThis`.

@@ -1,7 +1,7 @@
 import * as ts from 'typescript'
 import { Vc2cOptions } from '../options'
 import { ASTConvertPlugins, ASTResult, ASTConverter, ASTResultKind } from './types'
-import { copySyntheticComments, addTodoComment } from '../utils'
+import { copySyntheticComments, addTodoComment, convertNodeToASTResult } from '../utils'
 import { log } from '../debug'
 import { convertObjName } from './vue-class-component/object/ComponentName'
 import { convertObjProps } from './vue-class-component/object/Prop'
@@ -17,6 +17,8 @@ import { convertWatch } from './vue-property-decorator/Watch'
 import { convertEmitMethod } from './vue-property-decorator/Emit'
 import { convertMethod } from './vue-class-component/Method'
 import { removeThisAndSort } from './removeThisAndSort'
+import { convertObjRender } from './vue-class-component/object/Render'
+import { convertRender } from './vue-class-component/Render'
 
 export function getDefaultPlugins (tsModule: typeof ts): ASTConvertPlugins {
   return {
@@ -26,7 +28,8 @@ export function getDefaultPlugins (tsModule: typeof ts): ASTConvertPlugins {
         convertObjProps
       ],
       [tsModule.SyntaxKind.MethodDeclaration]: [
-        convertObjData
+        convertObjData,
+        convertObjRender
       ]
     },
     [tsModule.SyntaxKind.Identifier]: [
@@ -48,6 +51,7 @@ export function getDefaultPlugins (tsModule: typeof ts): ASTConvertPlugins {
       convertSetter
     ],
     [tsModule.SyntaxKind.MethodDeclaration]: [
+      convertRender,
       convertIntervalHook,
       convertWatch,
       convertEmitMethod,
@@ -88,12 +92,17 @@ export function getASTResults (
         objExpr.forEachChild((property) => {
           if (property.kind in converterPlugins[tsModule.SyntaxKind.Decorator]) {
             const objConverters = (converterPlugins[tsModule.SyntaxKind.Decorator] as unknown as { [index: number]: Array<ASTConverter<ts.Node>> })[property.kind]
+            let converted = false
             for (const converter of objConverters) {
               const result = converter(property, options, program)
               if (result) {
                 astResults.push(result)
+                converted = true
                 break
               }
+            }
+            if (!converted) {
+              astResults.push(convertNodeToASTResult(tsModule, node))
             }
           }
         })
