@@ -1,11 +1,23 @@
 import { Vc2cOptions } from './options'
 import path from 'path'
-import fs from 'fs'
-import prettierFormat from 'prettier-eslint'
 import { log } from './debug'
+import prettier from 'prettier/standalone'
+import prettierTypescriptParser from 'prettier/parser-typescript'
 
 export function format (content: string, options: Vc2cOptions) {
+  const isNode = typeof window === 'undefined'
+  if (!isNode) {
+    return prettier.format(content, {
+      plugins: [prettierTypescriptParser],
+      parser: 'typescript',
+      semi: false,
+      singleQuote: true
+    })
+  }
+
   const eslintConfigPath = path.resolve(options.root, options.eslintConfigFile)
+  const fs = require('fs')
+  const prettierFormat = require('prettier-eslint')
   const prettierEslintOpions = (fs.existsSync(eslintConfigPath))
     ? {
       text: content,

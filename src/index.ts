@@ -3,7 +3,6 @@ import { convertAST } from './convert'
 import { InputVc2cOptions, getDefaultVc2cOptions, mergeVc2cOptions } from './options'
 import { format } from './format'
 import path from 'path'
-import fs from 'fs'
 import { readVueSFCOrTsFile } from './file'
 import { setDebugMode } from './debug'
 import * as BuiltInPlugins from './plugins/builtIn'
@@ -17,6 +16,7 @@ export function convert (content: string, inputOptions: InputVc2cOptions): strin
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function convertFile (filePath: string, root: string, config: string) {
+  const fs = require('fs')
   root = (typeof root === 'string')
     ? (
       path.isAbsolute(root) ? root : path.resolve(process.cwd(), root)
