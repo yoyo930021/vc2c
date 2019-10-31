@@ -1,0 +1,25 @@
+name: Build demo
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  demo:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 10.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@2.0.3
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BASE_BRANCH: master
+          BRANCH: gh-pages
+          FOLDER: demo-dist
+          BUILD_SCRIPT: yarn install --frozen-lockfile && yarn demo:build
