@@ -57,11 +57,11 @@ export default createComponent({
 
     const foai = inject<string>('foai')
 
-    const bari = inject<string>('bari')
+    const bari = inject<string>('bar')
 
     const optional = inject<string>('optional', 'default')
 
-    const bazi = inject<string>('bazi')
+    const bazi = inject<string>(symbol)
 
     /**
      * My msg
@@ -141,11 +141,11 @@ export default {
 
     const foai = inject<string>('foai')
 
-    const bari = inject<string>('bari')
+    const bari = inject<string>('bar')
 
     const optional = inject<string>('optional', 'default')
 
-    const bazi = inject<string>('bazi')
+    const bazi = inject<string>(symbol)
 
     /**
      * My msg

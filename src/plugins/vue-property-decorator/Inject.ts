@@ -14,7 +14,7 @@ export const convertInject: ASTConverter<ts.PropertyDeclaration> = (node, option
     const decoratorArguments = (decorator.expression as ts.CallExpression).arguments
     let injectKeyExpr: ts.Expression = tsModule.createStringLiteral(node.name.getText())
     let defaultValueExpr: ts.Expression | undefined
-    if (decoratorArguments.length > 0 && tsModule.isObjectLiteralExpression(decoratorArguments[0])) {
+    if (decoratorArguments.length > 0) {
       const injectArgument = decoratorArguments[0]
       if (tsModule.isObjectLiteralExpression(injectArgument)) {
         const fromProperty = injectArgument.properties.find((el) => el.name!.getText() === 'from')
