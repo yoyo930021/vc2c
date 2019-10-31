@@ -1,6 +1,9 @@
 name: Common
 
-on: [push, pull_request]
+on:
+  push:
+    branch:
+      - master
 
 jobs:
   lint:
@@ -41,7 +44,6 @@ jobs:
         run: |
           yarn codecov --token="${{ secrets.CODECOV_TOKEN }}"
   demo:
-    if: github.ref == 'master'
     needs: [lint, test]
     runs-on: ubuntu-latest
     steps:
