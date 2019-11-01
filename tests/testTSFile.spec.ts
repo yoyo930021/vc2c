@@ -30,6 +30,7 @@ describe('testTSFile', () => {
   })
 
   it('compatible and ts config file', async (done) => {
+    jest.setTimeout(10000)
     const { stdout, stderr } = await execAsync(`node ${path.resolve(__dirname, '../bin/vc2c')} single -v -r ${__dirname} -c config/.compatible.vc2c.ts ${filePath}`)
 
     expect(stdout).toMatchSnapshot('stdout')
