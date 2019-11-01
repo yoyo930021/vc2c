@@ -42,7 +42,7 @@
     "build": "tsc -p tsconfig.compile.json",
     "test": "yarn build && jest --config jest.config.js",
     "demo:prepare": "parcel build node_modules/monaco-editor/esm/vs/editor/editor.worker.js --no-source-maps -d demo-dist/ && parcel build node_modules/monaco-editor/esm/vs/language/typescript/ts.worker.js --no-source-maps -d demo-dist/",
-    "demo:build": "yarn demo:prepare && parcel build demo/index.html --no-source-maps -d demo-dist/"
+    "demo:build": "yarn demo:prepare && parcel build demo/index.html --no-source-maps -d demo-dist/ --public-url ./"
   },
   "dependencies": {
     "commander": "^3.0.2",
