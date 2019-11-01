@@ -65,6 +65,10 @@ self.MonacoEnvironment = {
   }
 }
 
+const vc2cConfig = {
+  compatible: false
+}
+
 monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
   experimentalDecorators: true,
   noResolve: true,
@@ -83,23 +87,36 @@ monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
   resolveJsonModule: true
 })
 
+const setOutput = () => {
+  output.setValue(convert(editor.getValue(), vc2cConfig))
+}
+
 const editor = monaco.editor.create(document.getElementById('editor'), {
   value: defaultCode,
   language: 'typescript',
-  theme: 'vs-dark'
+  theme: 'vs-dark',
+  minimap: {
+    enabled: false
+  }
 })
 
 const output = monaco.editor.create(document.getElementById('output'), {
-  value: convert(defaultCode, {}),
+  value: convert(defaultCode, vc2cConfig),
   language: 'typescript',
   theme: 'vs-dark'
 })
 
 editor.onDidChangeModelContent(() => {
-  output.setValue(convert(editor.getValue(), {}))
+  setOutput()
 })
 
 window.addEventListener('resize', () => {
   editor.layout()
   output.layout()
+})
+
+const compatibleCheckbox = document.getElementById('compatible')
+compatibleCheckbox.addEventListener('change', () => {
+  vc2cConfig.compatible = compatibleCheckbox.checked
+  setOutput()
 })

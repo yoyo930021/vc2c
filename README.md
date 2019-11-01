@@ -4,6 +4,8 @@
    
 The vc2c project can convert vue class APIs to vue composition APIs in Vue.js components written in Typescript.  
 
+[Demo](https://yoyo930021.github.io/vc2c/)
+
 ## Introduction
 ![](https://github.com/yoyo930021/vc2c/blob/master/doc/flow.png)
 

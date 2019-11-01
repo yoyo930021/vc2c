@@ -9,27 +9,49 @@
     html, body {
       margin: 0;
     }
+    nav {
+      height: 50px;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #49c08e;
+      color: white;
+      border-bottom: 1px solid #a6a6a6;
+    }
+    nav > h1 {
+      font-size: 1.2rem;
+      line-height: 1;
+      margin: 0;
+    }
     #container {
       width: 100vw;
-      height: 100vh;
+      height: calc(100vh - 50px);
       display: flex;
     }
-    #editor {
+    .editor {
       flex: 50% 1 1;
-      height: 100vh;
+      height: 100%;
       overflow: hidden;
     }
-    #output {
-      flex: 50% 1 1;
-      height: 100vh;
-      overflow: hidden;
+    @media screen and (max-width: 600px) {
+      #container {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
+  <nav>
+    <h1>Vue Class to Composition API Demo</h1>
+    <div>
+      <input type="checkbox" id="compatible">
+      <label for="scales">Compatible</label>
+    </div>
+  </nav>
   <div id="container">
-    <div id="editor"></div>
-    <div id="output"></div>
+    <div id="editor" class="editor"></div>
+    <div id="output" class="editor"></div>
   </div>
   <script src="index.js"></script>
 </body>
