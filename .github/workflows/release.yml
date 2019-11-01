@@ -60,3 +60,20 @@ jobs:
           BRANCH: gh-pages
           FOLDER: demo-dist
           BUILD_SCRIPT: yarn install --frozen-lockfile && yarn demo:build
+  release:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 10.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          yarn install --frozen-lockfile
+          yarn semantic-release
+
