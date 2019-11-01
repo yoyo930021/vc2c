@@ -1,6 +1,6 @@
 {
   "name": "vc2c",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "author": "<yoyo930021>yoyo930021@gmail.com",
   "license": "MIT",
   "main": "dist/lib/index.js",
