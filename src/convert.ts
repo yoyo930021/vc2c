@@ -52,11 +52,7 @@ export function convertAST (sourceFile: ts.SourceFile, options: Vc2cOptions, pro
 
   log('output result code')
   const printer = tsModule.createPrinter()
-  const result = printer.printNode(
-    tsModule.EmitHint.SourceFile,
-    tsModule.updateSourceFileNode(sourceFile, resultStatements),
-    sourceFile
-  )
+  const result = printer.printFile(tsModule.updateSourceFileNode(sourceFile, resultStatements))
 
   return result
 }
