@@ -105,7 +105,7 @@ export function getASTResults (
               }
             }
             if (!converted) {
-              astResults.push(convertNodeToASTResult(tsModule, node))
+              astResults.push(convertNodeToASTResult(tsModule, property))
             }
           }
         })
