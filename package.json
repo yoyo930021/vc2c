@@ -9,7 +9,7 @@
     "vc2c": "./bin/vc2c"
   },
   "engines": {
-    "node": ">=10.0"
+    "node": ">=8.16"
   },
   "files": [
     "bin",
