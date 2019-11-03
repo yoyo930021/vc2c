@@ -1,6 +1,6 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
 import * as ts from 'typescript'
-import { isPrimitiveType, copySyntheticComments } from '../../utils'
+import { isPrimitiveType, copySyntheticComments, removeComments } from '../../utils'
 
 export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options, program) => {
   if (!node.initializer) {
@@ -18,12 +18,12 @@ export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options,
     ? tsModule.createCall(
       tsModule.createIdentifier('ref'),
       undefined,
-      [tsModule.createStringLiteral((node.initializer as ts.StringLiteral).text)]
+      [removeComments(tsModule, node.initializer)]
     )
     : tsModule.createCall(
       tsModule.createIdentifier('reactive'),
       undefined,
-      [tsModule.createStringLiteral((node.initializer as ts.StringLiteral).text)]
+      [removeComments(tsModule, node.initializer)]
     )
 
   return {

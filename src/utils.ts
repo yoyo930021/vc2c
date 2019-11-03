@@ -93,6 +93,13 @@ export function copySyntheticComments<T extends ts.Node> (tsModule: typeof ts, n
   return node
 }
 
+export function removeComments<T extends ts.Node> (tsModule: typeof ts, node: T) {
+  if (tsModule.isStringLiteral(node)) {
+    return tsModule.createStringLiteral(node.text)
+  }
+  return node
+}
+
 export function addTodoComment<T extends ts.Node> (tsModule: typeof ts, node: T, text: string, multiline: boolean) {
   return tsModule.addSyntheticLeadingComment(
     node,
