@@ -62,7 +62,11 @@ export function isInternalHook (methodName: string) {
 }
 
 export function isPrimitiveType (tsModule: typeof ts, returnType: ts.Type) {
-  return (returnType.flags & tsModule.TypeFlags.NonPrimitive) === 0
+  return !!(returnType.flags & tsModule.TypeFlags.NumberLike) ||
+    !!(returnType.flags & tsModule.TypeFlags.StringLike) ||
+    !!(returnType.flags & tsModule.TypeFlags.BooleanLike) ||
+    !!(returnType.flags & tsModule.TypeFlags.Null) ||
+    !!(returnType.flags & tsModule.TypeFlags.Undefined)
 }
 
 export function copySyntheticComments<T extends ts.Node> (tsModule: typeof ts, node: T, copyNode: ts.Node): T {
