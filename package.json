@@ -49,7 +49,7 @@
     "demo:build": "yarn demo:prepare && parcel build demo/index.html --no-source-maps -d demo-dist/ --public-url ./"
   },
   "dependencies": {
-    "commander": "^3.0.2",
+    "commander": "^4.0.0",
     "eslint": "^6.6.0",
     "inquirer": "^7.0.0",
     "prettier-eslint": "^9.0.0",
