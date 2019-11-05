@@ -4,7 +4,7 @@ import inquirer from 'inquirer'
 import { writeFileInfo } from './file'
 
 program
-  .version('0.0.1')
+  .version(require('../../package.json').version)
   .usage('<command> [options]')
 
 program
