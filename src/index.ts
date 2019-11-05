@@ -16,6 +16,7 @@ export function convert (content: string, inputOptions: InputVc2cOptions): strin
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function convertFile (filePath: string, root: string, config: string) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const fs = require('fs')
   root = (typeof root === 'string')
     ? (

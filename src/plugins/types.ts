@@ -16,12 +16,12 @@ export enum ReferenceKind {
 }
 
 export type ImportModule = {
-  default?: string
-  named?: string[]
+  default?: string,
+  named?: string[],
   path: string
 } | {
-  default?: string
-  named?: string[]
+  default?: string,
+  named?: string[],
   external: string
 }
 
@@ -34,13 +34,13 @@ export interface ASTResultBase {
 }
 
 export interface ASTResultToObject<N = ts.PropertyAssignment> extends ASTResultBase {
-  kind: ASTResultKind.OBJECT;
-  nodes: N[];
+  kind: ASTResultKind.OBJECT
+  nodes: N[]
 }
 
 export interface ASTResultToComposition<N = ts.Statement> extends ASTResultBase {
-  kind: ASTResultKind.COMPOSITION;
-  nodes: N[];
+  kind: ASTResultKind.COMPOSITION
+  nodes: N[]
 }
 
 export type ASTResult<N> = ASTResultToObject<N> | ASTResultToComposition<N>
@@ -51,7 +51,7 @@ export type ASTTransform = (astResults: Array<ASTResult<ts.Node>>, options: Vc2c
 
 export interface ASTConvertPlugins {
   [ts.SyntaxKind.Decorator]: {
-    [ts.SyntaxKind.PropertyAssignment]: Array<ASTConverter<ts.PropertyAssignment>>
+    [ts.SyntaxKind.PropertyAssignment]: Array<ASTConverter<ts.PropertyAssignment>>,
     [ts.SyntaxKind.MethodDeclaration]: Array<ASTConverter<ts.MethodDeclaration>>
   }
   [ts.SyntaxKind.Identifier]: Array<ASTConverter<ts.Identifier>>

@@ -47,7 +47,7 @@ export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options,
               callExpr
             )
           ],
-          tsModule.NodeFlags.Const),
+          tsModule.NodeFlags.Const)
         ),
         node
       )

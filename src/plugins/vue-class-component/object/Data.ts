@@ -4,8 +4,9 @@ import * as ts from 'typescript'
 export const convertObjData: ASTConverter<ts.MethodDeclaration> = (node, options) => {
   if (node.name.getText() === 'data') {
     const tsModule = options.typesciprt
-    const returnStatement = node.body!.statements.find((el) => tsModule.isReturnStatement(el)) as ts.ReturnStatement
-    const attrutibes = (returnStatement.expression! as ts.ObjectLiteralExpression).properties.map((el) => el.name!.getText())
+    const returnStatement = node.body?.statements.find((el) => tsModule.isReturnStatement(el)) as ts.ReturnStatement | undefined
+    if (!returnStatement || !returnStatement.expression) return false
+    const attrutibes = (returnStatement.expression as ts.ObjectLiteralExpression).properties.map((el) => el.name?.getText() ?? '')
     const arrowFn = tsModule.createArrowFunction(
       node.modifiers,
       [],
@@ -13,7 +14,7 @@ export const convertObjData: ASTConverter<ts.MethodDeclaration> = (node, options
       undefined,
       tsModule.createToken(tsModule.SyntaxKind.EqualsGreaterThanToken),
       tsModule.createBlock(
-        node.body!.statements.map((el) => {
+        node.body?.statements.map((el) => {
           if (tsModule.isReturnStatement(el)) {
             return tsModule.createReturn(
               tsModule.createCall(
@@ -22,13 +23,14 @@ export const convertObjData: ASTConverter<ts.MethodDeclaration> = (node, options
                 [tsModule.createCall(
                   tsModule.createIdentifier('reactive'),
                   undefined,
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                   [returnStatement.expression!]
                 )]
               )
             )
           }
           return el
-        }),
+        }) ?? [],
         true
       )
     )

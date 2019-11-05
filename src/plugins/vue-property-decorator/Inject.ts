@@ -17,11 +17,11 @@ export const convertInject: ASTConverter<ts.PropertyDeclaration> = (node, option
     if (decoratorArguments.length > 0) {
       const injectArgument = decoratorArguments[0]
       if (tsModule.isObjectLiteralExpression(injectArgument)) {
-        const fromProperty = injectArgument.properties.find((el) => el.name!.getText() === 'from')
+        const fromProperty = injectArgument.properties.find((el) => el.name?.getText() === 'from')
         if (fromProperty && tsModule.isPropertyAssignment(fromProperty)) {
           injectKeyExpr = fromProperty.initializer
         }
-        const defaultProperty = injectArgument.properties.find((el) => el.name!.getText() === 'default')
+        const defaultProperty = injectArgument.properties.find((el) => el.name?.getText() === 'default')
         if (defaultProperty && tsModule.isPropertyAssignment(defaultProperty)) {
           defaultValueExpr = defaultProperty.initializer
         }
@@ -59,7 +59,7 @@ export const convertInject: ASTConverter<ts.PropertyDeclaration> = (node, option
                 )
               )],
               tsModule.NodeFlags.Const
-            ),
+            )
           ),
           node
         )

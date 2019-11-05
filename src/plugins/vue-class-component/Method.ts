@@ -12,7 +12,7 @@ export const convertMethod: ASTConverter<ts.MethodDeclaration> = (node, options)
     node.parameters,
     node.type,
     tsModule.createToken(tsModule.SyntaxKind.EqualsGreaterThanToken),
-    node.body!
+    node.body ?? tsModule.createBlock([])
   )
 
   return {
@@ -33,7 +33,7 @@ export const convertMethod: ASTConverter<ts.MethodDeclaration> = (node, options)
               outputMethod
             )
           ],
-          tsModule.NodeFlags.Const),
+          tsModule.NodeFlags.Const)
         ),
         node
       )

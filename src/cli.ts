@@ -3,6 +3,23 @@ import { convertFile } from './index.js'
 import inquirer from 'inquirer'
 import { writeFileInfo } from './file'
 
+function camelize (str: string) {
+  return str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getCmdOptions (cmd: any) {
+  const args: { [key: string]: boolean | string } = {}
+  cmd.options.forEach((o: { long: string }) => {
+    const key = camelize(o.long.replace(/^--/, ''))
+
+    if (typeof cmd[key] !== 'function' && typeof cmd[key] !== 'undefined') {
+      args[key] = cmd[key]
+    }
+  })
+  return args
+}
+
 program
   .version(require('../../package.json').version)
   .usage('<command> [options]')
@@ -39,20 +56,3 @@ program
   })
 
 program.parse(process.argv)
-
-function camelize (str: string) {
-  return str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function getCmdOptions (cmd: any) {
-  const args: { [key: string]: boolean | string } = {}
-  cmd.options.forEach((o: { long: string }) => {
-    const key = camelize(o.long.replace(/^--/, ''))
-
-    if (typeof cmd[key] !== 'function' && typeof cmd[key] !== 'undefined') {
-      args[key] = cmd[key]
-    }
-  })
-  return args
-}

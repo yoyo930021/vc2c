@@ -16,10 +16,10 @@ type FileInfo = {
 } | {
   fsPath: string,
   kind: FileKind,
-  fileContent: string
+  fileContent: string,
   start: number,
   end: number,
-  content: string,
+  content: string
 }
 
 export function readVueSFCOrTsFile (filePath: string, options: Vc2cOptions): FileInfo {

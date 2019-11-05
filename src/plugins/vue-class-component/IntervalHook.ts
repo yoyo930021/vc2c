@@ -23,9 +23,13 @@ export const convertIntervalHook: ASTConverter<ts.MethodDeclaration> = (node, op
           [],
           undefined,
           tsModule.createToken(tsModule.SyntaxKind.EqualsGreaterThanToken),
-          node.body!
+          node.body ?? tsModule.createBlock([])
         )]
-      )) : node.body!.statements
+      )) : node.body?.statements
+
+    if (!outputNode) {
+      return false
+    }
 
     const nodes: ts.Statement[] = (needNamedImports.length > 0)
       ? [copySyntheticComments(tsModule, outputNode as ts.Statement, node)]

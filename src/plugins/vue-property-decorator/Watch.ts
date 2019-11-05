@@ -21,7 +21,7 @@ export const convertWatch: ASTConverter<ts.MethodDeclaration> = (node, options) 
         node.parameters,
         node.type,
         tsModule.createToken(tsModule.SyntaxKind.EqualsGreaterThanToken),
-        node.body!
+        node.body ?? tsModule.createBlock([], false)
       )
       const watchOptions: ts.PropertyAssignment[] = []
       if (tsModule.isObjectLiteralExpression(watchArguments)) {

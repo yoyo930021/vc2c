@@ -53,9 +53,10 @@ export function getSingleFileProgram (content: string, options: Vc2cOptions) {
       target: tsModule.ScriptTarget.Latest,
       ...defaultCompilerOptions
     },
-    compilerHost,
+    compilerHost
   )
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const ast = program.getSourceFile(fileName)!
 
   return { ast, program }

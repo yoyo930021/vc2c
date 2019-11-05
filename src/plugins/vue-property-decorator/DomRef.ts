@@ -33,12 +33,12 @@ export const convertDomRef: ASTConverter<ts.PropertyDeclaration> = (node, option
                 undefined,
                 tsModule.createCall(
                   tsModule.createIdentifier('ref'),
-                  [node.type!],
+                  node.type ? [node.type] : [],
                   [tsModule.createNull()]
                 )
               )
             ],
-            tsModule.NodeFlags.Const),
+            tsModule.NodeFlags.Const)
           ),
           node
         )

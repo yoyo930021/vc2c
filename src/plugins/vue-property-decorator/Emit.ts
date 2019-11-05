@@ -23,7 +23,7 @@ export const convertEmitMethod: ASTConverter<ts.MethodDeclaration> = (node, opti
     const createEmit = (event: string, expressions: ts.Expression[]) => tsModule.createExpressionStatement(tsModule.createCall(
       tsModule.createPropertyAccess(
         tsModule.createIdentifier('context'),
-        tsModule.createIdentifier('emit'),
+        tsModule.createIdentifier('emit')
       ),
       undefined,
       [
@@ -40,6 +40,7 @@ export const convertEmitMethod: ASTConverter<ts.MethodDeclaration> = (node, opti
         const deepVisitor: ts.Visitor = (node) => {
           if (tsModule.isReturnStatement(node)) {
             haveResult = true
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             return createEmit(eventName || hyphenate(methodName), [node.expression!].concat((valueIdentifier) ? [valueIdentifier] : []))
           }
           return tsModule.visitEachChild(node, deepVisitor, context)
@@ -92,7 +93,7 @@ export const convertEmitMethod: ASTConverter<ts.MethodDeclaration> = (node, opti
                 outputMethod
               )
             ],
-            tsModule.NodeFlags.Const),
+            tsModule.NodeFlags.Const)
           ),
           node
         )

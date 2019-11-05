@@ -22,6 +22,7 @@ export const mergeName: ASTTransform = (astResults) => {
   const nameTags = ['Class-Name', 'Obj-Name']
 
   const nameASTResults = astResults.filter((el) => nameTags.includes(el.tag))
+  const nameObjASTResults = nameASTResults.find((el) => el.tag === 'Obj-Name')
   const otherASTResults = astResults.filter((el) => !nameTags.includes(el.tag))
 
   const resultNameASTResults = (nameASTResults.length === 1)
@@ -39,7 +40,7 @@ export const mergeName: ASTTransform = (astResults) => {
       imports: [],
       reference: ReferenceKind.NONE,
       attrutibes: [],
-      nodes: nameASTResults.find((el) => el.tag === 'Obj-Name')!.nodes as ts.PropertyAssignment[]
+      ...(nameObjASTResults) ? { nodes: nameObjASTResults.nodes as ts.PropertyAssignment[] } : { nodes: [] }
     }
 
   return [

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { Vc2cOptions } from './options'
 import path from 'path'
 import { log } from './debug'

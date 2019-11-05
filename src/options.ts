@@ -5,7 +5,7 @@ import * as vueTemplateCompiler from 'vue-template-compiler'
 
 export interface Vc2cOptions {
   root: string
-  debug: boolean,
+  debug: boolean
   compatible: boolean
   setupPropsKey: string
   setupContextKey: string

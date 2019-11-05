@@ -24,7 +24,7 @@ export const convertGetter: ASTConverter<ts.GetAccessorDeclaration> = (node, opt
           [],
           undefined,
           tsModule.createToken(tsModule.SyntaxKind.EqualsGreaterThanToken),
-          node.body!
+          node.body ?? tsModule.createBlock([])
         ),
         node
       )
@@ -54,7 +54,7 @@ export const convertSetter: ASTConverter<ts.SetAccessorDeclaration> = (node, opt
           node.parameters,
           undefined,
           tsModule.createToken(tsModule.SyntaxKind.EqualsGreaterThanToken),
-          node.body!
+          node.body ?? tsModule.createBlock([])
         ),
         node
       )
@@ -104,7 +104,7 @@ export const mergeComputed: ASTTransform = (astResults, options) => {
           )
         )
       ],
-      ts.NodeFlags.Const),
+      ts.NodeFlags.Const)
     )
 
     computedASTResults.push({
