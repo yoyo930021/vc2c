@@ -111,7 +111,7 @@ const { file, result } = convertFile(
   setupPropsKey?: string
   // second setup function parameter name. default: `context`
   setupContextKey?: string
-  // Use custom version typescript. default: Typescript 3.6.4
+  // Use custom version typescript. default: Typescript 3.7.3
   typesciprt?: typeof ts
   // Use custom version vue-template-compiler. default: vue-template-compiler 2.6.10
   vueTemplateCompiler?: typeof vueTemplateCompiler
