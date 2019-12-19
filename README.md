@@ -111,9 +111,9 @@ const { file, result } = convertFile(
   setupPropsKey?: string
   // second setup function parameter name. default: `context`
   setupContextKey?: string
-  // Use custom version typescript. default: Typescript 3.6.4
+  // Use custom version typescript. default: Typescript 3.7.3
   typesciprt?: typeof ts
-  // Use custom version vue-template-compiler. default: vue-template-compiler 2.6.10
+  // Use custom version vue-template-compiler, please match your project vue versions. default: vue-template-compiler 2.6.11
   vueTemplateCompiler?: typeof vueTemplateCompiler
   // Use custom eslint file path. if file not exists, use default vc2c eslint config.  default: `.eslintrc.js`
   eslintConfigFile?: string

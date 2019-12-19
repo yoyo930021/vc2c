@@ -3,7 +3,7 @@ import { convertAST } from './convert'
 import { InputVc2cOptions, getDefaultVc2cOptions, mergeVc2cOptions } from './options'
 import { format } from './format'
 import path from 'path'
-import { readVueSFCOrTsFile } from './file'
+import { readVueSFCOrTsFile, existsFileSync } from './file'
 import { setDebugMode } from './debug'
 import * as BuiltInPlugins from './plugins/builtIn'
 
@@ -14,10 +14,7 @@ export function convert (content: string, inputOptions: InputVc2cOptions): strin
   return format(convertAST(ast, options, program), options)
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function convertFile (filePath: string, root: string, config: string) {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const fs = require('fs')
   root = (typeof root === 'string')
     ? (
       path.isAbsolute(root) ? root : path.resolve(process.cwd(), root)
@@ -27,7 +24,7 @@ export function convertFile (filePath: string, root: string, config: string) {
   if (config.endsWith('.ts')) {
     require('ts-node/register')
   }
-  const inputOptions: InputVc2cOptions = fs.existsSync(path.resolve(root, config))
+  const inputOptions: InputVc2cOptions = existsFileSync(path.resolve(root, config))
     ? require(path.resolve(root, config))
     : {}
   const options = mergeVc2cOptions(getDefaultVc2cOptions(inputOptions.typesciprt), inputOptions)

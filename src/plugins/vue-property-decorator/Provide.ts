@@ -31,8 +31,7 @@ export const convertProvide: ASTConverter<ts.PropertyDeclaration> = (node, optio
             undefined,
             [
               provideKeyExpr,
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              node.initializer!
+              ...(node.initializer) ? [node.initializer] : []
             ]
           )),
           node

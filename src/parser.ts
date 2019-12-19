@@ -8,7 +8,6 @@ export const defaultCompilerOptions: ts.CompilerOptions = {
   noEmit: true
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function getSingleFileProgram (content: string, options: Vc2cOptions) {
   const fileName = 'ast.ts'
   const tsModule = options.typesciprt
@@ -56,8 +55,10 @@ export function getSingleFileProgram (content: string, options: Vc2cOptions) {
     compilerHost
   )
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const ast = program.getSourceFile(fileName)!
+  const ast = program.getSourceFile(fileName)
+  if (!ast) {
+    throw new Error('Can\'t convert code to TypeSciprt AST.')
+  }
 
   return { ast, program }
 }

@@ -59,3 +59,7 @@ export function writeFileInfo (fileInfo: FileInfo, content: string) {
     fs.writeFileSync(fileInfo.fsPath, content, { encoding: 'utf8' })
   }
 }
+
+export function existsFileSync (path: string) {
+  return fs.existsSync(path)
+}

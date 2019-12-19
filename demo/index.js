@@ -55,7 +55,6 @@ export default class BasicPropertyClass extends Vue {
   }
 }`
 
-// eslint-disable-next-line no-undef
 self.MonacoEnvironment = {
   getWorkerUrl: function (moduleId, label) {
     if (label === 'typescript' || label === 'javascript') {
@@ -87,10 +86,6 @@ monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
   resolveJsonModule: true
 })
 
-const setOutput = () => {
-  output.setValue(convert(editor.getValue(), vc2cConfig))
-}
-
 const editor = monaco.editor.create(document.getElementById('editor'), {
   value: defaultCode,
   language: 'typescript',
@@ -105,6 +100,10 @@ const output = monaco.editor.create(document.getElementById('output'), {
   language: 'typescript',
   theme: 'vs-dark'
 })
+
+const setOutput = () => {
+  output.setValue(convert(editor.getValue(), vc2cConfig))
+}
 
 editor.onDidChangeModelContent(() => {
   setOutput()

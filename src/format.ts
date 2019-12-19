@@ -4,6 +4,7 @@ import path from 'path'
 import { log } from './debug'
 import prettier from 'prettier/standalone'
 import prettierTypescriptParser from 'prettier/parser-typescript'
+import { existsFileSync } from './file'
 
 export function format (content: string, options: Vc2cOptions) {
   const isNode = typeof window === 'undefined'
@@ -17,9 +18,8 @@ export function format (content: string, options: Vc2cOptions) {
   }
 
   const eslintConfigPath = path.resolve(options.root, options.eslintConfigFile)
-  const fs = require('fs')
   const prettierFormat = require('prettier-eslint')
-  const prettierEslintOpions = (fs.existsSync(eslintConfigPath))
+  const prettierEslintOpions = (existsFileSync(eslintConfigPath))
     ? {
       text: content,
       filePath: eslintConfigPath,
