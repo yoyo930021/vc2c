@@ -20,26 +20,25 @@
   "devDependencies": {
     "@semantic-release/git": "^7.0.18",
     "@types/inquirer": "^6.5.0",
-    "@types/jest": "^24.0.21",
-    "@types/node": "^12.12.5",
-    "@types/prettier": "^1.18.3",
-    "@typescript-eslint/eslint-plugin": "^2.6.1",
-    "@typescript-eslint/parser": "^2.6.1",
+    "@types/jest": "^24.0.24",
+    "@types/node": "^12.12.21",
+    "@types/prettier": "^1.19.0",
+    "@typescript-eslint/eslint-plugin": "^2.12.0",
+    "@typescript-eslint/parser": "^2.12.0",
     "codecov": "^3.6.1",
     "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^24.9.0",
     "monaco-editor": "^0.18.1",
     "parcel-bundler": "^1.12.4",
-    "prettier": "^1.18.2",
-    "semantic-release": "^15.13.30",
-    "ts-jest": "^24.1.0",
+    "prettier": "^1.19.1",
+    "semantic-release": "^15.13.31",
+    "ts-jest": "^24.2.0",
     "typescript": "3.7.3",
-    "vue": "^2.6.10",
-    "vue-monaco": "^1.1.0"
+    "vue": "^2.6.11"
   },
   "scripts": {
     "lint": "eslint . --ext .ts",
@@ -49,12 +48,12 @@
     "demo:build": "yarn demo:prepare && parcel build demo/index.html --no-source-maps -d demo-dist/ --public-url ./"
   },
   "dependencies": {
-    "commander": "^4.0.0",
-    "eslint": "^6.6.0",
-    "inquirer": "^7.0.0",
-    "prettier-eslint": "^9.0.0",
-    "ts-node": "^8.4.1",
-    "vue-template-compiler": "^2.6.10"
+    "commander": "^4.0.1",
+    "eslint": "^6.7.2",
+    "inquirer": "^7.0.1",
+    "prettier-eslint": "^9.0.1",
+    "ts-node": "^8.5.4",
+    "vue-template-compiler": "^2.6.11"
   },
   "repository": {
     "type": "git",
