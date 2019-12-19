@@ -1,5 +1,6 @@
 import { ASTTransform, ASTResult, ReferenceKind, ASTResultKind } from './types'
 import * as ts from 'typescript'
+import { addTodoComment } from '../utils'
 
 export const removeThisAndSort: ASTTransform = (astResults, options) => {
   const tsModule = options.typesciprt
@@ -24,7 +25,7 @@ export const removeThisAndSort: ASTTransform = (astResults, options) => {
     ])
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return contextKey.has(key) ? contextKey.get(key)! : key
+    return contextKey.get(key)
   }
 
   let dependents: string[] = []
@@ -59,9 +60,25 @@ export const removeThisAndSort: ASTTransform = (astResults, options) => {
               dependents.push(propertyName)
               return tsModule.createIdentifier(propertyName)
             } else {
-              return tsModule.createPropertyAccess(
-                tsModule.createIdentifier(options.setupContextKey),
-                tsModule.createIdentifier(convertContextKey(propertyName))
+              const convertKey = convertContextKey(propertyName)
+              if (convertKey) {
+                return tsModule.createPropertyAccess(
+                  tsModule.createIdentifier(options.setupContextKey),
+                  tsModule.createIdentifier(convertKey)
+                )
+              }
+
+              return addTodoComment(
+                tsModule,
+                tsModule.createPropertyAccess(
+                  ts.createPropertyAccess(
+                    tsModule.createIdentifier(options.setupContextKey),
+                    ts.createIdentifier('root')
+                  ),
+                  tsModule.createIdentifier(propertyName)
+                ),
+                'Check this convert result, it can work well in 80% case.',
+                true
               )
             }
           }

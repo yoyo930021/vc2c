@@ -37,7 +37,8 @@ export default createComponent({
      * My count
      */
     const count = computed(() => {
-      return context.$store.state.count
+      return /* TODO: Check this convert result, it can work well in 80% case.*/ context
+        .root.$store.state.count
     })
 
     const { a } = (() => {
@@ -121,7 +122,8 @@ export default {
      * My count
      */
     const count = computed(() => {
-      return context.$store.state.count
+      return /* TODO: Check this convert result, it can work well in 80% case.*/ context
+        .root.$store.state.count
     })
 
     const { a } = (() => {

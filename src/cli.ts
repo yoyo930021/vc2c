@@ -53,6 +53,7 @@ program
     }
 
     writeFileInfo(file, result)
+    console.log('Please check the TODO comments on result.')
   })
 
 program.parse(process.argv)
