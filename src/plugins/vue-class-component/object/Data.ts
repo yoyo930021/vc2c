@@ -23,8 +23,7 @@ export const convertObjData: ASTConverter<ts.MethodDeclaration> = (node, options
                 [tsModule.createCall(
                   tsModule.createIdentifier('reactive'),
                   undefined,
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  [returnStatement.expression!]
+                  returnStatement.expression ? [returnStatement.expression] : []
                 )]
               )
             )

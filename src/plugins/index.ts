@@ -200,8 +200,7 @@ export function convertASTResultToImport (astResults: ASTResult<ts.Node>[], opti
   for (const result of astResults) {
     for (const importInfo of result.imports) {
       const key: string = ('external' in importInfo) ? importInfo.external : importInfo.path
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const temp: Clause = (importMap.has(key)) ? importMap.get(key)! : { named: new Set() }
+      const temp: Clause = importMap.get(key) ?? { named: new Set() }
       if ((!('default' in temp)) && 'default' in importInfo) {
         temp.default = importInfo.default
       }

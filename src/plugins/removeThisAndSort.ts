@@ -24,7 +24,6 @@ export const removeThisAndSort: ASTTransform = (astResults, options) => {
       ['$emit', 'emit']
     ])
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return contextKey.get(key)
   }
 

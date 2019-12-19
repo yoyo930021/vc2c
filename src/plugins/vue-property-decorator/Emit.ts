@@ -40,8 +40,7 @@ export const convertEmitMethod: ASTConverter<ts.MethodDeclaration> = (node, opti
         const deepVisitor: ts.Visitor = (node) => {
           if (tsModule.isReturnStatement(node)) {
             haveResult = true
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            return createEmit(eventName || hyphenate(methodName), [node.expression!].concat((valueIdentifier) ? [valueIdentifier] : []))
+            return createEmit(eventName || hyphenate(methodName), (node.expression ? [node.expression] : []).concat((valueIdentifier) ? [valueIdentifier] : []))
           }
           return tsModule.visitEachChild(node, deepVisitor, context)
         }
