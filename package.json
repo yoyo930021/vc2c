@@ -25,7 +25,7 @@
     "@types/prettier": "^1.19.0",
     "@typescript-eslint/eslint-plugin": "^2.12.0",
     "@typescript-eslint/parser": "^2.12.0",
-    "codecov": "^3.6.1",
+    "codecov": "^3.6.5",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-node": "^10.0.0",
