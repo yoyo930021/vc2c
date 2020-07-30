@@ -1,9 +1,9 @@
 import { ASTTransform, ASTResult, ReferenceKind, ASTResultKind } from './types'
-import * as ts from 'typescript'
+import ts from 'typescript'
 import { addTodoComment } from '../utils'
 
 export const removeThisAndSort: ASTTransform = (astResults, options) => {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const getReferences = (reference: ReferenceKind) => astResults
     .filter((el) => el.reference === reference)
     .map((el) => el.attrutibes)

@@ -1,4 +1,4 @@
-import * as ts from 'typescript'
+import ts from 'typescript'
 import { ASTConvertPlugins } from './plugins/types'
 import { getDefaultPlugins } from './plugins'
 import * as vueTemplateCompiler from 'vue-template-compiler'
@@ -9,7 +9,7 @@ export interface Vc2cOptions {
   compatible: boolean
   setupPropsKey: string
   setupContextKey: string
-  typesciprt: typeof ts
+  typescript: typeof ts
   vueTemplateCompiler: typeof vueTemplateCompiler
   eslintConfigFile: string
   plugins: ASTConvertPlugins
@@ -24,7 +24,7 @@ export function getDefaultVc2cOptions (tsModule: typeof ts = ts): Vc2cOptions {
     compatible: false,
     setupPropsKey: 'props',
     setupContextKey: 'context',
-    typesciprt: tsModule,
+    typescript: tsModule,
     vueTemplateCompiler: vueTemplateCompiler,
     eslintConfigFile: '.eslintrc.js',
     plugins: getDefaultPlugins(tsModule)

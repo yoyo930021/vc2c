@@ -1,9 +1,9 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../../types'
-import * as ts from 'typescript'
+import ts from 'typescript'
 
 export const convertObjData: ASTConverter<ts.MethodDeclaration> = (node, options) => {
   if (node.name.getText() === 'data') {
-    const tsModule = options.typesciprt
+    const tsModule = options.typescript
     const returnStatement = node.body?.statements.find((el) => tsModule.isReturnStatement(el)) as ts.ReturnStatement | undefined
     if (!returnStatement || !returnStatement.expression) return false
     const attrutibes = (returnStatement.expression as ts.ObjectLiteralExpression).properties.map((el) => el.name?.getText() ?? '')

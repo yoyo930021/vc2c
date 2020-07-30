@@ -1,12 +1,12 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
-import * as ts from 'typescript'
+import ts from 'typescript'
 import { isInternalHook, copySyntheticComments } from '../../utils'
 
 export const convertIntervalHook: ASTConverter<ts.MethodDeclaration> = (node, options) => {
   const intervalHookName = node.name.getText()
 
   if (isInternalHook(intervalHookName)) {
-    const tsModule = options.typesciprt
+    const tsModule = options.typescript
     const removeIntervalHooks = ['created', 'beforeCreate']
     const needNamedImports = [`on${intervalHookName.slice(0, 1).toUpperCase()}${intervalHookName.slice(1)}`]
     if (removeIntervalHooks.includes(intervalHookName)) {

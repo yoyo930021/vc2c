@@ -1,5 +1,5 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
-import * as ts from 'typescript'
+import ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
 const refDecoratorName = 'Ref'
@@ -10,7 +10,7 @@ export const convertDomRef: ASTConverter<ts.PropertyDeclaration> = (node, option
   }
   const decorator = node.decorators.find((el) => (el.expression as ts.CallExpression).expression.getText() === refDecoratorName)
   if (decorator) {
-    const tsModule = options.typesciprt
+    const tsModule = options.typescript
     const refName = node.name.getText()
 
     return {

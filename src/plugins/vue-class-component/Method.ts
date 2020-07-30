@@ -1,9 +1,9 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
-import * as ts from 'typescript'
+import ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
 export const convertMethod: ASTConverter<ts.MethodDeclaration> = (node, options) => {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const methodName = node.name.getText()
 
   const outputMethod = tsModule.createArrowFunction(

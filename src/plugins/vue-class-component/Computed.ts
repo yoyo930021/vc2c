@@ -1,9 +1,9 @@
 import { ASTConverter, ASTResultKind, ASTTransform, ASTResult, ReferenceKind } from '../types'
-import * as ts from 'typescript'
+import ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
 export const convertGetter: ASTConverter<ts.GetAccessorDeclaration> = (node, options) => {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const computedName = node.name.getText()
 
   return {
@@ -33,7 +33,7 @@ export const convertGetter: ASTConverter<ts.GetAccessorDeclaration> = (node, opt
 }
 
 export const convertSetter: ASTConverter<ts.SetAccessorDeclaration> = (node, options) => {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const computedName = node.name.getText()
 
   return {
@@ -63,7 +63,7 @@ export const convertSetter: ASTConverter<ts.SetAccessorDeclaration> = (node, opt
 }
 
 export const mergeComputed: ASTTransform = (astResults, options) => {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const getterASTResults = astResults.filter((el) => el.tag === 'Computed-getter')
   const setterASTResults = astResults.filter((el) => el.tag === 'Computed-setter')
   const otherASTResults = astResults.filter((el) => el.tag !== 'Computed-getter' && el.tag !== 'Computed-setter')
