@@ -1,7 +1,9 @@
 import program from 'commander'
-import { convertFile } from './index.js'
 import inquirer from 'inquirer'
+import { version } from '../package.json'
 import { writeFileInfo } from './file'
+
+const { convertFile } = require('./index.js')
 
 function camelize (str: string) {
   return str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
@@ -21,7 +23,7 @@ function getCmdOptions (cmd: any) {
 }
 
 program
-  .version(require('../../package.json').version)
+  .version(version)
   .usage('<command> [options]')
 
 program
