@@ -1,5 +1,5 @@
 import * as vueTemplateParser from 'vue-template-compiler'
-import * as ts from 'typescript'
+import ts from 'typescript'
 import { ASTResult, ASTResultKind, ReferenceKind } from './plugins/types'
 export function isVueFile (path: string) {
   return path.endsWith('.vue')
