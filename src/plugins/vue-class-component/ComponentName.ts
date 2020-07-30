@@ -1,8 +1,8 @@
 import { ASTConverter, ASTResultKind, ASTTransform, ReferenceKind } from '../types'
-import * as ts from 'typescript'
+import ts from 'typescript'
 
 export const convertName: ASTConverter<ts.Identifier> = (node, options) => {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   return {
     tag: 'Class-Name',
     kind: ASTResultKind.OBJECT,

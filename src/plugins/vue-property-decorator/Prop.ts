@@ -1,5 +1,5 @@
 import { ASTConverter, ASTResultKind, ASTTransform, ASTResultToObject, ReferenceKind } from '../types'
-import * as ts from 'typescript'
+import ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
 const propDecoratorName = 'Prop'
@@ -10,7 +10,7 @@ export const convertProp: ASTConverter<ts.PropertyDeclaration> = (node, options)
   }
   const decorator = node.decorators.find((el) => (el.expression as ts.CallExpression).expression.getText() === propDecoratorName)
   if (decorator) {
-    const tsModule = options.typesciprt
+    const tsModule = options.typescript
     const decoratorArguments = (decorator.expression as ts.CallExpression).arguments
     if (decoratorArguments.length > 0) {
       const propName = node.name.getText()
@@ -39,7 +39,7 @@ export const convertProp: ASTConverter<ts.PropertyDeclaration> = (node, options)
   return false
 }
 export const mergeProps: ASTTransform = (astResults, options) => {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const propTags = ['Prop', 'Model']
 
   const propASTResults = astResults.filter((el) => propTags.includes(el.tag))

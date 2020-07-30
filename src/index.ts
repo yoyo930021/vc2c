@@ -8,13 +8,16 @@ import { setDebugMode } from './debug'
 import * as BuiltInPlugins from './plugins/builtIn'
 
 export function convert (content: string, inputOptions: InputVc2cOptions): string {
-  const options = mergeVc2cOptions(getDefaultVc2cOptions(inputOptions.typesciprt), inputOptions)
+  const options = mergeVc2cOptions(getDefaultVc2cOptions(inputOptions.typescript), inputOptions)
   const { ast, program } = getSingleFileProgram(content, options)
 
   return format(convertAST(ast, options, program), options)
 }
 
 export function convertFile (filePath: string, root: string, config: string) {
+  if (process.env.BROWSER) {
+    throw new Error('unsupported')
+  }
   root = (typeof root === 'string')
     ? (
       path.isAbsolute(root) ? root : path.resolve(process.cwd(), root)
@@ -27,7 +30,7 @@ export function convertFile (filePath: string, root: string, config: string) {
   const inputOptions: InputVc2cOptions = existsFileSync(path.resolve(root, config))
     ? require(path.resolve(root, config))
     : {}
-  const options = mergeVc2cOptions(getDefaultVc2cOptions(inputOptions.typesciprt), inputOptions)
+  const options = mergeVc2cOptions(getDefaultVc2cOptions(inputOptions.typescript), inputOptions)
   options.root = root
 
   if (options.debug) {

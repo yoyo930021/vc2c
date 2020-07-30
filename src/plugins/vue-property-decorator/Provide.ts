@@ -1,5 +1,5 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
-import * as ts from 'typescript'
+import ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
 const provideDecoratorName = 'Provide'
@@ -10,7 +10,7 @@ export const convertProvide: ASTConverter<ts.PropertyDeclaration> = (node, optio
   }
   const decorator = node.decorators.find((el) => (el.expression as ts.CallExpression).expression.getText() === provideDecoratorName)
   if (decorator) {
-    const tsModule = options.typesciprt
+    const tsModule = options.typescript
     const decoratorArguments = (decorator.expression as ts.CallExpression).arguments
     const provideKeyExpr: ts.Expression = (decoratorArguments.length > 0) ? decoratorArguments[0] : tsModule.createStringLiteral(node.name.getText())
 

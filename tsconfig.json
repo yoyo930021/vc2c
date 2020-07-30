@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "incremental": true,
-    "target": "es6",
-    "module": "commonjs",
+    "target": "es2018",
+    "module": "ESNext",
     "lib": [
-      "es2015",
+      "es2018",
       "dom"
     ],
     "declaration": true,
-    "declarationDir": "./dist/types/",
+    "declarationDir": "./dist/types",
     "sourceMap": true,
     "outDir": "./dist/lib",
     "strict": true,
@@ -23,6 +23,7 @@
   },
   "exclude": [
     "dist",
-    "node_modules"
+    "node_modules",
+    "tests"
   ]
 }

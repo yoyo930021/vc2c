@@ -1,9 +1,9 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../../types'
-import * as ts from 'typescript'
+import ts from 'typescript'
 
 export const convertObjProps: ASTConverter<ts.PropertyAssignment> = (node, options) => {
   if (node.name.getText() === 'props') {
-    const tsModule = options.typesciprt
+    const tsModule = options.typescript
     const attrutibes = (tsModule.isArrayLiteralExpression(node.initializer))
       ? node.initializer.elements
         .filter(expr => expr.kind === tsModule.SyntaxKind.StringLiteral)

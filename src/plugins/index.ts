@@ -1,4 +1,4 @@
-import * as ts from 'typescript'
+import ts from 'typescript'
 import { Vc2cOptions } from '../options'
 import { ASTConvertPlugins, ASTResult, ASTConverter, ASTResultKind } from './types'
 import { copySyntheticComments, addTodoComment, convertNodeToASTResult } from '../utils'
@@ -84,7 +84,7 @@ export function getASTResults (
   options: Vc2cOptions,
   program: ts.Program
 ) {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const converterPlugins = options.plugins
 
   let astResults: ASTResult<ts.Node>[] = []
@@ -132,7 +132,7 @@ export function getASTResults (
 }
 
 export function convertASTResultToSetupFn (astResults: ASTResult<ts.Node>[], options: Vc2cOptions) {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
 
   const returnStatement = addTodoComment(
     tsModule,
@@ -195,7 +195,7 @@ export function convertASTResultToSetupFn (astResults: ASTResult<ts.Node>[], opt
 export function convertASTResultToImport (astResults: ASTResult<ts.Node>[], options: Vc2cOptions) {
   interface Clause { named: Set<string>, default?: string }
 
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const importMap: Map<string, Clause> = new Map()
   for (const result of astResults) {
     for (const importInfo of result.imports) {
@@ -242,7 +242,7 @@ export function runPlugins (
   options: Vc2cOptions,
   program: ts.Program
 ): ts.Statement[] {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   log('Start Run ASTPlugins')
   const results = getASTResults(node, options, program)
   log('Finished ASTPlugins')

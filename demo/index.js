@@ -1,5 +1,5 @@
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.main.js'
-import { convert } from '../src/index'
+import { convert } from '../dist/index.browser'
 
 const defaultCode = `import Vue from 'vue'
 import { Prop, Component, Ref, Model, Provide, Inject } from 'vue-property-decorator'

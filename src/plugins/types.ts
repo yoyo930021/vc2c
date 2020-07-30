@@ -1,5 +1,5 @@
 import { Vc2cOptions } from '../options'
-import * as ts from 'typescript'
+import ts from 'typescript'
 
 export enum ASTResultKind {
   OBJECT,

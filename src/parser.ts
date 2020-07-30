@@ -10,7 +10,7 @@ export const defaultCompilerOptions: ts.CompilerOptions = {
 
 export function getSingleFileProgram (content: string, options: Vc2cOptions) {
   const fileName = 'ast.ts'
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
 
   const compilerHost: ts.CompilerHost = {
     fileExists (filePath: string) {
@@ -57,7 +57,7 @@ export function getSingleFileProgram (content: string, options: Vc2cOptions) {
 
   const ast = program.getSourceFile(fileName)
   if (!ast) {
-    throw new Error('Can\'t convert code to TypeSciprt AST.')
+    throw new Error('Can\'t convert code to TypeScript AST.')
   }
 
   return { ast, program }
