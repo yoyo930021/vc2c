@@ -15,6 +15,9 @@ export function convert (content: string, inputOptions: InputVc2cOptions): strin
 }
 
 export function convertFile (filePath: string, root: string, config: string) {
+  if (process.env.BROWSER) {
+    throw new Error('unsupported')
+  }
   root = (typeof root === 'string')
     ? (
       path.isAbsolute(root) ? root : path.resolve(process.cwd(), root)

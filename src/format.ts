@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { Vc2cOptions } from './options'
 import path from 'path'
 import { log } from './debug'
-import prettier from 'prettier/standalone'
+import * as prettier from 'prettier/standalone'
 import prettierTypescriptParser from 'prettier/parser-typescript'
 import { existsFileSync } from './file'
 
-export function format (content: string, options: Vc2cOptions) {
+export function format (content: string, options: Vc2cOptions): string {
   const isNode = typeof window === 'undefined'
-  if (!isNode) {
+  if (process.env.BROWSER || !isNode) {
     return prettier.format(content, {
       plugins: [prettierTypescriptParser],
       parser: 'typescript',
@@ -16,9 +15,7 @@ export function format (content: string, options: Vc2cOptions) {
       singleQuote: true
     })
   }
-
   const eslintConfigPath = path.resolve(options.root, options.eslintConfigFile)
-  const prettierFormat = require('prettier-eslint')
   const prettierEslintOpions = (existsFileSync(eslintConfigPath))
     ? {
       text: content,
@@ -64,5 +61,6 @@ export function format (content: string, options: Vc2cOptions) {
     }
 
   log('Format result code.....')
-  return prettierFormat(prettierEslintOpions)
+  const prettierEslint = require('prettier-eslint')
+  return prettierEslint(prettierEslintOpions)
 }
