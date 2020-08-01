@@ -1,5 +1,5 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../../types'
-import * as ts from 'typescript'
+import type ts from 'typescript'
 
 export const convertObjData: ASTConverter<ts.MethodDeclaration> = (node, options) => {
   if (node.name.getText() === 'data') {

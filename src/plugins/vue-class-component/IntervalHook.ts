@@ -1,5 +1,5 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
-import * as ts from 'typescript'
+import type ts from 'typescript'
 import { isInternalHook, copySyntheticComments } from '../../utils'
 
 export const convertIntervalHook: ASTConverter<ts.MethodDeclaration> = (node, options) => {

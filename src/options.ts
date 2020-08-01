@@ -1,4 +1,4 @@
-import * as ts from 'typescript'
+import ts from 'typescript'
 import { ASTConvertPlugins } from './plugins/types'
 import { getDefaultPlugins } from './plugins'
 import * as vueTemplateCompiler from 'vue-template-compiler'

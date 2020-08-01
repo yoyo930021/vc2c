@@ -1,5 +1,5 @@
 import { ASTConverter, ASTResultKind, ASTTransform, ASTResultToObject, ReferenceKind } from '../types'
-import * as ts from 'typescript'
+import type ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
 const propDecoratorName = 'Prop'

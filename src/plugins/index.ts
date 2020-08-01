@@ -1,4 +1,4 @@
-import * as ts from 'typescript'
+import type ts from 'typescript'
 import { Vc2cOptions } from '../options'
 import { ASTConvertPlugins, ASTResult, ASTConverter, ASTResultKind } from './types'
 import { copySyntheticComments, addTodoComment, convertNodeToASTResult } from '../utils'
@@ -69,8 +69,8 @@ export function getDefaultPlugins (tsModule: typeof ts): ASTConvertPlugins {
   }
 }
 
-export function getDecoratorArgumentExpr (node: ts.Node): ts.ObjectLiteralExpression | undefined {
-  if (ts.isCallExpression(node)) {
+export function getDecoratorArgumentExpr (tsModule: typeof ts, node: ts.Node): ts.ObjectLiteralExpression | undefined {
+  if (tsModule.isCallExpression(node)) {
     if (node.arguments.length > 0) {
       return node.arguments[0] as ts.ObjectLiteralExpression
     }
@@ -90,7 +90,7 @@ export function getASTResults (
   let astResults: ASTResult<ts.Node>[] = []
   node.forEachChild((child) => {
     if (tsModule.isDecorator(child)) {
-      const objExpr = getDecoratorArgumentExpr(child.expression)
+      const objExpr = getDecoratorArgumentExpr(tsModule, child.expression)
       if (objExpr) {
         objExpr.forEachChild((property) => {
           if (property.kind in converterPlugins[tsModule.SyntaxKind.Decorator]) {

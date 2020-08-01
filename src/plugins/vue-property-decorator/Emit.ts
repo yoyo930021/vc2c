@@ -1,5 +1,5 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
-import * as ts from 'typescript'
+import type ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
 const emitDecoratorName = 'Emit'
@@ -18,7 +18,7 @@ export const convertEmitMethod: ASTConverter<ts.MethodDeclaration> = (node, opti
     const methodName = node.name.getText()
 
     const decoratorArguments = (decorator.expression as ts.CallExpression).arguments
-    const eventName = decoratorArguments.length > 0 && ts.isStringLiteral(decoratorArguments[0]) ? (decoratorArguments[0] as ts.StringLiteral).text : undefined
+    const eventName = decoratorArguments.length > 0 && tsModule.isStringLiteral(decoratorArguments[0]) ? (decoratorArguments[0] as ts.StringLiteral).text : undefined
 
     const createEmit = (event: string, expressions: ts.Expression[]) => tsModule.createExpressionStatement(tsModule.createCall(
       tsModule.createPropertyAccess(

@@ -1,5 +1,5 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
-import * as ts from 'typescript'
+import type ts from 'typescript'
 import { isPrimitiveType, copySyntheticComments, removeComments } from '../../utils'
 
 export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options, program) => {

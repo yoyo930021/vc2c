@@ -1,5 +1,5 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../../types'
-import * as ts from 'typescript'
+import type ts from 'typescript'
 
 export const convertObjName: ASTConverter<ts.PropertyAssignment> = (node) => {
   if (node.name.getText() === 'name') {

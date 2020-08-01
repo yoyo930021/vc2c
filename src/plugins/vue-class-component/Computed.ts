@@ -1,5 +1,5 @@
 import { ASTConverter, ASTResultKind, ASTTransform, ASTResult, ReferenceKind } from '../types'
-import * as ts from 'typescript'
+import type ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
 export const convertGetter: ASTConverter<ts.GetAccessorDeclaration> = (node, options) => {
@@ -104,7 +104,7 @@ export const mergeComputed: ASTTransform = (astResults, options) => {
           )
         )
       ],
-      ts.NodeFlags.Const)
+      tsModule.NodeFlags.Const)
     )
 
     computedASTResults.push({

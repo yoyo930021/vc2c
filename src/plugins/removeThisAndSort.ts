@@ -1,5 +1,5 @@
 import { ASTTransform, ASTResult, ReferenceKind, ASTResultKind } from './types'
-import * as ts from 'typescript'
+import type ts from 'typescript'
 import { addTodoComment } from '../utils'
 
 export const removeThisAndSort: ASTTransform = (astResults, options) => {
@@ -70,9 +70,9 @@ export const removeThisAndSort: ASTTransform = (astResults, options) => {
               return addTodoComment(
                 tsModule,
                 tsModule.createPropertyAccess(
-                  ts.createPropertyAccess(
+                  tsModule.createPropertyAccess(
                     tsModule.createIdentifier(options.setupContextKey),
-                    ts.createIdentifier('root')
+                    tsModule.createIdentifier('root')
                   ),
                   tsModule.createIdentifier(propertyName)
                 ),

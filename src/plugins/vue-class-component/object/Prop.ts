@@ -1,5 +1,5 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../../types'
-import * as ts from 'typescript'
+import type ts from 'typescript'
 
 export const convertObjProps: ASTConverter<ts.PropertyAssignment> = (node, options) => {
   if (node.name.getText() === 'props') {

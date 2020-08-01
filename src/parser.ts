@@ -1,4 +1,4 @@
-import ts from 'typescript'
+import type ts from 'typescript'
 import { Vc2cOptions } from './options'
 
 export const defaultCompilerOptions: ts.CompilerOptions = {
@@ -32,7 +32,7 @@ export function getSingleFileProgram (content: string, options: Vc2cOptions): { 
       return '\n'
     },
     getSourceFile (filename: string) {
-      return tsModule.createSourceFile(filename, content, ts.ScriptTarget.Latest, true)
+      return tsModule.createSourceFile(filename, content, tsModule.ScriptTarget.Latest, true)
     },
     readFile () {
       return undefined
