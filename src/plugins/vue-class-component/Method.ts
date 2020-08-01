@@ -3,7 +3,7 @@ import * as ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
 export const convertMethod: ASTConverter<ts.MethodDeclaration> = (node, options) => {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const methodName = node.name.getText()
 
   const outputMethod = tsModule.createArrowFunction(
@@ -20,7 +20,7 @@ export const convertMethod: ASTConverter<ts.MethodDeclaration> = (node, options)
     kind: ASTResultKind.COMPOSITION,
     imports: [],
     reference: ReferenceKind.VARIABLE,
-    attrutibes: [methodName],
+    attributes: [methodName],
     nodes: [
       copySyntheticComments(
         tsModule,

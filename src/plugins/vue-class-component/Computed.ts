@@ -3,7 +3,7 @@ import * as ts from 'typescript'
 import { copySyntheticComments } from '../../utils'
 
 export const convertGetter: ASTConverter<ts.GetAccessorDeclaration> = (node, options) => {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const computedName = node.name.getText()
 
   return {
@@ -14,7 +14,7 @@ export const convertGetter: ASTConverter<ts.GetAccessorDeclaration> = (node, opt
       external: (options.compatible) ? '@vue/composition-api' : 'vue'
     }],
     reference: ReferenceKind.VARIABLE,
-    attrutibes: [computedName],
+    attributes: [computedName],
     nodes: [
       copySyntheticComments(
         tsModule,
@@ -33,7 +33,7 @@ export const convertGetter: ASTConverter<ts.GetAccessorDeclaration> = (node, opt
 }
 
 export const convertSetter: ASTConverter<ts.SetAccessorDeclaration> = (node, options) => {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const computedName = node.name.getText()
 
   return {
@@ -44,7 +44,7 @@ export const convertSetter: ASTConverter<ts.SetAccessorDeclaration> = (node, opt
       external: (options.compatible) ? '@vue/composition-api' : 'vue'
     }],
     reference: ReferenceKind.VARIABLE,
-    attrutibes: [computedName],
+    attributes: [computedName],
     nodes: [
       copySyntheticComments(
         tsModule,
@@ -63,7 +63,7 @@ export const convertSetter: ASTConverter<ts.SetAccessorDeclaration> = (node, opt
 }
 
 export const mergeComputed: ASTTransform = (astResults, options) => {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const getterASTResults = astResults.filter((el) => el.tag === 'Computed-getter')
   const setterASTResults = astResults.filter((el) => el.tag === 'Computed-setter')
   const otherASTResults = astResults.filter((el) => el.tag !== 'Computed-getter' && el.tag !== 'Computed-setter')
@@ -71,9 +71,9 @@ export const mergeComputed: ASTTransform = (astResults, options) => {
   const computedASTResults: ASTResult<ts.Statement>[] = []
 
   getterASTResults.forEach((getter) => {
-    const getterName = getter.attrutibes[0]
+    const getterName = getter.attributes[0]
 
-    const setter = setterASTResults.find((el) => el.attrutibes.includes(getterName))
+    const setter = setterASTResults.find((el) => el.attributes.includes(getterName))
 
     const leadingComments = (setter) ? [] : tsModule.getSyntheticLeadingComments(getter.nodes[0])
     const trailingComments = (setter) ? [] : tsModule.getSyntheticTrailingComments(getter.nodes[0])
@@ -115,7 +115,7 @@ export const mergeComputed: ASTTransform = (astResults, options) => {
         external: (options.compatible) ? '@vue/composition-api' : 'vue'
       }],
       reference: ReferenceKind.VARIABLE_VALUE,
-      attrutibes: [getterName],
+      attributes: [getterName],
       nodes: [
         (setter) ? resultNode : tsModule.setSyntheticTrailingComments(tsModule.setSyntheticLeadingComments(resultNode, leadingComments), trailingComments)
       ] as ts.Statement[]

@@ -14,7 +14,7 @@ export const convertEmitMethod: ASTConverter<ts.MethodDeclaration> = (node, opti
   }
   const decorator = node.decorators.find((el) => (el.expression as ts.CallExpression).expression.getText() === emitDecoratorName)
   if (decorator) {
-    const tsModule = options.typesciprt
+    const tsModule = options.typescript
     const methodName = node.name.getText()
 
     const decoratorArguments = (decorator.expression as ts.CallExpression).arguments
@@ -79,7 +79,7 @@ export const convertEmitMethod: ASTConverter<ts.MethodDeclaration> = (node, opti
       kind: ASTResultKind.COMPOSITION,
       imports: [],
       reference: ReferenceKind.VARIABLE,
-      attrutibes: [methodName],
+      attributes: [methodName],
       nodes: [
         copySyntheticComments(
           tsModule,

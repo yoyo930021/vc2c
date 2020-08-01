@@ -8,7 +8,7 @@ export const convertObjName: ASTConverter<ts.PropertyAssignment> = (node) => {
       kind: ASTResultKind.OBJECT,
       imports: [],
       reference: ReferenceKind.NONE,
-      attrutibes: [],
+      attributes: [],
       nodes: [
         node
       ] as ts.PropertyAssignment[]

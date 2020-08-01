@@ -117,7 +117,7 @@ export function convertNodeToASTResult<T extends ts.Node> (tsModule: typeof ts, 
     imports: [],
     kind: ASTResultKind.OBJECT,
     reference: ReferenceKind.NONE,
-    attrutibes: [],
+    attributes: [],
     tag: 'IheritObjProperty',
     nodes: [
       addTodoComment(tsModule, node, 'Can\'t convert this object property.', false)

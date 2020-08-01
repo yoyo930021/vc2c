@@ -84,7 +84,7 @@ export function getASTResults (
   options: Vc2cOptions,
   program: ts.Program
 ): ASTResult<ts.Node>[] {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const converterPlugins = options.plugins
 
   let astResults: ASTResult<ts.Node>[] = []
@@ -132,7 +132,7 @@ export function getASTResults (
 }
 
 export function convertASTResultToSetupFn (astResults: ASTResult<ts.Node>[], options: Vc2cOptions): ts.MethodDeclaration {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
 
   const returnStatement = addTodoComment(
     tsModule,
@@ -140,7 +140,7 @@ export function convertASTResultToSetupFn (astResults: ASTResult<ts.Node>[], opt
       tsModule.createObjectLiteral([
         ...astResults
           .filter((el) => el.kind === ASTResultKind.COMPOSITION)
-          .reduce((array, el) => array.concat(el.attrutibes), [] as string[])
+          .reduce((array, el) => array.concat(el.attributes), [] as string[])
           .map((el) => tsModule.createShorthandPropertyAssignment(
             tsModule.createIdentifier(el),
             undefined
@@ -195,7 +195,7 @@ export function convertASTResultToSetupFn (astResults: ASTResult<ts.Node>[], opt
 export function convertASTResultToImport (astResults: ASTResult<ts.Node>[], options: Vc2cOptions): ts.ImportDeclaration[] {
   interface Clause { named: Set<string>, default?: string }
 
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const importMap = new Map<string, Clause>()
   for (const result of astResults) {
     for (const importInfo of result.imports) {
@@ -242,7 +242,7 @@ export function runPlugins (
   options: Vc2cOptions,
   program: ts.Program
 ): ts.Statement[] {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   log('Start Run ASTPlugins')
   const results = getASTResults(node, options, program)
   log('Finished ASTPlugins')

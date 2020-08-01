@@ -3,10 +3,10 @@ import * as ts from 'typescript'
 import { addTodoComment } from '../utils'
 
 export const removeThisAndSort: ASTTransform = (astResults, options) => {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const getReferences = (reference: ReferenceKind) => astResults
     .filter((el) => el.reference === reference)
-    .map((el) => el.attrutibes)
+    .map((el) => el.attributes)
     .reduce((array, el) => array.concat(el), [])
 
   const refVariables = getReferences(ReferenceKind.VARIABLE_VALUE)
@@ -116,7 +116,7 @@ export const removeThisAndSort: ASTTransform = (astResults, options) => {
   const astResultNoDependents = transformResults.filter((el) => el.nodeDependents.length === 0)
   let otherASTResults = transformResults.filter((el) => el.nodeDependents.length !== 0)
   let result: ASTResult<ts.Node>[] = [...astResultNoDependents]
-  const resultHaveDependents = astResultNoDependents.map((el) => el.attrutibes).reduce((array, el) => array.concat(el), [])
+  const resultHaveDependents = astResultNoDependents.map((el) => el.attributes).reduce((array, el) => array.concat(el), [])
   do {
     let hasPush = false
     otherASTResults = otherASTResults.filter((el) => {

@@ -6,7 +6,7 @@ export const convertIntervalHook: ASTConverter<ts.MethodDeclaration> = (node, op
   const intervalHookName = node.name.getText()
 
   if (isInternalHook(intervalHookName)) {
-    const tsModule = options.typesciprt
+    const tsModule = options.typescript
     const removeIntervalHooks = ['created', 'beforeCreate']
     const needNamedImports = [`on${intervalHookName.slice(0, 1).toUpperCase()}${intervalHookName.slice(1)}`]
     if (removeIntervalHooks.includes(intervalHookName)) {
@@ -43,7 +43,7 @@ export const convertIntervalHook: ASTConverter<ts.MethodDeclaration> = (node, op
     return {
       tag: 'IntervalHook',
       kind: ASTResultKind.COMPOSITION,
-      attrutibes: (needNamedImports.length > 0) ? needNamedImports : [],
+      attributes: (needNamedImports.length > 0) ? needNamedImports : [],
       imports: [{
         named: needNamedImports,
         external: (options.compatible) ? '@vue/composition-api' : 'vue'

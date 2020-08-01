@@ -10,7 +10,7 @@ const vueClassModules = [
 ]
 
 export function convertAST (sourceFile: ts.SourceFile, options: Vc2cOptions, program: ts.Program): string {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
 
   log('check vue class libaray')
   const vueClassModuleImportStatement = sourceFile.statements
@@ -27,7 +27,7 @@ export function convertAST (sourceFile: ts.SourceFile, options: Vc2cOptions, pro
   }
 
   log('check default export class')
-  const defaultExportNode = getDefaultExportNode(options.typesciprt, sourceFile)
+  const defaultExportNode = getDefaultExportNode(options.typescript, sourceFile)
   if (!defaultExportNode) {
     throw new Error('no default export class')
   }

@@ -10,7 +10,7 @@ export const convertWatch: ASTConverter<ts.MethodDeclaration> = (node, options) 
   }
   const decorator = node.decorators.find((el) => (el.expression as ts.CallExpression).expression.getText() === watchDecoratorName)
   if (decorator) {
-    const tsModule = options.typesciprt
+    const tsModule = options.typescript
     const decoratorArguments = (decorator.expression as ts.CallExpression).arguments
     if (decoratorArguments.length > 1) {
       const keyName = (decoratorArguments[0] as ts.StringLiteral).text
@@ -39,7 +39,7 @@ export const convertWatch: ASTConverter<ts.MethodDeclaration> = (node, options) 
           external: (options.compatible) ? '@vue/composition-api' : 'vue'
         }],
         reference: ReferenceKind.VARIABLE,
-        attrutibes: [keyName],
+        attributes: [keyName],
         nodes: [
           tsModule.createExpressionStatement(
             copySyntheticComments(

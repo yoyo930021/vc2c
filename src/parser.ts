@@ -10,7 +10,7 @@ export const defaultCompilerOptions: ts.CompilerOptions = {
 
 export function getSingleFileProgram (content: string, options: Vc2cOptions): { ast: ts.SourceFile, program: ts.Program } {
   const fileName = 'ast.ts'
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
 
   const compilerHost: ts.CompilerHost = {
     fileExists (filePath: string) {

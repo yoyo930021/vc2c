@@ -10,7 +10,7 @@ export const convertRender: ASTConverter<ts.MethodDeclaration> = (node) => {
     kind: ASTResultKind.OBJECT,
     imports: [],
     reference: ReferenceKind.NONE,
-    attrutibes: [],
+    attributes: [],
     nodes: [
       node
     ]

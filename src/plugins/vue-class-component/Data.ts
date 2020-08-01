@@ -6,7 +6,7 @@ export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options,
   if (!node.initializer) {
     return false
   }
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const dataName = node.name.getText()
 
   const checker = program.getTypeChecker()
@@ -34,7 +34,7 @@ export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options,
       external: (options.compatible) ? '@vue/composition-api' : 'vue'
     }],
     reference: (isRef) ? ReferenceKind.VARIABLE_VALUE : ReferenceKind.VARIABLE,
-    attrutibes: [dataName],
+    attributes: [dataName],
     nodes: [
       copySyntheticComments(
         tsModule,

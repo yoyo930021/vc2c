@@ -8,7 +8,7 @@ import { setDebugMode } from './debug'
 import * as BuiltInPlugins from './plugins/builtIn'
 
 export function convert (content: string, inputOptions: InputVc2cOptions): string {
-  const options = mergeVc2cOptions(getDefaultVc2cOptions(inputOptions.typesciprt), inputOptions)
+  const options = mergeVc2cOptions(getDefaultVc2cOptions(inputOptions.typescript), inputOptions)
   const { ast, program } = getSingleFileProgram(content, options)
 
   return format(convertAST(ast, options, program), options)
@@ -28,7 +28,7 @@ export function convertFile (filePath: string, root: string, config: string): { 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     ? require(path.resolve(root, config)) as InputVc2cOptions
     : {}
-  const options = mergeVc2cOptions(getDefaultVc2cOptions(inputOptions.typesciprt), inputOptions)
+  const options = mergeVc2cOptions(getDefaultVc2cOptions(inputOptions.typescript), inputOptions)
   options.root = root
 
   if (options.debug) {

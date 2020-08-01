@@ -10,7 +10,7 @@ export const convertInject: ASTConverter<ts.PropertyDeclaration> = (node, option
   }
   const decorator = node.decorators.find((el) => (el.expression as ts.CallExpression).expression.getText() === injectDecoratorName)
   if (decorator) {
-    const tsModule = options.typesciprt
+    const tsModule = options.typescript
     const decoratorArguments = (decorator.expression as ts.CallExpression).arguments
     let injectKeyExpr: ts.Expression = tsModule.createStringLiteral(node.name.getText())
     let defaultValueExpr: ts.Expression | undefined
@@ -38,7 +38,7 @@ export const convertInject: ASTConverter<ts.PropertyDeclaration> = (node, option
         external: (options.compatible) ? '@vue/composition-api' : 'vue'
       }],
       reference: ReferenceKind.VARIABLE,
-      attrutibes: [node.name.getText()],
+      attributes: [node.name.getText()],
       nodes: [
         copySyntheticComments(
           tsModule,

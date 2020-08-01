@@ -2,13 +2,13 @@ import { ASTConverter, ASTResultKind, ASTTransform, ReferenceKind } from '../typ
 import * as ts from 'typescript'
 
 export const convertName: ASTConverter<ts.Identifier> = (node, options) => {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   return {
     tag: 'Class-Name',
     kind: ASTResultKind.OBJECT,
     imports: [],
     reference: ReferenceKind.NONE,
-    attrutibes: [],
+    attributes: [],
     nodes: [
       tsModule.createPropertyAssignment(
         tsModule.createIdentifier('name'),
@@ -31,7 +31,7 @@ export const mergeName: ASTTransform = (astResults) => {
       kind: ASTResultKind.OBJECT,
       imports: [],
       reference: ReferenceKind.NONE,
-      attrutibes: [],
+      attributes: [],
       nodes: nameASTResults[0].nodes as ts.PropertyAssignment[]
     }
     : {
@@ -39,7 +39,7 @@ export const mergeName: ASTTransform = (astResults) => {
       kind: ASTResultKind.OBJECT,
       imports: [],
       reference: ReferenceKind.NONE,
-      attrutibes: [],
+      attributes: [],
       ...(nameObjASTResults) ? { nodes: nameObjASTResults.nodes as ts.PropertyAssignment[] } : { nodes: [] }
     }
 

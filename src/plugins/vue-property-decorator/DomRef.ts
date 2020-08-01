@@ -10,7 +10,7 @@ export const convertDomRef: ASTConverter<ts.PropertyDeclaration> = (node, option
   }
   const decorator = node.decorators.find((el) => (el.expression as ts.CallExpression).expression.getText() === refDecoratorName)
   if (decorator) {
-    const tsModule = options.typesciprt
+    const tsModule = options.typescript
     const refName = node.name.getText()
 
     return {
@@ -21,7 +21,7 @@ export const convertDomRef: ASTConverter<ts.PropertyDeclaration> = (node, option
         external: (options.compatible) ? '@vue/composition-api' : 'vue'
       }],
       reference: ReferenceKind.VARIABLE_NON_NULL_VALUE,
-      attrutibes: [refName],
+      attributes: [refName],
       nodes: [
         copySyntheticComments(
           tsModule,

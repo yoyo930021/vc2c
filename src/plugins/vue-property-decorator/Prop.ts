@@ -10,7 +10,7 @@ export const convertProp: ASTConverter<ts.PropertyDeclaration> = (node, options)
   }
   const decorator = node.decorators.find((el) => (el.expression as ts.CallExpression).expression.getText() === propDecoratorName)
   if (decorator) {
-    const tsModule = options.typesciprt
+    const tsModule = options.typescript
     const decoratorArguments = (decorator.expression as ts.CallExpression).arguments
     if (decoratorArguments.length > 0) {
       const propName = node.name.getText()
@@ -21,7 +21,7 @@ export const convertProp: ASTConverter<ts.PropertyDeclaration> = (node, options)
         kind: ASTResultKind.OBJECT,
         imports: [],
         reference: ReferenceKind.PROPS,
-        attrutibes: [propName],
+        attributes: [propName],
         nodes: [
           copySyntheticComments(
             tsModule,
@@ -39,7 +39,7 @@ export const convertProp: ASTConverter<ts.PropertyDeclaration> = (node, options)
   return false
 }
 export const mergeProps: ASTTransform = (astResults, options) => {
-  const tsModule = options.typesciprt
+  const tsModule = options.typescript
   const propTags = ['Prop', 'Model']
 
   const propASTResults = astResults.filter((el) => propTags.includes(el.tag))
@@ -51,7 +51,7 @@ export const mergeProps: ASTTransform = (astResults, options) => {
     kind: ASTResultKind.OBJECT,
     imports: [],
     reference: ReferenceKind.PROPS,
-    attrutibes: propASTResults.map((el) => el.attrutibes).reduce((array, el) => array.concat(el), []),
+    attributes: propASTResults.map((el) => el.attributes).reduce((array, el) => array.concat(el), []),
     nodes: [
       tsModule.createPropertyAssignment(
         tsModule.createIdentifier('props'),

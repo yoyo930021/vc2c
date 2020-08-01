@@ -29,7 +29,7 @@ export interface ASTResultBase {
   imports: ImportModule[]
   kind: ASTResultKind
   reference: ReferenceKind
-  attrutibes: string[]
+  attributes: string[]
   tag: string
 }
 
