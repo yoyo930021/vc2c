@@ -1,4 +1,4 @@
-import * as ts from 'typescript'
+import type ts from 'typescript'
 import { getDecoratorNames, getDefaultExportNode } from './utils'
 import { runPlugins } from './plugins'
 import { Vc2cOptions } from './options'
@@ -12,7 +12,7 @@ const vueClassModules = [
 export function convertAST (sourceFile: ts.SourceFile, options: Vc2cOptions, program: ts.Program): string {
   const tsModule = options.typescript
 
-  log('check vue class libaray')
+  log('check vue class library')
   const vueClassModuleImportStatement = sourceFile.statements
     .find((statement) => {
       if (tsModule.isImportDeclaration(statement)) {
@@ -23,7 +23,7 @@ export function convertAST (sourceFile: ts.SourceFile, options: Vc2cOptions, pro
       return false
     })
   if (!vueClassModuleImportStatement) {
-    throw new Error('no vue class libaray in this file.')
+    throw new Error('no vue class library in this file.')
   }
 
   log('check default export class')
