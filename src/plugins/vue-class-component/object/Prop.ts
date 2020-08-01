@@ -4,7 +4,7 @@ import * as ts from 'typescript'
 export const convertObjProps: ASTConverter<ts.PropertyAssignment> = (node, options) => {
   if (node.name.getText() === 'props') {
     const tsModule = options.typescript
-    const attrutibes = (tsModule.isArrayLiteralExpression(node.initializer))
+    const attributes = (tsModule.isArrayLiteralExpression(node.initializer))
       ? node.initializer.elements
         .filter(expr => expr.kind === tsModule.SyntaxKind.StringLiteral)
         .map((el) => (el as ts.StringLiteral).text)
@@ -23,7 +23,7 @@ export const convertObjProps: ASTConverter<ts.PropertyAssignment> = (node, optio
       kind: ASTResultKind.OBJECT,
       reference: ReferenceKind.PROPS,
       imports: [],
-      attributes: attrutibes,
+      attributes,
       nodes
     }
   }
