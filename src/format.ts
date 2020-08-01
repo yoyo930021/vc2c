@@ -6,7 +6,7 @@ import prettier from 'prettier/standalone'
 import prettierTypescriptParser from 'prettier/parser-typescript'
 import { existsFileSync } from './file'
 
-export function format (content: string, options: Vc2cOptions) {
+export function format (content: string, options: Vc2cOptions): string {
   const isNode = typeof window === 'undefined'
   if (!isNode) {
     return prettier.format(content, {
@@ -18,7 +18,7 @@ export function format (content: string, options: Vc2cOptions) {
   }
 
   const eslintConfigPath = path.resolve(options.root, options.eslintConfigFile)
-  const prettierFormat = require('prettier-eslint')
+  const prettierFormat = require('prettier-eslint') as (config: unknown) => string
   const prettierEslintOpions = (existsFileSync(eslintConfigPath))
     ? {
       text: content,
@@ -54,12 +54,14 @@ export function format (content: string, options: Vc2cOptions) {
       prettierOptions: {
         parser: 'typescript',
         Semicolons: false,
-        singleQuote: true
+        singleQuote: true,
+        trailingComma: 'none'
       },
       fallbackPrettierOptions: {
         parser: 'typescript',
         singleQuote: true,
-        Semicolons: false
+        Semicolons: false,
+        trailingComma: 'none'
       }
     }
 

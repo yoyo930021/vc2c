@@ -4,24 +4,25 @@ import inquirer from 'inquirer'
 import { writeFileInfo } from './file'
 
 function camelize (str: string) {
-  return str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
+  return str.replace(/-(\w)/g, (_, c: string) => c ? c.toUpperCase() : '')
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function getCmdOptions (cmd: any) {
+function getCmdOptions (cmd: { options: Array<{ long: string }> }) {
   const args: { [key: string]: boolean | string } = {}
   cmd.options.forEach((o: { long: string }) => {
     const key = camelize(o.long.replace(/^--/, ''))
 
-    if (typeof cmd[key] !== 'function' && typeof cmd[key] !== 'undefined') {
-      args[key] = cmd[key]
+    if (typeof (cmd as unknown as Record<string, string>)[key] !== 'function' && typeof (cmd as unknown as Record<string, string>)[key] !== 'undefined') {
+      args[key] = (cmd as unknown as Record<string, string>)[key]
     }
   })
   return args
 }
 
 program
-  .version(require('../../package.json').version)
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  .version((require('../../package.json') as { version: string }).version)
   .usage('<command> [options]')
 
 program

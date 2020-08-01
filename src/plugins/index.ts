@@ -69,7 +69,7 @@ export function getDefaultPlugins (tsModule: typeof ts): ASTConvertPlugins {
   }
 }
 
-export function getDecoratorArgumentExpr (node: ts.Node) {
+export function getDecoratorArgumentExpr (node: ts.Node): ts.ObjectLiteralExpression | undefined {
   if (ts.isCallExpression(node)) {
     if (node.arguments.length > 0) {
       return node.arguments[0] as ts.ObjectLiteralExpression
@@ -83,7 +83,7 @@ export function getASTResults (
   node: ts.ClassDeclaration,
   options: Vc2cOptions,
   program: ts.Program
-) {
+): ASTResult<ts.Node>[] {
   const tsModule = options.typesciprt
   const converterPlugins = options.plugins
 
@@ -131,7 +131,7 @@ export function getASTResults (
   return astResults
 }
 
-export function convertASTResultToSetupFn (astResults: ASTResult<ts.Node>[], options: Vc2cOptions) {
+export function convertASTResultToSetupFn (astResults: ASTResult<ts.Node>[], options: Vc2cOptions): ts.MethodDeclaration {
   const tsModule = options.typesciprt
 
   const returnStatement = addTodoComment(
@@ -192,11 +192,11 @@ export function convertASTResultToSetupFn (astResults: ASTResult<ts.Node>[], opt
   )
 }
 
-export function convertASTResultToImport (astResults: ASTResult<ts.Node>[], options: Vc2cOptions) {
+export function convertASTResultToImport (astResults: ASTResult<ts.Node>[], options: Vc2cOptions): ts.ImportDeclaration[] {
   interface Clause { named: Set<string>, default?: string }
 
   const tsModule = options.typesciprt
-  const importMap: Map<string, Clause> = new Map()
+  const importMap = new Map<string, Clause>()
   for (const result of astResults) {
     for (const importInfo of result.imports) {
       const key: string = ('external' in importInfo) ? importInfo.external : importInfo.path

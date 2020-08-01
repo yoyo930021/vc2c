@@ -9,7 +9,7 @@ const vueClassModules = [
   'vue-property-decorator'
 ]
 
-export function convertAST (sourceFile: ts.SourceFile, options: Vc2cOptions, program: ts.Program) {
+export function convertAST (sourceFile: ts.SourceFile, options: Vc2cOptions, program: ts.Program): string {
   const tsModule = options.typesciprt
 
   log('check vue class libaray')
@@ -35,7 +35,7 @@ export function convertAST (sourceFile: ts.SourceFile, options: Vc2cOptions, pro
   const otherStatements = sourceFile.statements
     .map((el) => el)
     .filter((el) =>
-      !((tsModule.isClassDeclaration(el) && getDecoratorNames(el).includes('Component')) ||
+      !((tsModule.isClassDeclaration(el) && getDecoratorNames(tsModule, el).includes('Component')) ||
       (tsModule.isImportDeclaration(el) && vueClassModules.includes((el.moduleSpecifier as ts.StringLiteral).text)) ||
       (tsModule.isImportDeclaration(el) && (el.moduleSpecifier as ts.StringLiteral).text === 'vue'))
     )

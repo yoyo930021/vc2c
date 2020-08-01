@@ -1,14 +1,14 @@
-import * as vueTemplateParser from 'vue-template-compiler'
-import * as ts from 'typescript'
+import type vueTemplateParser from 'vue-template-compiler'
+import type ts from 'typescript'
 import { ASTResult, ASTResultKind, ReferenceKind } from './plugins/types'
-export function isVueFile (path: string) {
+export function isVueFile (path: string): boolean {
   return path.endsWith('.vue')
 }
-export function parseVueFile (vueTemplateParserModule: typeof vueTemplateParser, content: string) {
+export function parseVueFile (vueTemplateParserModule: typeof vueTemplateParser, content: string): vueTemplateParser.SFCDescriptor {
   return vueTemplateParserModule.parseComponent(content)
 }
 
-export function getNodeFromExportNode (tsModule: typeof ts, exportExpr: ts.Node) {
+export function getNodeFromExportNode (tsModule: typeof ts, exportExpr: ts.Node): ts.ClassDeclaration | undefined {
   switch (exportExpr.kind) {
     case tsModule.SyntaxKind.ClassDeclaration:
       return exportExpr as ts.ClassDeclaration
@@ -16,7 +16,7 @@ export function getNodeFromExportNode (tsModule: typeof ts, exportExpr: ts.Node)
   return undefined
 }
 
-export function getDefaultExportNode (tsModule: typeof ts, sourceFile: ts.SourceFile) {
+export function getDefaultExportNode (tsModule: typeof ts, sourceFile: ts.SourceFile): ts.ClassDeclaration | undefined {
   const exportStmts = sourceFile.statements.filter(
     st => st.kind === tsModule.SyntaxKind.ClassDeclaration
   )
@@ -28,10 +28,10 @@ export function getDefaultExportNode (tsModule: typeof ts, sourceFile: ts.Source
   return getNodeFromExportNode(tsModule, exportNode)
 }
 
-export function getDecoratorNames (node: ts.Node) {
+export function getDecoratorNames (tsModule: typeof ts, node: ts.Node): string[] {
   if (node.decorators) {
     return node.decorators.map((el) => {
-      if (ts.isCallExpression(el.expression)) {
+      if (tsModule.isCallExpression(el.expression)) {
         return el.expression.expression.getText()
       } else {
         return el.expression.getText()
@@ -42,7 +42,7 @@ export function getDecoratorNames (node: ts.Node) {
   return []
 }
 
-export function isInternalHook (methodName: string) {
+export function isInternalHook (methodName: string): boolean {
   const $internalHooks = [
     'beforeCreate',
     'created',
@@ -61,7 +61,7 @@ export function isInternalHook (methodName: string) {
   return $internalHooks.includes(methodName)
 }
 
-export function isPrimitiveType (tsModule: typeof ts, returnType: ts.Type) {
+export function isPrimitiveType (tsModule: typeof ts, returnType: ts.Type): boolean {
   return !!(returnType.flags & tsModule.TypeFlags.NumberLike) ||
     !!(returnType.flags & tsModule.TypeFlags.StringLike) ||
     !!(returnType.flags & tsModule.TypeFlags.BooleanLike) ||
@@ -97,17 +97,17 @@ export function copySyntheticComments<T extends ts.Node> (tsModule: typeof ts, n
   return node
 }
 
-export function removeComments<T extends ts.Node> (tsModule: typeof ts, node: T) {
+export function removeComments<T extends ts.Node> (tsModule: typeof ts, node: T): T | ts.StringLiteral {
   if (tsModule.isStringLiteral(node)) {
     return tsModule.createStringLiteral(node.text)
   }
   return node
 }
 
-export function addTodoComment<T extends ts.Node> (tsModule: typeof ts, node: T, text: string, multiline: boolean) {
+export function addTodoComment<T extends ts.Node> (tsModule: typeof ts, node: T, text: string, multiline: boolean): T {
   return tsModule.addSyntheticLeadingComment(
     node,
-    (multiline) ? ts.SyntaxKind.MultiLineCommentTrivia : ts.SyntaxKind.SingleLineCommentTrivia,
+    (multiline) ? tsModule.SyntaxKind.MultiLineCommentTrivia : tsModule.SyntaxKind.SingleLineCommentTrivia,
     ` TODO: ${text}`
   )
 }
@@ -126,7 +126,7 @@ export function convertNodeToASTResult<T extends ts.Node> (tsModule: typeof ts, 
 }
 
 // ts.createIdentifier() cannot call getText function, it's a hack.
-export function createIdentifier (tsModule: typeof ts, text: string) {
+export function createIdentifier (tsModule: typeof ts, text: string): ts.Identifier {
   const temp = tsModule.createIdentifier(text)
   // eslint-disable-next-line @typescript-eslint/unbound-method
   temp.getText = () => text

@@ -8,7 +8,7 @@ export const defaultCompilerOptions: ts.CompilerOptions = {
   noEmit: true
 }
 
-export function getSingleFileProgram (content: string, options: Vc2cOptions) {
+export function getSingleFileProgram (content: string, options: Vc2cOptions): { ast: ts.SourceFile, program: ts.Program } {
   const fileName = 'ast.ts'
   const tsModule = options.typesciprt
 

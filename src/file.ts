@@ -9,7 +9,7 @@ export enum FileKind {
   TS
 }
 
-type FileInfo = {
+export type FileInfo = {
   fsPath: string,
   kind: FileKind,
   content: string
@@ -49,7 +49,7 @@ export function readVueSFCOrTsFile (filePath: string, options: Vc2cOptions): Fil
   }
 }
 
-export function writeFileInfo (fileInfo: FileInfo, content: string) {
+export function writeFileInfo (fileInfo: FileInfo, content: string): void {
   if ('start' in fileInfo) {
     log(`Write Vue file: ${fileInfo.fsPath}`)
     const fileContent = `${fileInfo.fileContent.slice(0, fileInfo.start)}\n${content}${fileInfo.fileContent.slice(fileInfo.end)}`
@@ -60,6 +60,6 @@ export function writeFileInfo (fileInfo: FileInfo, content: string) {
   }
 }
 
-export function existsFileSync (path: string) {
+export function existsFileSync (path: string): boolean {
   return fs.existsSync(path)
 }
