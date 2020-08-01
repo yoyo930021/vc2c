@@ -25,34 +25,10 @@ export const convertWatch: ASTConverter<ts.MethodDeclaration> = (node, options) 
       )
       const watchOptions: ts.PropertyAssignment[] = []
       if (tsModule.isObjectLiteralExpression(watchArguments)) {
-        let hasLazy = false
         watchArguments.properties.forEach((el) => {
-          if (tsModule.isPropertyAssignment(el)) {
-            if (el.name.getText() === 'immediate') {
-              if (el.initializer.kind === tsModule.SyntaxKind.TrueKeyword || el.initializer.kind === tsModule.SyntaxKind.FalseKeyword) {
-                hasLazy = true
-                const valueFn = (el.initializer.kind === tsModule.SyntaxKind.TrueKeyword) ? tsModule.createFalse : tsModule.createTrue
-                watchOptions.push(
-                  tsModule.createPropertyAssignment(
-                    tsModule.createIdentifier('lazy'),
-                    valueFn()
-                  )
-                )
-              }
-            } else {
-              watchOptions.push(el)
-            }
-          }
+          if (!tsModule.isPropertyAssignment(el)) return
+          watchOptions.push(el)
         })
-
-        if (!hasLazy) {
-          watchOptions.push(
-            tsModule.createPropertyAssignment(
-              tsModule.createIdentifier('lazy'),
-              tsModule.createTrue()
-            )
-          )
-        }
       }
 
       return {

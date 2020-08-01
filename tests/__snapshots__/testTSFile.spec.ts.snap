@@ -8,13 +8,13 @@ exports[`testTSFile compatible 1`] = `
   ref,
   watch,
   onMounted,
-  createComponent
+  defineComponent
 } from '@vue/composition-api'
 
 /**
  * My basic tag
  */
-export default createComponent({
+export default defineComponent({
   model: {
     prop: 'checked',
     event: 'change'
@@ -77,7 +77,7 @@ export default createComponent({
         console.log(val, newVal)
         console.log(anotherComponent.value!)
       },
-      { deep: true, lazy: false }
+      { deep: true, immediate: true }
     )
     onMounted(() => {
       click('oao')
@@ -128,13 +128,13 @@ exports[`testTSFile compatible and ts config file: stdout 1`] = `
   ref,
   watch,
   onMounted,
-  createComponent
+  defineComponent
 } from '@vue/composition-api'
 
 /**
  * My basic tag
  */
-export default createComponent({
+export default defineComponent({
   model: {
     prop: 'checked',
     event: 'change'
@@ -197,7 +197,7 @@ export default createComponent({
         console.log(val, newVal)
         console.log(anotherComponent.value!)
       },
-      { deep: true, lazy: false }
+      { deep: true, immediate: true }
     )
     onMounted(() => {
       click('oao')
@@ -308,7 +308,7 @@ export default {
         console.log(val, newVal)
         console.log(anotherComponent.value!)
       },
-      { deep: true, lazy: false }
+      { deep: true, immediate: true }
     )
     onMounted(() => {
       click('oao')

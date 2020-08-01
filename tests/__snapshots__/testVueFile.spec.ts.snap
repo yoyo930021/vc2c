@@ -8,7 +8,7 @@ exports[`testVueFile compatible 1`] = `
   ref,
   provide,
   inject,
-  createComponent
+  defineComponent
 } from '@vue/composition-api'
 
 const symbol = Symbol('baz')
@@ -16,7 +16,7 @@ const symbol = Symbol('baz')
 /**
  * My basic tag
  */
-export default createComponent({
+export default defineComponent({
   model: {
     prop: 'checked',
     event: 'change'

@@ -214,7 +214,7 @@ export function convertASTResultToImport (astResults: ASTResult<ts.Node>[], opti
   if (options.compatible && importMap.has('@vue/composition-api')) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const temp = importMap.get('@vue/composition-api')!
-    temp.named.add('createComponent')
+    temp.named.add('defineComponent')
     importMap.set('@vue/composition-api', temp)
   }
 
@@ -252,7 +252,7 @@ export function runPlugins (
   log('Make default export object')
   const exportDefaultExpr = (options.compatible)
     ? tsModule.createCall(
-      tsModule.createIdentifier('createComponent'),
+      tsModule.createIdentifier('defineComponent'),
       undefined,
       [tsModule.createObjectLiteral(
         [
