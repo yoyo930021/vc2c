@@ -57,7 +57,7 @@ export function getSingleFileProgram (content: string, options: Vc2cOptions): { 
 
   const ast = program.getSourceFile(fileName)
   if (!ast) {
-    throw new Error('Can\'t convert code to TypeSciprt AST.')
+    throw new Error('Can\'t convert code to TypeScript AST.')
   }
 
   return { ast, program }
