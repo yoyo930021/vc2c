@@ -8,6 +8,8 @@ exports[`testVueFile compatible 1`] = `
   ref,
   provide,
   inject,
+  onBeforeUnmount,
+  onUnmounted,
   defineComponent
 } from '@vue/composition-api'
 
@@ -69,6 +71,13 @@ export default defineComponent({
      */
     const msg = ref('Vetur means \\"Winter\\" in icelandic.') //foo
 
+    onBeforeUnmount(() => {
+      context.emit('Tearing down')
+    })
+    onUnmounted(() => {
+      console.log('destroyed')
+    })
+
     /**
      * My greeting
      */
@@ -86,6 +95,8 @@ export default defineComponent({
       optional,
       bazi,
       msg,
+      onBeforeUnmount,
+      onUnmounted,
       hello
     }
   }
@@ -94,7 +105,16 @@ export default defineComponent({
 `;
 
 exports[`testVueFile no compatible 1`] = `
-"import { computed, reactive, toRefs, ref, provide, inject } from 'vue'
+"import {
+  computed,
+  reactive,
+  toRefs,
+  ref,
+  provide,
+  inject,
+  onBeforeUnmount,
+  onUnmounted
+} from 'vue'
 
 const symbol = Symbol('baz')
 
@@ -154,6 +174,13 @@ export default {
      */
     const msg = ref('Vetur means \\"Winter\\" in icelandic.') //foo
 
+    onBeforeUnmount(() => {
+      context.emit('Tearing down')
+    })
+    onUnmounted(() => {
+      console.log('destroyed')
+    })
+
     /**
      * My greeting
      */
@@ -171,6 +198,8 @@ export default {
       optional,
       bazi,
       msg,
+      onBeforeUnmount,
+      onUnmounted,
       hello
     }
   }

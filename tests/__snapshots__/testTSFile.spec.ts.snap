@@ -6,6 +6,8 @@ exports[`testTSFile compatible 1`] = `
   reactive,
   toRefs,
   ref,
+  onBeforeUnmount,
+  onUnmounted,
   watch,
   onMounted,
   defineComponent
@@ -58,6 +60,13 @@ export default defineComponent({
       console.log(val, newVal)
     }
 
+    onBeforeUnmount(() => {
+      context.emit('tearing down')
+    })
+    onUnmounted(() => {
+      console.log('destroyed')
+    })
+
     const click = (c: string) => {
       context.emit('click', c)
     }
@@ -106,6 +115,8 @@ export default defineComponent({
       anotherComponent,
       msg,
       onMsgChanged,
+      onBeforeUnmount,
+      onUnmounted,
       click,
       value,
       checked,
@@ -126,6 +137,8 @@ exports[`testTSFile compatible and ts config file: stdout 1`] = `
   reactive,
   toRefs,
   ref,
+  onBeforeUnmount,
+  onUnmounted,
   watch,
   onMounted,
   defineComponent
@@ -178,6 +191,13 @@ export default defineComponent({
       console.log(val, newVal)
     }
 
+    onBeforeUnmount(() => {
+      ctx.emit('tearing down')
+    })
+    onUnmounted(() => {
+      console.log('destroyed')
+    })
+
     const click = (c: string) => {
       context.emit('click', c)
     }
@@ -226,6 +246,8 @@ export default defineComponent({
       anotherComponent,
       msg,
       onMsgChanged,
+      onBeforeUnmount,
+      onUnmounted,
       click,
       value,
       checked,
@@ -240,7 +262,16 @@ export default defineComponent({
 `;
 
 exports[`testTSFile no compatible 1`] = `
-"import { computed, reactive, toRefs, ref, watch, onMounted } from 'vue'
+"import {
+  computed,
+  reactive,
+  toRefs,
+  ref,
+  onBeforeUnmount,
+  onUnmounted,
+  watch,
+  onMounted
+} from 'vue'
 
 /**
  * My basic tag
@@ -288,6 +319,13 @@ export default {
     const onMsgChanged = (val: string, newVal: string) => {
       console.log(val, newVal)
     }
+
+    onBeforeUnmount(() => {
+      context.emit('tearing down')
+    })
+    onUnmounted(() => {
+      console.log('destroyed')
+    })
 
     const click = (c: string) => {
       context.emit('click', c)
@@ -337,6 +375,8 @@ export default {
       anotherComponent,
       msg,
       onMsgChanged,
+      onBeforeUnmount,
+      onUnmounted,
       click,
       value,
       checked,

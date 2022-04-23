@@ -42,23 +42,28 @@ export function getDecoratorNames (tsModule: typeof ts, node: ts.Node): string[]
   return []
 }
 
+const $internalHooks = new Map<string, string | false>([
+  ['beforeCreate', false],
+  ['created', false],
+  ['beforeMount', 'onBeforeMount'],
+  ['mounted', 'onMounted'],
+  ['beforeDestroy', 'onBeforeUnmount'],
+  ['destroyed', 'onUnmounted'],
+  ['beforeUpdate', 'onBeforeUpdate'],
+  ['updated', 'onUpdated'],
+  ['activated', 'onActivated'],
+  ['deactivated', 'onDeactivated'],
+  ['render', 'onRender'],
+  ['errorCaptured', 'onErrorCaptured'], // 2.5
+  ['serverPrefetch', 'onServerPrefetch'] // 2.6
+])
+
 export function isInternalHook (methodName: string): boolean {
-  const $internalHooks = [
-    'beforeCreate',
-    'created',
-    'beforeMount',
-    'mounted',
-    'beforeDestroy',
-    'destroyed',
-    'beforeUpdate',
-    'updated',
-    'activated',
-    'deactivated',
-    'render',
-    'errorCaptured', // 2.5
-    'serverPrefetch' // 2.6
-  ]
-  return $internalHooks.includes(methodName)
+  return $internalHooks.has(methodName)
+}
+
+export function getMappedHook (methodName: string): string | undefined | false {
+  return $internalHooks.get(methodName)
 }
 
 export function isPrimitiveType (tsModule: typeof ts, returnType: ts.Type): boolean {
