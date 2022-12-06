@@ -63,6 +63,14 @@ export default class BasicPropertyClass extends Vue {
     this.removeItem()
   }
 
+  beforeDestroy() {
+    this.$emit('tearing down')
+  }
+
+  destroyed() {
+    console.log('destroyed')
+  }
+
   @Emit()
   click (c: string) {}
 
