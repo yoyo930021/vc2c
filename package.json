@@ -1,12 +1,16 @@
 {
   "name": "vc2c",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "author": "<yoyo930021>yoyo930021@gmail.com",
   "license": "MIT",
   "main": "dist/lib/index.js",
   "typings": "dist/types/index.d.ts",
   "config": {
-    "tags": ["v1", "v2", "v3"]
+    "tags": [
+      "v1",
+      "v2",
+      "v3"
+    ]
   },
   "bin": {
     "vc2c": "./bin/vc2c"
