@@ -5,6 +5,9 @@
   "license": "MIT",
   "main": "dist/lib/index.js",
   "typings": "dist/types/index.d.ts",
+  "config": {
+    "tags": ["v1", "v2", "v3"]
+  },
   "bin": {
     "vc2c": "./bin/vc2c"
   },
