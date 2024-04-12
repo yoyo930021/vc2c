@@ -9,6 +9,7 @@ export interface Vc2cOptions {
   compatible: boolean
   setupPropsKey: string
   setupContextKey: string
+  useFunctionDeclaration: boolean
   typescript: typeof ts
   vueTemplateCompiler: typeof vueTemplateCompiler
   eslintConfigFile: string
@@ -24,6 +25,7 @@ export function getDefaultVc2cOptions (tsModule: typeof ts = ts): Vc2cOptions {
     compatible: false,
     setupPropsKey: 'props',
     setupContextKey: 'context',
+    useFunctionDeclaration: false,
     typescript: tsModule,
     vueTemplateCompiler: vueTemplateCompiler,
     eslintConfigFile: '.eslintrc.js',
