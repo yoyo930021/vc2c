@@ -1,6 +1,6 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
 import type ts from 'typescript'
-import { isPrimitiveType, copySyntheticComments, removeComments } from '../../utils'
+import { copySyntheticComments, removeComments } from '../../utils'
 
 export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options, program) => {
   if (!node.initializer) {
@@ -9,31 +9,20 @@ export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options,
   const tsModule = options.typescript
   const dataName = node.name.getText()
 
-  const checker = program.getTypeChecker()
-  const isRef = isPrimitiveType(tsModule, checker.getTypeAtLocation(node.initializer))
-
-  const tag = (isRef) ? 'Data-ref' : 'Data-reactive'
-  const named = (isRef) ? ['ref'] : ['reactive']
-  const callExpr = (isRef)
-    ? tsModule.createCall(
-      tsModule.createIdentifier('ref'),
-      undefined,
-      [removeComments(tsModule, node.initializer)]
-    )
-    : tsModule.createCall(
-      tsModule.createIdentifier('reactive'),
-      undefined,
-      [removeComments(tsModule, node.initializer)]
-    )
+  const callExpr = tsModule.createCall(
+    tsModule.createIdentifier('ref'),
+    undefined,
+    [removeComments(tsModule, node.initializer)]
+  )
 
   return {
-    tag,
+    tag: 'Data-ref',
     kind: ASTResultKind.COMPOSITION,
     imports: [{
-      named,
+      named: ['ref'],
       external: (options.compatible) ? '@vue/composition-api' : 'vue'
     }],
-    reference: (isRef) ? ReferenceKind.VARIABLE_VALUE : ReferenceKind.VARIABLE,
+    reference: ReferenceKind.VARIABLE_VALUE,
     attributes: [dataName],
     nodes: [
       copySyntheticComments(
