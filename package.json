@@ -43,7 +43,7 @@
     "monaco-editor": "^0.20.0",
     "parcel-bundler": "^1.12.4",
     "prettier": "^2.0.5",
-    "semantic-release": "^17.2.3",
+    "semantic-release": "^19.0.3",
     "ts-jest": "^26.1.4",
     "typescript": "3.9.7",
     "vue": "^2.6.11"
