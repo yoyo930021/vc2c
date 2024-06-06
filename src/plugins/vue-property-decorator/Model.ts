@@ -1,23 +1,35 @@
-import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
-import type ts from 'typescript'
-import { copySyntheticComments } from '../../utils'
+import { ASTConverter, ASTResultKind, ReferenceKind } from "../types";
+import type ts from "typescript";
+import { copySyntheticComments, getDecorators } from "../../utils";
 
-const modelDecoratorName = 'Model'
+const modelDecoratorName = "Model";
 
-export const convertModel: ASTConverter<ts.PropertyDeclaration> = (node, options) => {
-  if (!node.decorators) {
-    return false
+export const convertModel: ASTConverter<ts.PropertyDeclaration> = (
+  node,
+  options,
+) => {
+  const tsModule = options.typescript;
+  const decorators = getDecorators(tsModule, node);
+
+  if (!decorators) {
+    return false;
   }
-  const decorator = node.decorators.find((el) => (el.expression as ts.CallExpression).expression.getText() === modelDecoratorName)
+
+  const decorator = decorators.find(
+    (el) =>
+      (el.expression as ts.CallExpression).expression.getText() ===
+      modelDecoratorName,
+  );
+
   if (decorator) {
-    const tsModule = options.typescript
-    const decoratorArguments = (decorator.expression as ts.CallExpression).arguments
+    const decoratorArguments = (decorator.expression as ts.CallExpression)
+      .arguments;
     if (decoratorArguments.length > 1) {
-      const eventName = (decoratorArguments[0] as ts.StringLiteral).text
-      const propArguments = decoratorArguments[1]
+      const eventName = (decoratorArguments[0] as ts.StringLiteral).text;
+      const propArguments = decoratorArguments[1];
 
       return {
-        tag: 'Model',
+        tag: "Model",
         kind: ASTResultKind.OBJECT,
         imports: [],
         reference: ReferenceKind.NONE,
@@ -25,29 +37,32 @@ export const convertModel: ASTConverter<ts.PropertyDeclaration> = (node, options
         nodes: [
           copySyntheticComments(
             tsModule,
-            tsModule.createPropertyAssignment(
-              tsModule.createIdentifier('model'),
-              tsModule.createObjectLiteral(
-                [tsModule.createPropertyAssignment(
-                  tsModule.createIdentifier('prop'),
-                  tsModule.createStringLiteral(node.name.getText())
-                ), tsModule.createPropertyAssignment(
-                  tsModule.createIdentifier('event'),
-                  tsModule.createStringLiteral(eventName)
-                )],
-                true
-              )
+            tsModule.factory.createPropertyAssignment(
+              tsModule.factory.createIdentifier("model"),
+              tsModule.factory.createObjectLiteralExpression(
+                [
+                  tsModule.factory.createPropertyAssignment(
+                    tsModule.factory.createIdentifier("prop"),
+                    tsModule.factory.createStringLiteral(node.name.getText()),
+                  ),
+                  tsModule.factory.createPropertyAssignment(
+                    tsModule.factory.createIdentifier("event"),
+                    tsModule.factory.createStringLiteral(eventName),
+                  ),
+                ],
+                true,
+              ),
             ),
-            node
+            node,
           ),
-          tsModule.createPropertyAssignment(
-            tsModule.createIdentifier(node.name.getText()),
-            propArguments
-          )
-        ] as ts.PropertyAssignment[]
-      }
+          tsModule.factory.createPropertyAssignment(
+            tsModule.factory.createIdentifier(node.name.getText()),
+            propArguments,
+          ),
+        ] as ts.PropertyAssignment[],
+      };
     }
   }
 
-  return false
-}
+  return false;
+};

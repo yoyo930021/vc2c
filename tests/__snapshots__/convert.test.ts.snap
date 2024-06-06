@@ -1,0 +1,420 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`converter > covert component name 1`] = `
+"import { type PropType, defineComponent } from "vue";
+/**
+ * My basic tag
+ */
+export default defineComponent({
+    props: {},
+    name: "IndexPage",
+    setup(props, context) {
+        // TODO: Please remove unused return variable
+        return {};
+    }
+});
+"
+`;
+
+exports[`converter > covert computed 1`] = `
+"interface Item {
+    id: number;
+    name: string;
+    active: boolean;
+}
+import { computed, type PropType, defineComponent } from "vue";
+/**
+ * My basic tag
+ */
+export default defineComponent({
+    props: {
+        items: { type: [Object, Array] as PropType<Item[] | Item>, default: null },
+        firstName: { type: String, default: "" },
+        lastName: { type: String, default: "" }
+    },
+    name: "MyComponent",
+    setup(props, context) {
+        const count = computed(() => {
+            return /* TODO: Check this convert result, it can work well in 80% case.*/ context.root.$store.state.count;
+        });
+        function getFullName(firstName: string, lastName: string) {
+            return \`\${firstName} \${lastName}\`.trim();
+        }
+        const activeItems = computed(() => {
+            return props.items.filter((item) => item.selected);
+        });
+        const fullName = computed({
+            get: () => {
+                return getFullName(props.firstName, props.lastName);
+            },
+            set: (v: string) => {
+                const [firstName = "", lastName = ""] = v.split(" ");
+                context.emit("update:firstName", firstName);
+                context.emit("update:lastName", lastName);
+            }
+        });
+        // TODO: Please remove unused return variable
+        return { count, getFullName, activeItems, fullName };
+    }
+});
+"
+`;
+
+exports[`converter > covert data 1`] = `
+"import { type PropType, reactive, toRefs, ref, defineComponent } from "vue";
+/**
+ * My basic tag
+ */
+export default defineComponent({
+    props: {},
+    name: "MyComponent",
+    setup(props, context) {
+        const { isLoading, loginForm } = (() => {
+            return toRefs(reactive({
+                isLoading: false,
+                loginForm: {
+                    email: "",
+                    password: "",
+                },
+            }));
+        })();
+        const msg = ref("");
+        const name = ref<string | null>(null);
+        const user = ref({
+            first_name: "John",
+            last_name: "Doe" as string | null,
+            age: 42,
+        });
+        // TODO: Please remove unused return variable
+        return { isLoading, loginForm, msg, name, user };
+    }
+});
+"
+`;
+
+exports[`converter > covert dom ref 1`] = `
+"import AnotherComponent from "@/path/to/another-component.vue";
+import { type PropType, ref, defineComponent } from "vue";
+export default defineComponent({
+    props: {},
+    name: "MyComponent",
+    setup(props, context) {
+        const anotherComponent = ref<AnotherComponent>(null);
+        const button = ref<HTMLButtonElement>(null);
+        // TODO: Please remove unused return variable
+        return { anotherComponent, button };
+    }
+});
+"
+`;
+
+exports[`converter > covert emit 1`] = `
+"interface Item {
+    id: number;
+    name: string;
+}
+import { type PropType, ref, defineComponent } from "vue";
+/**
+ * My basic tag
+ */
+export default defineComponent({
+    props: {},
+    name: "MyComponent",
+    setup(props, context) {
+        const currentValue = ref("");
+        function onChange() {
+            context.emit("on-change", currentValue.value);
+        }
+        function onInput() {
+            context.emit("update:model-value", currentValue.value);
+        }
+        function reset() {
+            currentValue.value = "";
+            context.emit("reset");
+        }
+        // TODO: Please remove unused return variable
+        return { currentValue, onChange, onInput, reset };
+    }
+});
+"
+`;
+
+exports[`converter > covert inject 1`] = `
+"const symbol = Symbol("baz");
+import { type PropType, inject, defineComponent } from "vue";
+/**
+ * My basic tag
+ */
+export default defineComponent({
+    props: {},
+    name: "MyComponent",
+    setup(props, context) {
+        const foo = inject<string>("foo");
+        const bar = inject<string>("bar");
+        const optional = inject<string>("optional", "default");
+        const baz = inject<string>(symbol);
+        // TODO: Please remove unused return variable
+        return { foo, bar, optional, baz };
+    }
+});
+"
+`;
+
+exports[`converter > covert lifecycle hooks 1`] = `
+"import { type PropType, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted, defineComponent } from "vue";
+/**
+ * My basic tag
+ */
+export default defineComponent({
+    props: {},
+    name: "MyComponent",
+    setup(props, context) {
+        console.log("before create");
+        console.log("created");
+        onMounted(() => {
+            console.log("mounted");
+        });
+        onBeforeUpdate(() => {
+            console.log("before update");
+        });
+        onUpdated(() => {
+            console.log("updated");
+        });
+        onBeforeUnmount(() => {
+            console.log("before destroy");
+        });
+        onUnmounted(() => {
+            console.log("destroyed");
+        });
+        // TODO: Please remove unused return variable
+        return { onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted };
+    }
+});
+"
+`;
+
+exports[`converter > covert methods 1`] = `
+"interface Item {
+    id: number;
+    name: string;
+}
+import { type PropType, defineComponent } from "vue";
+/**
+ * My basic tag
+ */
+export default defineComponent({
+    props: {
+        userId: {
+            type: Number,
+            required: true,
+        },
+        userName: { type: String as PropType<string | null>, default: null }
+    },
+    name: "MyComponent",
+    setup(props, context) {
+        /**
+         * Returns {void}
+         */
+        const noop = (): void => { };
+        const greetings = () => {
+            console.log(\`hello \${props.userName ?? "Unknown"} (id: \${props.userId})\`);
+        };
+        const fn = () => {
+            noop();
+            greetings();
+        };
+        // TODO: Please remove unused return variable
+        return { noop, greetings, fn };
+    }
+});
+"
+`;
+
+exports[`converter > covert methods with the function declaration 1`] = `
+"interface Item {
+    id: number;
+    name: string;
+}
+import { type PropType, defineComponent } from "vue";
+/**
+ * My basic tag
+ */
+export default defineComponent({
+    props: {
+        userId: {
+            type: Number,
+            required: true,
+        },
+        userName: { type: String as PropType<string | null>, default: null }
+    },
+    name: "MyComponent",
+    setup(props, context) {
+        /**
+         * Returns {void}
+         */
+        function noop(): void { }
+        function greetings() {
+            console.log(\`hello \${props.userName ?? "Unknown"} (id: \${props.userId})\`);
+        }
+        function fn() {
+            noop();
+            greetings();
+        }
+        // TODO: Please remove unused return variable
+        return { noop, greetings, fn };
+    }
+});
+"
+`;
+
+exports[`converter > covert model 1`] = `
+"import { type PropType, defineComponent } from "vue";
+export default defineComponent({
+    model: {
+        prop: "checked",
+        event: "change"
+    },
+    props: {
+        checked: { type: Boolean }
+    },
+    name: "YourComponent",
+    setup(props, context) {
+        // TODO: Please remove unused return variable
+        return {};
+    }
+});
+"
+`;
+
+exports[`converter > covert props 1`] = `
+"interface Item {
+    id: number;
+    name: string;
+}
+import { type PropType, defineComponent } from "vue";
+/**
+ * My basic tag
+ */
+export default defineComponent({
+    props: {
+        msg: null,
+        name: {},
+        loading: Boolean,
+        focused: {
+            type: Boolean,
+            default: true,
+        },
+        disabled: {
+            type: Boolean,
+        },
+        propName: { type: String as PropType<string | null>, default: null },
+        selected: { type: [Object, Array] as PropType<Item[] | Item>, default: null }
+    },
+    name: "MyComponent",
+    setup(props, context) {
+        // TODO: Please remove unused return variable
+        return {};
+    }
+});
+"
+`;
+
+exports[`converter > covert props array 1`] = `
+"interface Item {
+    id: number;
+    name: string;
+}
+import { type PropType, defineComponent } from "vue";
+/**
+ * My basic tag
+ */
+export default defineComponent({
+    props: {
+        msg: null,
+        name: null,
+        loading: null,
+        focused: null,
+        disabled: null,
+        propName: { type: String as PropType<string | null>, default: null },
+        selected: { type: [Object, Array] as PropType<Item[] | Item>, default: null }
+    },
+    name: "MyComponent",
+    setup(props, context) {
+        // TODO: Please remove unused return variable
+        return {};
+    }
+});
+"
+`;
+
+exports[`converter > covert provide 1`] = `
+"const symbol = Symbol("baz");
+import { type PropType, provide, defineComponent } from "vue";
+/**
+ * My basic tag
+ */
+export default defineComponent({
+    props: {},
+    name: "MyComponent",
+    setup(props, context) {
+        provide("foo", "foo");
+        provide("bar", "bar");
+        provide(symbol, "fiz");
+        // TODO: Please remove unused return variable
+        return {};
+    }
+});
+"
+`;
+
+exports[`converter > covert render function 1`] = `
+"import { type PropType, defineComponent } from "vue";
+/**
+ * My basic tag
+ */
+export default defineComponent({
+    props: {},
+    name: "MyComponent",
+    render(h) {
+        return h("div");
+    },
+    setup(props, context) {
+        // TODO: Please remove unused return variable
+        return {};
+    }
+});
+"
+`;
+
+exports[`converter > covert watch 1`] = `
+"import { type PropType, computed, watch, defineComponent } from "vue";
+/**
+ * My basic tag
+ */
+export default defineComponent({
+    props: {
+        firstName: { type: String, default: "" },
+        lastName: { type: String, default: "" }
+    },
+    name: "MyComponent",
+    setup(props, context) {
+        function getFullName(firstName: string, lastName: string) {
+            return \`\${firstName} \${lastName}\`.trim();
+        }
+        const fullName = computed(() => {
+            return getFullName(props.firstName, props.lastName);
+        });
+        watch(firstName, onFirstNameChanged);
+        function onFirstNameChanged() {
+            console.log("changed first name", props.firstName);
+        }
+        watch(fullName, greetings, { immediate: true });
+        function greetings() {
+            console.log("hello", fullName.value);
+        }
+        // TODO: Please remove unused return variable
+        return { getFullName, fullName };
+    }
+});
+"
+`;

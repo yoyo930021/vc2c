@@ -1,50 +1,55 @@
-import { ASTConverter, ASTResultKind, ASTTransform, ReferenceKind } from '../types'
-import type ts from 'typescript'
+import {
+  ASTConverter,
+  ASTResultKind,
+  ASTTransform,
+  ReferenceKind,
+} from "../types";
+import type ts from "typescript";
 
 export const convertName: ASTConverter<ts.Identifier> = (node, options) => {
-  const tsModule = options.typescript
+  const tsModule = options.typescript;
   return {
-    tag: 'Class-Name',
+    tag: "Class-Name",
     kind: ASTResultKind.OBJECT,
     imports: [],
     reference: ReferenceKind.NONE,
     attributes: [],
     nodes: [
-      tsModule.createPropertyAssignment(
-        tsModule.createIdentifier('name'),
-        tsModule.createStringLiteral(node.getText())
-      )
-    ]
-  }
-}
+      tsModule.factory.createPropertyAssignment(
+        tsModule.factory.createIdentifier("name"),
+        tsModule.factory.createStringLiteral(node.getText()),
+      ),
+    ],
+  };
+};
 
 export const mergeName: ASTTransform = (astResults) => {
-  const nameTags = ['Class-Name', 'Obj-Name']
+  const nameTags = ["Class-Name", "Obj-Name"];
 
-  const nameASTResults = astResults.filter((el) => nameTags.includes(el.tag))
-  const nameObjASTResults = nameASTResults.find((el) => el.tag === 'Obj-Name')
-  const otherASTResults = astResults.filter((el) => !nameTags.includes(el.tag))
+  const nameASTResults = astResults.filter((el) => nameTags.includes(el.tag));
+  const nameObjASTResults = nameASTResults.find((el) => el.tag === "Obj-Name");
+  const otherASTResults = astResults.filter((el) => !nameTags.includes(el.tag));
 
-  const resultNameASTResults = (nameASTResults.length === 1)
-    ? {
-      tag: 'Name',
-      kind: ASTResultKind.OBJECT,
-      imports: [],
-      reference: ReferenceKind.NONE,
-      attributes: [],
-      nodes: nameASTResults[0].nodes as ts.PropertyAssignment[]
-    }
-    : {
-      tag: 'Name',
-      kind: ASTResultKind.OBJECT,
-      imports: [],
-      reference: ReferenceKind.NONE,
-      attributes: [],
-      ...(nameObjASTResults) ? { nodes: nameObjASTResults.nodes as ts.PropertyAssignment[] } : { nodes: [] }
-    }
+  const resultNameASTResults =
+    nameASTResults.length === 1
+      ? {
+          tag: "Name",
+          kind: ASTResultKind.OBJECT,
+          imports: [],
+          reference: ReferenceKind.NONE,
+          attributes: [],
+          nodes: nameASTResults[0].nodes as ts.PropertyAssignment[],
+        }
+      : {
+          tag: "Name",
+          kind: ASTResultKind.OBJECT,
+          imports: [],
+          reference: ReferenceKind.NONE,
+          attributes: [],
+          ...(nameObjASTResults
+            ? { nodes: nameObjASTResults.nodes as ts.PropertyAssignment[] }
+            : { nodes: [] }),
+        };
 
-  return [
-    resultNameASTResults,
-    ...otherASTResults
-  ]
-}
+  return [resultNameASTResults, ...otherASTResults];
+};

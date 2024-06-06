@@ -106,4 +106,7 @@ dist
 # vscode
 .vscode
 
+# WebStorm
+.idea
+
 demo-dist/
