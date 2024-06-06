@@ -1,5 +1,7 @@
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.main.js'
-import { convert } from '../src/index'
+import * as monaco from "monaco-editor";
+import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
+import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
+import { convert } from "../dist";
 
 const defaultCode = `import Vue from 'vue'
 import { Prop, Component, Ref, Model, Provide, Inject } from 'vue-property-decorator'
@@ -53,69 +55,73 @@ export default class BasicPropertyClass extends Vue {
   hello () {
     console.log(this.msg)
   }
-}`
+}`;
 
 self.MonacoEnvironment = {
-  getWorkerUrl: function (moduleId, label) {
-    if (label === 'typescript' || label === 'javascript') {
-      return './ts.worker.js'
+  getWorker(_, label) {
+    if (label === "typescript" || label === "javascript") {
+      return tsWorker();
     }
-    return './editor.worker.js'
-  }
-}
+    return editorWorker();
+  },
+};
 
 const vc2cConfig = {
-  compatible: false
-}
+  compatible: false,
+  useFunctionDeclaration: false,
+};
 
 monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
   experimentalDecorators: true,
   noResolve: true,
-  target: 'esnext',
+  target: "esnext",
   allowNonTsExtensions: true,
   noEmit: true,
-  lib: [
-    'esnext',
-    'dom',
-    'dom.iterable',
-    'scripthost'
-  ],
-  module: 'esnext',
+  lib: ["esnext", "dom", "dom.iterable", "scripthost"],
+  module: "esnext",
   strict: true,
   esModuleInterop: true,
-  resolveJsonModule: true
-})
+  resolveJsonModule: true,
+});
 
-const editor = monaco.editor.create(document.getElementById('editor'), {
+const editor = monaco.editor.create(document.getElementById("editor"), {
   value: defaultCode,
-  language: 'typescript',
-  theme: 'vs-dark',
+  language: "typescript",
+  theme: "vs-dark",
   minimap: {
-    enabled: false
-  }
-})
+    enabled: false,
+  },
+});
 
-const output = monaco.editor.create(document.getElementById('output'), {
-  value: convert(defaultCode, vc2cConfig),
-  language: 'typescript',
-  theme: 'vs-dark'
-})
+const output = monaco.editor.create(document.getElementById("output"), {
+  value: await convert("index.ts", defaultCode, vc2cConfig),
+  language: "typescript",
+  theme: "vs-dark",
+});
 
-const setOutput = () => {
-  output.setValue(convert(editor.getValue(), vc2cConfig))
-}
+const setOutput = async () => {
+  output.setValue(await convert("index.ts", editor.getValue(), vc2cConfig));
+};
 
 editor.onDidChangeModelContent(() => {
-  setOutput()
-})
+  setOutput();
+});
 
-window.addEventListener('resize', () => {
-  editor.layout()
-  output.layout()
-})
+window.addEventListener("resize", () => {
+  editor.layout();
+  output.layout();
+});
 
-const compatibleCheckbox = document.getElementById('compatible')
-compatibleCheckbox.addEventListener('change', () => {
-  vc2cConfig.compatible = compatibleCheckbox.checked
-  setOutput()
-})
+const compatibleCheckbox = document.getElementById("compatible");
+compatibleCheckbox.addEventListener("change", () => {
+  vc2cConfig.compatible = compatibleCheckbox.checked;
+  setOutput();
+});
+
+const useFunctionDeclarationCheckbox = document.getElementById(
+  "use_function_declaration",
+);
+useFunctionDeclarationCheckbox.addEventListener("change", () => {
+  vc2cConfig.useFunctionDeclaration = useFunctionDeclarationCheckbox.checked;
+  setOutput();
+});

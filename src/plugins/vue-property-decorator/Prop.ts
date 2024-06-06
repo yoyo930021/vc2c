@@ -1,77 +1,140 @@
-import { ASTConverter, ASTResultKind, ASTTransform, ASTResultToObject, ReferenceKind } from '../types'
-import type ts from 'typescript'
-import { copySyntheticComments } from '../../utils'
+import {
+  ASTConverter,
+  ASTResultKind,
+  ASTTransform,
+  ASTResultToObject,
+  ReferenceKind,
+} from "../types";
+import type ts from "typescript";
+import { copySyntheticComments, isPrimitiveType } from "../../utils";
 
-const propDecoratorName = 'Prop'
+const propDecoratorName = "Prop";
 
-export const convertProp: ASTConverter<ts.PropertyDeclaration> = (node, options) => {
-  if (!node.decorators) {
-    return false
+export const convertProp: ASTConverter<ts.PropertyDeclaration> = (
+  node,
+  options,
+) => {
+  const tsModule = options.typescript;
+  const decorators = node.modifiers?.filter(tsModule.isDecorator);
+
+  if (!decorators) {
+    return false;
   }
-  const decorator = node.decorators.find((el) => (el.expression as ts.CallExpression).expression.getText() === propDecoratorName)
+
+  const decorator = decorators.find(
+    (el) =>
+      (el.expression as ts.CallExpression).expression.getText() ===
+      propDecoratorName,
+  );
   if (decorator) {
-    const tsModule = options.typescript
-    const decoratorArguments = (decorator.expression as ts.CallExpression).arguments
+    const decoratorArguments = (decorator.expression as ts.CallExpression)
+      .arguments;
     if (decoratorArguments.length > 0) {
-      const propName = node.name.getText()
-      const propArguments = decoratorArguments[0]
+      const propName = node.name.getText();
+      const obj = decoratorArguments[0] as ts.ObjectLiteralExpression;
+      const propArguments =
+        node.type && isPrimitiveType(tsModule, node.type)
+          ? obj
+          : tsModule.factory.createObjectLiteralExpression(
+              obj.properties.map((p) => {
+                if (
+                  tsModule.isPropertyAssignment(p) &&
+                  p.name.getText() === "type"
+                ) {
+                  return tsModule.factory.createPropertyAssignment(
+                    tsModule.factory.createIdentifier("type"),
+                    tsModule.factory.createAsExpression(
+                      tsModule.factory.createIdentifier(
+                        p.initializer.getText(),
+                      ),
+                      tsModule.factory.createTypeReferenceNode(
+                        "PropType",
+                        node.type ? [node.type] : [],
+                      ),
+                    ),
+                  );
+                }
+                return p;
+              }),
+            );
 
       return {
-        tag: 'Prop',
+        tag: "Prop",
         kind: ASTResultKind.OBJECT,
-        imports: [],
+        imports: [
+          {
+            named: ["type PropType"],
+            external: options.compatible ? "@vue/composition-api" : "vue",
+          },
+        ],
         reference: ReferenceKind.PROPS,
         attributes: [propName],
         nodes: [
           copySyntheticComments(
             tsModule,
-            tsModule.createPropertyAssignment(
-              tsModule.createIdentifier(propName),
-              propArguments
+            tsModule.factory.createPropertyAssignment(
+              tsModule.factory.createIdentifier(propName),
+              propArguments,
             ),
-            node
-          )
-        ]
-      }
+            node,
+          ),
+        ],
+      };
     }
   }
 
-  return false
-}
-export const mergeProps: ASTTransform = (astResults, options) => {
-  const tsModule = options.typescript
-  const propTags = ['Prop', 'Model']
+  return false;
+};
 
-  const propASTResults = astResults.filter((el) => propTags.includes(el.tag))
-  const otherASTResults = astResults.filter((el) => !propTags.includes(el.tag))
-  const modelASTResult = astResults.find((el) => el.tag === 'Model')
+export const mergeProps: ASTTransform = (astResults, options) => {
+  const tsModule = options.typescript;
+  const propTags = ["Prop", "Model"];
+
+  const propASTResults = astResults.filter((el) => propTags.includes(el.tag));
+  const otherASTResults = astResults.filter((el) => !propTags.includes(el.tag));
+  const modelASTResult = astResults.find((el) => el.tag === "Model");
 
   const mergeASTResult: ASTResultToObject = {
-    tag: 'Prop',
+    tag: "Prop",
     kind: ASTResultKind.OBJECT,
-    imports: [],
+    imports: [
+      {
+        named: ["type PropType"],
+        external: options.compatible ? "@vue/composition-api" : "vue",
+      },
+    ],
     reference: ReferenceKind.PROPS,
-    attributes: propASTResults.map((el) => el.attributes).reduce((array, el) => array.concat(el), []),
+    attributes: propASTResults
+      .map((el) => el.attributes)
+      .reduce((array, el) => array.concat(el), []),
     nodes: [
-      tsModule.createPropertyAssignment(
-        tsModule.createIdentifier('props'),
-        tsModule.createObjectLiteral(
+      tsModule.factory.createPropertyAssignment(
+        tsModule.factory.createIdentifier("props"),
+        tsModule.factory.createObjectLiteralExpression(
           [
-            ...propASTResults.map((el) => (el.tag === 'Prop') ? el.nodes : [el.nodes[1]])
-              .reduce((array, el) => array.concat(el), [] as ts.ObjectLiteralElementLike[])
+            ...propASTResults
+              .map((el) => (el.tag === "Prop" ? el.nodes : [el.nodes[1]]))
+              .reduce(
+                (array, el) => array.concat(el),
+                [] as ts.ObjectLiteralElementLike[],
+              ),
           ] as ts.ObjectLiteralElementLike[],
-          true
-        )
-      )
-    ]
-  }
+          true,
+        ),
+      ),
+    ],
+  };
 
   return [
-    ...(modelASTResult) ? [{
-      ...modelASTResult,
-      nodes: modelASTResult.nodes.slice(0, 1) as ts.PropertyAssignment[]
-    }] : [],
+    ...(modelASTResult
+      ? [
+          {
+            ...modelASTResult,
+            nodes: modelASTResult.nodes.slice(0, 1) as ts.PropertyAssignment[],
+          },
+        ]
+      : []),
     mergeASTResult,
-    ...otherASTResults
-  ]
-}
+    ...otherASTResults,
+  ];
+};

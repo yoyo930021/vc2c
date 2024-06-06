@@ -1,68 +1,90 @@
-import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
-import type ts from 'typescript'
-import { copySyntheticComments, createIdentifier } from '../../utils'
+import { ASTConverter, ASTResultKind, ReferenceKind } from "../types";
+import type ts from "typescript";
+import { copySyntheticComments, createIdentifier } from "../../utils";
 
-const watchDecoratorName = 'Watch'
+const watchDecoratorName = "Watch";
 
-export const convertWatch: ASTConverter<ts.MethodDeclaration> = (node, options) => {
-  if (!node.decorators) {
-    return false
+export const convertWatch: ASTConverter<ts.MethodDeclaration> = (
+  node,
+  options,
+) => {
+  const tsModule = options.typescript;
+  const decorators = node.modifiers?.filter(tsModule.isDecorator);
+
+  if (!decorators) {
+    return false;
   }
-  const decorator = node.decorators.find((el) => (el.expression as ts.CallExpression).expression.getText() === watchDecoratorName)
+
+  const decorator = decorators.find(
+    (el) =>
+      (el.expression as ts.CallExpression).expression.getText() ===
+      watchDecoratorName,
+  );
+
   if (decorator) {
-    const tsModule = options.typescript
-    const decoratorArguments = (decorator.expression as ts.CallExpression).arguments
-    if (decoratorArguments.length > 1) {
-      const keyName = (decoratorArguments[0] as ts.StringLiteral).text
-      const watchArguments = decoratorArguments[1]
-      const method = tsModule.createArrowFunction(
-        node.modifiers,
+    const decoratorArguments = (decorator.expression as ts.CallExpression)
+      .arguments;
+    if (decoratorArguments.length > 0) {
+      const keyName = (decoratorArguments[0] as ts.StringLiteral).text;
+      const watchArguments = decoratorArguments[1];
+      const method = tsModule.factory.createFunctionDeclaration(
+        undefined,
+        undefined,
+        node.name.getText(),
         node.typeParameters,
         node.parameters,
         node.type,
-        tsModule.createToken(tsModule.SyntaxKind.EqualsGreaterThanToken),
-        node.body ?? tsModule.createBlock([], false)
-      )
-      const watchOptions: ts.PropertyAssignment[] = []
-      if (tsModule.isObjectLiteralExpression(watchArguments)) {
+        node.body ?? tsModule.factory.createBlock([], false),
+      );
+      const watchOptions: ts.PropertyAssignment[] = [];
+      if (
+        watchArguments &&
+        tsModule.isObjectLiteralExpression(watchArguments)
+      ) {
         watchArguments.properties.forEach((el) => {
-          if (!tsModule.isPropertyAssignment(el)) return
-          watchOptions.push(el)
-        })
+          if (!tsModule.isPropertyAssignment(el)) return;
+          watchOptions.push(el);
+        });
       }
 
       return {
-        tag: 'Watch',
+        tag: "Watch",
         kind: ASTResultKind.COMPOSITION,
-        imports: [{
-          named: ['watch'],
-          external: (options.compatible) ? '@vue/composition-api' : 'vue'
-        }],
+        imports: [
+          {
+            named: ["watch"],
+            external: options.compatible ? "@vue/composition-api" : "vue",
+          },
+        ],
         reference: ReferenceKind.VARIABLE,
-        attributes: [keyName],
+        attributes: [],
         nodes: [
-          tsModule.createExpressionStatement(
+          tsModule.factory.createExpressionStatement(
             copySyntheticComments(
               tsModule,
-              tsModule.createCall(
-                tsModule.createIdentifier('watch'),
+              tsModule.factory.createCallExpression(
+                tsModule.factory.createIdentifier("watch"),
                 undefined,
                 [
-                  tsModule.createPropertyAccess(
-                    tsModule.createThis(),
-                    createIdentifier(tsModule, keyName)
-                  ),
-                  method,
-                  tsModule.createObjectLiteral(watchOptions)
-                ]
+                  createIdentifier(tsModule, keyName),
+                  tsModule.factory.createIdentifier(node.name.getText()),
+                  ...(watchOptions.length
+                    ? [
+                        tsModule.factory.createObjectLiteralExpression(
+                          watchOptions,
+                        ),
+                      ]
+                    : []),
+                ],
               ),
-              node
-            )
-          )
-        ] as ts.Statement[]
-      }
+              node,
+            ),
+          ),
+          copySyntheticComments(tsModule, method, node),
+        ] as ts.Statement[],
+      };
     }
   }
 
-  return false
-}
+  return false;
+};

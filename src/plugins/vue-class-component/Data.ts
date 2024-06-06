@@ -1,45 +1,53 @@
-import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
-import type ts from 'typescript'
-import { copySyntheticComments, removeComments } from '../../utils'
+import { ASTConverter, ASTResultKind, ReferenceKind } from "../types";
+import type ts from "typescript";
+import { copySyntheticComments, removeComments } from "../../utils";
 
-export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options, program) => {
+export const convertData: ASTConverter<ts.PropertyDeclaration> = (
+  node,
+  options,
+) => {
   if (!node.initializer) {
-    return false
+    return false;
   }
-  const tsModule = options.typescript
-  const dataName = node.name.getText()
+  const tsModule = options.typescript;
+  const dataName = node.name.getText();
 
-  const callExpr = tsModule.createCall(
-    tsModule.createIdentifier('ref'),
-    undefined,
-    [removeComments(tsModule, node.initializer)]
-  )
+  const callExpr = tsModule.factory.createCallExpression(
+    tsModule.factory.createIdentifier("ref"),
+    node.type ? [node.type] : undefined,
+    [removeComments(tsModule, node.initializer)],
+  );
 
   return {
-    tag: 'Data-ref',
+    tag: "Data-ref",
     kind: ASTResultKind.COMPOSITION,
-    imports: [{
-      named: ['ref'],
-      external: (options.compatible) ? '@vue/composition-api' : 'vue'
-    }],
+    imports: [
+      {
+        named: ["ref"],
+        external: options.compatible ? "@vue/composition-api" : "vue",
+      },
+    ],
     reference: ReferenceKind.VARIABLE_VALUE,
     attributes: [dataName],
     nodes: [
       copySyntheticComments(
         tsModule,
-        tsModule.createVariableStatement(
+        tsModule.factory.createVariableStatement(
           undefined,
-          tsModule.createVariableDeclarationList([
-            tsModule.createVariableDeclaration(
-              tsModule.createIdentifier(dataName),
-              undefined,
-              callExpr
-            )
-          ],
-          tsModule.NodeFlags.Const)
+          tsModule.factory.createVariableDeclarationList(
+            [
+              tsModule.factory.createVariableDeclaration(
+                tsModule.factory.createIdentifier(dataName),
+                undefined,
+                undefined,
+                callExpr,
+              ),
+            ],
+            tsModule.NodeFlags.Const,
+          ),
         ),
-        node
-      )
-    ] as ts.Statement[]
-  }
-}
+        node,
+      ),
+    ] as ts.Statement[],
+  };
+};
